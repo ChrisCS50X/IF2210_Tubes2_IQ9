@@ -19,28 +19,30 @@ public class Plant extends Card implements Harvestable {
         this.activeItems = new ArrayList<>();
     }
 
-    public int getAge() {
-        return this.age;
-    }
+    public Card getProduct() {return this.product;}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    public void setProduct(Card product) {this.product = product;}
 
-    public void grow() {
-        this.age++;
+    public int getHarvestDuration() {return this.harvestDuration;}
+
+    public void setHarvestDuration(int harvestDuration) {this.harvestDuration = harvestDuration;}
+
+    public int getAge() {return this.age;}
+
+    public void setAge(int age) {this.age = age;}
+
+    public void grow() {this.age++;}
+
+    public void applyItem(Item item) {
+        this.activeItems.add(item);
     }
 
     @Override
-    public boolean isHarvestable() {
-        return this.age >= this.harvestDuration;
-    }
+    public boolean isHarvestable() {return this.age >= this.harvestDuration;}
 
-    public String getType() {
-        return "Plant";
-    }
+    public String getType() {return "Plant";}
 
-    public Card harvest() { // Changed return type from String to Card
+    public Card harvest() {
         if (isHarvestable()) {
             this.age = 0;
             return this.product;
