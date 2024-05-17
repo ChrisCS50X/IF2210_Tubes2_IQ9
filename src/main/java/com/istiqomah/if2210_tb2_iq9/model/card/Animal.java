@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class Animal extends Card implements Harvestable {
     protected int weight;
     protected int harvestWeight;
-    protected Card product;
+    protected Card product; // product yang dihasilkan
     private List<Item> activeItems;
 
     public Animal(int id, String name, String imagePath, Card product, int harvestWeight) {
@@ -44,6 +44,7 @@ public abstract class Animal extends Card implements Harvestable {
         return this.weight >= this.harvestWeight;
     }
 
+    @Override
     public Card harvest() {
         if (isHarvestable()) {
             this.weight = 0;

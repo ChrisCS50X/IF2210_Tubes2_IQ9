@@ -13,26 +13,16 @@ public class Player {
     private Ladang ladang;
     private Deck deck;
 
+    // Constructor
     public Player(int initialGulden) {
         this.gulden = initialGulden;
         this.ladang = new Ladang();
         this.deck = new Deck();
     }
 
+    // Getter
     public int getGulden() {
         return gulden;
-    }
-
-    public void setGulden(int gulden){
-        this.gulden = gulden;
-    }
-
-    public void addGulden(int amount) {
-        this.gulden += amount;
-    }
-
-    public void subtractGulden(int amount) {
-        this.gulden -= amount;
     }
 
     public Ladang getLadang() {
@@ -41,6 +31,23 @@ public class Player {
 
     public Deck getDeck() {
         return deck;
+    }
+
+    // Methods to add and subtract gulden
+    public void addGulden(int amount) {
+        this.gulden += amount;
+    }
+
+    public void subtractGulden(int amount) {
+        this.gulden -= amount;
+    }
+
+    // Methods to plant and harvest
+    public void harvest(int x, int y) {
+        Card card = ladang.harvest(x, y);
+        if (card != null) {
+            deck.addToHand(List.of(card));
+        }
     }
 
     public void addCardsToHand(List<Card> cards) {
@@ -55,27 +62,18 @@ public class Player {
         if (gulden >= product.getPrice()) {
             toko.buyProduct(product, this);
             subtractGulden((int)product.getPrice());
-            deck.addToHand(List.of(product));
         } else {
             System.out.println("Gulden tidak cukup untuk membeli produk.");
         }
     }
 
     public void sellProduct(Toko toko, int index) {
-        Card card = deck.removeFromHand(index);
-        if (card.getType().equals("Product")) {
-            Product product = (Product) card;
-            toko.sellProduct(product, this);
+        Card card = removeCardFromHand(index);
+        if (card instanceof Product product) {
+            toko.sellProduct(index, this);
             addGulden((int)product.getPrice());
         } else {
-            System.out.println("Card at index " + index + " is not a product.");
-        }
-    }
-
-    public void harvest(int x, int y) {
-        Card card = ladang.harvest(x, y);
-        if (card != null) {
-            deck.addToHand(List.of(card));
+            System.out.println("Kartu pada index " + index + " bukanlah suatu product.");
         }
     }
 }

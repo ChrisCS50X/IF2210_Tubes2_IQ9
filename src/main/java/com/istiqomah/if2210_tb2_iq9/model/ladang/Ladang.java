@@ -2,6 +2,11 @@ package com.istiqomah.if2210_tb2_iq9.model.ladang;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
 import com.istiqomah.if2210_tb2_iq9.model.card.Product;
+import com.istiqomah.if2210_tb2_iq9.model.card.Harvestable;
+import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
+import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
+
+import java.util.Objects;
 
 public class Ladang {
     private Card[][] grid;
@@ -41,8 +46,14 @@ public class Ladang {
     public Card harvest(int x, int y) {
         if (!isPositionEmpty(x, y)) {
             Card card = grid[x][y];
-            grid[x][y] = null;
-            return card;
+            if (card instanceof Harvestable) {
+                grid[x][y] = null; // Remove the card from the grid
+                return ((Harvestable) card).harvest();
+            }
+            else {
+                System.out.println("Card at this position is not harvestable.");
+                return null;
+            }
         } else {
             System.out.println("No card at this position to harvest.");
             return null;
