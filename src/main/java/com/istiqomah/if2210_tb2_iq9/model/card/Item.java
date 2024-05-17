@@ -1,6 +1,4 @@
-package com.istiqomah.if2210_tb2_iq9.model;
-
-import com.istiqomah.if2210_tb2_iq9.model.Card;
+package com.istiqomah.if2210_tb2_iq9.model.card;
 
 public class Item extends Card {
     private AnimalEffect animalEffect;

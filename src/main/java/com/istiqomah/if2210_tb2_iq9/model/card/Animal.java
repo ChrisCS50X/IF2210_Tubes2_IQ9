@@ -1,4 +1,4 @@
-package com.istiqomah.if2210_tb2_iq9.model;
+package com.istiqomah.if2210_tb2_iq9.model.card;
 
 import java.util.ArrayList;
 import java.util.List;
