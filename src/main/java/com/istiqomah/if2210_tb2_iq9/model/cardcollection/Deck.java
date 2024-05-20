@@ -27,6 +27,12 @@ public class Deck {
         return drawnCards;
     }
 
+    public void addCardToHand(Card card) {
+        if (hand.size() < 6) {
+            hand.add(card);
+        }
+    }
+
     public void addToHand(List<Card> cards) {
         int spaceInHand = 6 - hand.size();
         int cardsToDraw = Math.min(spaceInHand, cards.size());

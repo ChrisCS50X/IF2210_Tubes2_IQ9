@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.List;
 import java.util.Objects;
 
 public class MainPage extends Application {
@@ -15,11 +17,15 @@ public class MainPage extends Application {
         Player player1 = Player.createPlayer(100);
         Player player2 = Player.createPlayer(100);
         CardManager cardManager = CardManager.getInstance();
-        Animal animal = (Animal) cardManager.getCard("animal", 1);
-        Plant plant = (Plant) cardManager.getCard("plant", 1);
-        System.out.println(animal.getType());
-        System.out.println(plant.getType());
-
+        for (int i = 1; i <= 3; i++)
+        {
+            player1.getDeck().addCardToHand(cardManager.getCard("animal",i));
+            player1.getDeck().addCardToHand(cardManager.getCard("plant",i));
+            player1.getDeck().addCardToHand(cardManager.getCard("item",i));
+            player2.getDeck().addCardToHand(cardManager.getCard("animal",i+1));
+            player2.getDeck().addCardToHand(cardManager.getCard("plant",i+1));
+            player2.getDeck().addCardToHand(cardManager.getCard("item",i+1));
+        }
     }
 
     @Override

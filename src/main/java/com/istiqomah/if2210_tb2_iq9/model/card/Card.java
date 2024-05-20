@@ -18,6 +18,8 @@ public abstract class   Card implements KomponenPetak {
 
     public String getName() {return name;}
 
+    public Image getImage() {return image;}
+
     public void setName(String name) {this.name = name;}
 
     public String getImagePath() {return imagePath;}
