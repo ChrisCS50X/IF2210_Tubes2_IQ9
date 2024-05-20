@@ -1,6 +1,8 @@
 package com.istiqomah.if2210_tb2_iq9.model.ladang;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
+import com.istiqomah.if2210_tb2_iq9.model.observer.Subject;
+import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import com.istiqomah.if2210_tb2_iq9.model.card.Product;
 import com.istiqomah.if2210_tb2_iq9.model.card.Harvestable;
 import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
@@ -8,20 +10,21 @@ import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
 
 import java.util.Objects;
 
-public class Ladang {
-    private Card[][] grid;
+public class Ladang extends Subject{
+    private KomponenPetak[][] grid;
 
     public Ladang() {
-        grid = new Card[5][4]; // Initialize the grid with null values
+        grid = new KomponenPetak[5][4]; // Initialize the grid with null values
     }
 
     public boolean isPositionEmpty(int x, int y) {
         return grid[x][y] == null;
     }
 
-    public void addCardToPosition(Card card, int x, int y) {
+    public void addCardToPosition(KomponenPetak component, int x, int y) {
         if (isPositionEmpty(x, y)) {
-            grid[x][y] = card;
+            grid[x][y] = component;
+            notifyObservers("Card added to position (" + x + ", " + y + ")");
         } else {
             System.out.println("Position is not empty.");
         }
@@ -30,12 +33,13 @@ public class Ladang {
     public void removeCardFromPosition(int x, int y) {
         if (!isPositionEmpty(x, y)) {
             grid[x][y] = null;
+            notifyObservers("Card removed from position (" + x + ", " + y + ")");
         } else {
             System.out.println("No card at this position.");
         }
     }
 
-    public Card getCardAtPosition(int x, int y) {
+    public KomponenPetak getCardAtPosition(int x, int y) {
         return grid[x][y];
     }
 
@@ -45,12 +49,12 @@ public class Ladang {
 
     public Card harvest(int x, int y) {
         if (!isPositionEmpty(x, y)) {
-            Card card = grid[x][y];
-            if (card instanceof Harvestable) {
+            KomponenPetak component = grid[x][y];
+            if (component.isHarvestable()) {
                 grid[x][y] = null; // Remove the card from the grid
-                return ((Harvestable) card).harvest();
-            }
-            else {
+                notifyObservers("Card harvested at position (" + x + ", " + y + ")");
+                return component.harvest();
+            } else {
                 System.out.println("Card at this position is not harvestable.");
                 return null;
             }
