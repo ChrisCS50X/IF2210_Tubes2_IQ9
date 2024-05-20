@@ -1,5 +1,6 @@
 package com.istiqomah.if2210_tb2_iq9;
 
+import com.istiqomah.if2210_tb2_iq9.model.card.*;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,12 @@ public class MainPage extends Application {
     {
         Player player1 = Player.createPlayer(100);
         Player player2 = Player.createPlayer(100);
+        CardManager cardManager = CardManager.getInstance();
+        Animal animal = (Animal) cardManager.getCard("animal", 1);
+        Plant plant = (Plant) cardManager.getCard("plant", 1);
+        System.out.println(animal.getType());
+        System.out.println(plant.getType());
+
     }
 
     @Override

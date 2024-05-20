@@ -48,7 +48,7 @@ public class Animal extends Card implements Harvestable {
 
     @Override
     public String getType() {
-        return type;
+        return "Animal";
     }
     @Override
     public String getDetails() {

@@ -3,7 +3,7 @@ package com.istiqomah.if2210_tb2_iq9.model.card;
 import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import javafx.scene.image.Image;
 
-public abstract class Card implements KomponenPetak {
+public abstract class   Card implements KomponenPetak {
     private int id;
     private String name;
     private Image image;
