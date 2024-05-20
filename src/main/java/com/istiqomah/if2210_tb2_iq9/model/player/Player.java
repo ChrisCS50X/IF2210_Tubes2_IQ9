@@ -9,17 +9,62 @@ import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import java.util.List;
 
 public class Player {
+    private static Player[] players = new Player[2];
+    private static int playerCount = 0;
+    private static int idxTurnPlayer = 0;
+
+    private String name;
     private int gulden;
     private Ladang ladang;
     private Deck deck;
 
     // Constructor
-    public Player(int initialGulden) {
+    public Player(String name ,int initialGulden) {
+        this.name = name;
         this.gulden = initialGulden;
         this.ladang = new Ladang();
         this.deck = new Deck();
     }
 
+    // Metode statis untuk menginisialisasi pemain
+    public static Player createPlayer(int initialGulden) {
+        if (playerCount < players.length) {
+            Player newPlayer = new Player("player"+(playerCount+1),initialGulden);
+            players[playerCount] = newPlayer;
+            playerCount++;
+            return newPlayer;
+        } else {
+            throw new IllegalStateException("Maximum number of players reached.");
+        }
+    }
+
+    public static Player getPlayerNow() {
+        return players[idxTurnPlayer];
+    }
+
+    public static void nextTurn() {
+        idxTurnPlayer = (idxTurnPlayer + 1) % playerCount;
+    }
+
+    public static Player getPlayerByIdx(int idx) {
+        return players[idx];
+    }
+
+    public static int getIdxTurnPlayer() {
+        return idxTurnPlayer;
+    }
+
+    public static Player getPlayerEnemy() {
+        return players[(idxTurnPlayer + 1) % playerCount];
+    }
+    // Getter untuk array players
+    public static Player[] getAllPlayers() {
+        return players;
+    }
+
+    public String getName() {
+        return name;
+    }
     // Getter
     public int getGulden() {
         return gulden;
