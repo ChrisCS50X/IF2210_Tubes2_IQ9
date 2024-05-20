@@ -8,18 +8,23 @@ import java.util.Scanner;
 
 public class Readconfig{
 
-    private ArrayList<Triple<Integer, Integer, String>>  kordinat_Ladang;
-    private ArrayList<Pair<Integer, String>>  kordinat_Card;
+    private ArrayList<Triple<String, Integer, String>>  kordinat_Ladang;
+    private ArrayList<Triple<String, Integer, String>> kordinat_Card;
     private Integer Jumlah_Gulden;
     private Integer Jumlah_Deck;
     private Integer Umur_Berat;
     private ArrayList<ArrayList<String>> Item;
+    private int currentTurn;
+    private int jumlah_item_shop;
+    private ArrayList<Pair<String, Integer>> item_shop;
 
     public Readconfig(String folder_name) {
         kordinat_Ladang = new ArrayList<>();
         kordinat_Card = new ArrayList<>();
         Item = new ArrayList<>();
+        item_shop = new ArrayList<>();
         readPlayer(folder_name + "/config1.txt");
+        readgameState(folder_name + "/gamestate.txt");
     }
 
     void readPlayer(String file_name) {
@@ -44,11 +49,13 @@ public class Readconfig{
 
             // Reading M pairs of <LOKASI_KARTU> <KARTU_DECK_AKTIF>
             for (int i = 0; i < M; i++) {
-                if (scanner.hasNextInt()) {
-                    int lokasiKartu = scanner.nextInt();
+                if (scanner.hasNext()) {
+                    String lokasiKartu = scanner.next();
                     if (scanner.hasNext()) {
                         String kartuDeckAktif = scanner.next();
-                        kordinat_Card.add(new Pair<>(lokasiKartu, kartuDeckAktif));
+                        String row = lokasiKartu.substring(0, 1);
+                        int col = Integer.parseInt(lokasiKartu.substring(1));
+                        kordinat_Card.add(new Triple<>(row, col, kartuDeckAktif));
                     }
                 }
             }
@@ -61,8 +68,8 @@ public class Readconfig{
 
             // Reading L sets of <LOKASI_KARTU> <KARTU_LADANG> <UMUR/BERAT> <JUMLAH_ITEM_AKTIF> <ITEM_1> ... <ITEM_J>
             for (int i = 0; i < L; i++) {
-                if (scanner.hasNextInt()) {
-                    int lokasiKartuLadang = scanner.nextInt();
+                if (scanner.hasNext()) {
+                    String lokasiKartuLadang = scanner.next();
                     if (scanner.hasNext()) {
                         String kartuLadang = scanner.next();
                         if (scanner.hasNextInt()) {
@@ -76,7 +83,9 @@ public class Readconfig{
                                     }
                                 }
                             }
-                            kordinat_Ladang.add(new Triple<>(lokasiKartuLadang, umurBerat, kartuLadang));
+                            String row = lokasiKartuLadang.substring(0, 1);
+                            int col = Integer.parseInt(lokasiKartuLadang.substring(1));
+                            kordinat_Ladang.add(new Triple<>(row, col, kartuLadang));
                             Item.add(items);
                         }
                     }
@@ -89,6 +98,36 @@ public class Readconfig{
         }
     }
 
+    void readgameState(String file_name) {
+        try {
+            Scanner scanner = new Scanner(new File(file_name));
+
+            // Reading currentTurn
+            if (scanner.hasNextInt()) {
+                currentTurn = scanner.nextInt();
+            }
+
+            // Reading jumlah_item_shop
+            if (scanner.hasNextInt()) {
+                jumlah_item_shop = scanner.nextInt();
+            }
+
+            // Reading N pairs of <SHOP_ITEM> <JUMLAH>
+            for (int i = 0; i < jumlah_item_shop; i++) {
+                if (scanner.hasNext()) {
+                    String shopItem = scanner.next();
+                    if (scanner.hasNextInt()) {
+                        int jumlah = scanner.nextInt();
+                        item_shop.add(new Pair<>(shopItem, jumlah));
+                    }
+                }
+            }
+
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     // Getter methods for the variables (if needed)
     public Integer getJumlahGulden() {
         return Jumlah_Gulden;
@@ -98,16 +137,28 @@ public class Readconfig{
         return Jumlah_Deck;
     }
 
-    public ArrayList<Pair<Integer, String>> getKordinatCard() {
+    public ArrayList<Triple<String, Integer, String>> getKordinatCard() {
         return kordinat_Card;
     }
 
-    public ArrayList<Triple<Integer, Integer, String>> getKordinatLadang() {
+    public ArrayList<Triple<String, Integer, String>> getKordinatLadang() {
         return kordinat_Ladang;
     }
 
     public ArrayList<ArrayList<String>> getItem() {
         return Item;
+    }
+
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public int getJumlahItemShop() {
+        return jumlah_item_shop;
+    }
+
+    public ArrayList<Pair<String, Integer>> getItemShop() {
+        return item_shop;
     }
 }
 
