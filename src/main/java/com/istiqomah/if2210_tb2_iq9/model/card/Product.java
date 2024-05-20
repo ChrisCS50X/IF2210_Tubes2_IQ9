@@ -40,4 +40,13 @@ public class Product extends Card {
     public String getType() {
         return "Product";
     }
+
+    @Override
+    public void applyItem(Item item){
+
+    }
+    @Override
+    public String getDetails(){
+        return name;
+    }
 }

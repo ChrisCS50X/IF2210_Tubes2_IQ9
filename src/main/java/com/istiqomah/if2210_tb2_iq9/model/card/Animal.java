@@ -34,13 +34,22 @@ public class Animal extends Card implements Harvestable {
         this.weight = weight;
     }
 
-    public abstract void feed(Product product);
+    public void feed(Product product){
+
+    }
 
     @Override
     public void applyItem(Item item) {
         this.activeItems.add(item);
     }
+    public int getjenis(){
+        return tipe;
+    }
 
+    @Override
+    public String getType() {
+        return type;
+    }
     @Override
     public String getDetails() {
         return "Animal: " + getName() + ", Weight: " + weight + ", Harvest Weight: " + harvestWeight;

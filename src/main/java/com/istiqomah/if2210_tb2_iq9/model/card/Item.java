@@ -3,6 +3,7 @@ package com.istiqomah.if2210_tb2_iq9.model.card;
 public class Item extends Card {
     private AnimalEffect animalEffect;
     private PlantEffect plantEffect;
+    private String description;
 
     public Item(int id, String name, String imagePath) {
         super(id, name, imagePath);
@@ -23,5 +24,12 @@ public class Item extends Card {
         if (plantEffect != null) {
             plantEffect.applyEffect(plant);
         }
+    }
+    public void applyItem(Item item) {
+
+    }
+
+    public String getDetails(){
+        return description;
     }
 }
