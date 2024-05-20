@@ -27,3 +27,4 @@ public class Triple<L, M, R> {
     public String toString() {
         return "Triple{" + "left=" + left + ", middle=" + middle + ", right=" + right + '}';
     }
+}

@@ -75,7 +75,6 @@ public class Cardfactory {
                 }else if (id == 6) {
                     return new Item(id, "Trap", "src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/bear trap.png");
                 }
-                return new Item(name);
             case "product":
                 if (id == 1) {
                     return new Product(id, "sirip hiu", "src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
