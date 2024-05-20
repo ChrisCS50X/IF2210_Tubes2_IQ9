@@ -4,10 +4,8 @@ public class Item extends Card {
     private AnimalEffect animalEffect;
     private PlantEffect plantEffect;
 
-    public Item(int id, String name, String imagePath, AnimalEffect animalEffect, PlantEffect plantEffect) {
+    public Item(int id, String name, String imagePath) {
         super(id, name, imagePath);
-        this.animalEffect = animalEffect;
-        this.plantEffect = plantEffect;
     }
 
     @Override

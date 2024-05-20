@@ -3,20 +3,21 @@ package com.istiqomah.if2210_tb2_iq9.model.card;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Animal extends Card implements Harvestable {
-    protected int weight;
-    protected int harvestWeight;
-    protected Card product; // product yang dihasilkan
+public class Animal extends Card implements Harvestable {
+    private int weight;
+    private int harvestWeight;
+    private Card product; // product yang dihasilkan
+    private String type;
+    int tipe;
     private List<Item> activeItems;
 
-    public Animal(int id, String name, String imagePath, Card product, int harvestWeight) {
+    public Animal(int id, String name, String imagePath,int weight, int harvestWeight, int tipe) {
         super(id, name, imagePath);
-        this.product = product;
         this.harvestWeight = harvestWeight;
         this.weight = 0;
+        this.tipe = 0;
         this.activeItems = new ArrayList<>();
     }
-
     public Card getProduct() {return product;}
 
     public void setProduct(Card product) {this.product = product;}

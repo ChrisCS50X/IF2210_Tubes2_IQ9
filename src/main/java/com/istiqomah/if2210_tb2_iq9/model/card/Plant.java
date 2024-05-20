@@ -9,9 +9,8 @@ public class Plant extends Card implements Harvestable {
     private Card product;
     private List<Item> activeItems;
 
-    public Plant(int id, String name, String imagePath, Card product, int harvestDuration) {
+    public Plant(int id, String name, String imagePath, int age, int harvestDuration) {
         super(id, name, imagePath);
-        this.product = product;
         this.harvestDuration = harvestDuration;
         this.age = 0;
         this.activeItems = new ArrayList<>();
