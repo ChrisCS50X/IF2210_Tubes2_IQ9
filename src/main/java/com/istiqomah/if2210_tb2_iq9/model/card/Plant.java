@@ -30,15 +30,24 @@ public class Plant extends Card implements Harvestable {
 
     public void grow() {this.age++;}
 
+    public String getType() {return "Plant";}
+
+    @Override
     public void applyItem(Item item) {
         this.activeItems.add(item);
     }
 
     @Override
-    public boolean isHarvestable() {return this.age >= this.harvestDuration;}
+    public String getDetails() {
+        return "Plant: " + getName() + ", Age: " + age + ", Harvest Duration: " + harvestDuration;
+    }
 
-    public String getType() {return "Plant";}
+    @Override
+    public boolean isHarvestable() {
+        return this.age >= this.harvestDuration;
+    }
 
+    @Override
     public Card harvest() {
         if (isHarvestable()) {
             this.age = 0;
@@ -47,4 +56,5 @@ public class Plant extends Card implements Harvestable {
             return null;
         }
     }
+
 }
