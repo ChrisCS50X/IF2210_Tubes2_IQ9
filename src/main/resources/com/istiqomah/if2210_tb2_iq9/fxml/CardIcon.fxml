@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="5" style="-fx-background-color: #d3d3d3; -fx-border-color: black; -fx-border-radius: 5; -fx-padding: 10;" >
-    <ImageView fx:id="bearImage" fitHeight="60" fitWidth="60"/>
-    <Text fx:id="bearName" style="-fx-font-size: 14px;"/>
+<VBox fx:id = "cardIcon" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" alignment="CENTER" spacing="5" style="-fx-background-color: #d3d3d3; -fx-border-color: black; -fx-border-radius: 5; -fx-padding: 10;" fx:controller="com.istiqomah.if2210_tb2_iq9.CardIconController"  >
+    <ImageView fx:id="cardImage" fitHeight="60" fitWidth="60"/>
+    <Text fx:id="cardName" style="-fx-font-size: 14px;"/>
 </VBox>

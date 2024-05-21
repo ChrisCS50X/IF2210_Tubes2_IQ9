@@ -7,7 +7,7 @@ import static com.istiqomah.if2210_tb2_iq9.model.card.Cardfactory.createCard;
 
 public class CardManager {
     private static CardManager instance;
-    private Map<String, Map<Integer, Card>> cardMap = new HashMap<>();
+    private Map<String, Map<String, Card>> cardMap = new HashMap<>();
 
     private CardManager() {
         // Initialize card types
@@ -36,25 +36,25 @@ public class CardManager {
     }
 
     // Method to add a card to the manager
-    public void addCard(String type, int id, Card card) {
-        cardMap.get(type).put(id, card);
+    public void addCard(String type, String name, Card card) {
+        cardMap.get(type).put(name, card);
     }
 
     // Method to get a card from the manager
-    public Card getCard(String type, int id) {
-        return cardMap.get(type).get(id);
+    public Card getCard(String type, String name) {
+        return cardMap.get(type).get(name);
     }
 
     // Method to remove a card from the manager
-    public void removeCard(String type, int id) {
-        cardMap.get(type).remove(id);
+    public void removeCard(String type, String name) {
+        cardMap.get(type).remove(name);
     }
 
     // Method to initialize animal cards
     private void initializeAnimalCards() {
         for (int i = 1; i <= 6; i++) {
             Card card = createCard("animal", i);
-            addCard("animal", i, card);
+            addCard("animal",card.getName(), card);
         }
     }
 
@@ -62,7 +62,7 @@ public class CardManager {
     private void initializePlantCards() {
         for (int i = 1; i <= 3; i++) {
             Card card = createCard("plant", i);
-            addCard("plant", i, card);
+            addCard("plant", card.getName(), card);
         }
     }
 
@@ -70,7 +70,7 @@ public class CardManager {
     private void initializeItemCards() {
         for (int i = 1; i <= 3; i++) {
             Card card = createCard("item", i);
-            addCard("item", i, card);
+            addCard("item", card.getName(), card);
         }
     }
 
@@ -78,7 +78,7 @@ public class CardManager {
     private void initializeProductCards() {
         for (int i = 1; i <= 3; i++) {
             Card card = createCard("product", i);
-            addCard("product", i, card);
+            addCard("product", card.getName(), card);
     }
     }
 }
