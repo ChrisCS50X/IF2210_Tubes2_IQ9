@@ -12,7 +12,7 @@ public class Product extends Card {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 

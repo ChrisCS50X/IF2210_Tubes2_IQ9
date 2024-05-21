@@ -111,22 +111,27 @@ public class Player {
         return deck.removeFromHand(index);
     }
 
-    public void buyProduct(Toko toko, Product product) {
-        if (gulden >= product.getPrice()) {
-            toko.buyProduct(product, this);
-            subtractGulden((int)product.getPrice());
+    public void buyProduct(Toko toko, Card card) {
+        if (card instanceof Product product) {
+            if (gulden >= product.getPrice()) {
+                toko.removeProduct(card);
+                subtractGulden(product.getPrice());
+            } else {
+                System.out.println("Gulden tidak cukup untuk membeli produk.");
+            }
         } else {
-            System.out.println("Gulden tidak cukup untuk membeli produk.");
+            System.out.println("Card is not a product.");
         }
     }
 
-    public void sellProduct(Toko toko, int index) {
-        Card card = removeCardFromHand(index);
+    public void sellProduct(Toko toko, Card card) {
         if (card instanceof Product product) {
-            toko.sellProduct(index, this);
-            addGulden((int)product.getPrice());
+            toko.addProduct(card);
+            addGulden(product.getPrice());
+            // Remove the card from the player's hand
+            deck.getHand().remove(card);
         } else {
-            System.out.println("Kartu pada index " + index + " bukanlah suatu product.");
+            System.out.println("Card is not a product.");
         }
     }
 
