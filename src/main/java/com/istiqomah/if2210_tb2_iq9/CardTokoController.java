@@ -37,15 +37,6 @@ public class CardTokoController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardIcon.fxml"));
             Pane newLoadedPane = loader.load();
 
-            // Set the maximum size of the newLoadedPane to be less than the cardholder
-            newLoadedPane.setMaxSize(cardholder.getWidth() - 10, cardholder.getHeight() - 10);
-
-            // Set the AnchorPane constraints
-            AnchorPane.setTopAnchor(newLoadedPane, 5.0);
-            AnchorPane.setBottomAnchor(newLoadedPane, 5.0);
-            AnchorPane.setLeftAnchor(newLoadedPane, 5.0);
-            AnchorPane.setRightAnchor(newLoadedPane, 5.0);
-
             cardholder.getChildren().add(newLoadedPane);
             CardIconController cardIconController= loader.getController();
             cardIconController.setCard(card);

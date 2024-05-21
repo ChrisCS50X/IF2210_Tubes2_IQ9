@@ -19,9 +19,7 @@ public class CardIconController {
 
 
     @FXML
-    public void initialize() {
-        // Initialization logic here
-    }
+    public void initialize() {}
 
     public void setCard(Card card) {
         cardImage.setImage(card.getImage());
