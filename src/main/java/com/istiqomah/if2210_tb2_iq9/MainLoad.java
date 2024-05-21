@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.istiqomah.if2210_tb2_iq9.model.save_load.Readconfig;
+
 import java.util.Objects;
 
 public class MainLoad extends Application {
