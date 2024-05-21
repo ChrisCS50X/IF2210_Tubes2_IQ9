@@ -20,7 +20,7 @@ public class CardTokoPage extends Application {
             new CardManager();
 
             Toko toko = new Toko();
-            Card card = CardManager.getCard("product","Sirip Hiu");
+            Card card = CardManager.getCard("product","Daging Domba");
             toko.addProduct(card);
 
             CardTokoController controller = loader.getController();

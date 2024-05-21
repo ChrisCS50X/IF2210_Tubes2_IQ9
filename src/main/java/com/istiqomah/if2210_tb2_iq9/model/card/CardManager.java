@@ -1,11 +1,6 @@
 package com.istiqomah.if2210_tb2_iq9.model.card;
 
-import javafx.scene.image.Image;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.istiqomah.if2210_tb2_iq9.model.card.Cardfactory.createCard;
 
@@ -124,6 +119,30 @@ public class CardManager {
         for (int i = 1; i <= 8; i++) {
             Card card = createCard("product", i);
             addCard("product", card.getName(), card);
+        }
     }
+
+    public static Card getRandomCardAnimalPlant() {
+        Random rand = new Random();
+        int index = rand.nextInt(2);
+        if (index == 0) {
+            return getCard("animal", AnimalName.get(rand.nextInt(AnimalName.size())));
+        } else {
+            return getCard("plant", PlantName.get(rand.nextInt(PlantName.size())));
+        }
+    }
+
+    public static Card getRandomCard() {
+        Random rand = new Random();
+        int index = rand.nextInt(4);
+        if (index == 0) {
+            return getCard("animal", AnimalName.get(rand.nextInt(AnimalName.size())));
+        } else if (index == 1) {
+            return getCard("plant", PlantName.get(rand.nextInt(PlantName.size())));
+        } else if (index == 2) {
+            return getCard("item", ItemName.get(rand.nextInt(ItemName.size())));
+        } else {
+            return getCard("product", ProductName.get(rand.nextInt(ProductName.size())));
+        }
     }
 }

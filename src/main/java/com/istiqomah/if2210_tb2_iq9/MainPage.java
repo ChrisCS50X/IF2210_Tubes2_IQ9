@@ -8,41 +8,40 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class MainPage extends Application {
     public static void inisialisasi()
     {
+        Random rand = new Random();
         Player player1 = Player.createPlayer(100);
         Player player2 = Player.createPlayer(100);
         new CardManager();
-        for (int i = 1; i <= 3; i++)
+        for (int i = 0; i < 6; i++)
         {
-            player1.getDeck().addCardToHand(CardManager.getCard("animal","Beruang"));
-            player1.getDeck().addCardToHand(CardManager.getCard("plant","Biji Jagung"));
-            player1.getDeck().addCardToHand(CardManager.getCard("item","Accelerate"));
-            player2.getDeck().addCardToHand(CardManager.getCard("animal","Ayam"));
-            player2.getDeck().addCardToHand(CardManager.getCard("plant","Biji Labu"));
-            player2.getDeck().addCardToHand(CardManager.getCard("item","Accelerate"));
-        }
-
-        // debug ladang player
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 4; j++)
+            if (rand.nextBoolean())
             {
-                if (i % 2 == 0)
-                {
-                    player1.addCardToLadang(CardManager.getCard("animal", "Ayam"), i, j);
-                }
-                else
-                {
-                    player2.addCardToLadang(CardManager.getCard("animal","Sapi"), i, j);
-                }
+                player1.getDeck().addCardToHand(CardManager.getRandomCard());
+            }
+            if (rand.nextBoolean())
+            {
+                player2.getDeck().addCardToHand(CardManager.getRandomCard());
             }
         }
 
+
+        // debug ladang player
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (rand.nextBoolean()) {
+                    player1.addCardToLadang(CardManager.getRandomCardAnimalPlant(), i, j);
+                }
+                if (rand.nextBoolean()) {
+                    player2.addCardToLadang(CardManager.getRandomCardAnimalPlant(), i, j);
+                }
+            }
+        }
     }
 
     @Override

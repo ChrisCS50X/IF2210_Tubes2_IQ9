@@ -78,6 +78,9 @@ public class Player {
         return deck;
     }
 
+    public void setDeckAktifPlayer(int idx, Card card) {
+        deck.addCardToHand(idx, card);
+    }
     // Methods to add and subtract gulden
     public void addGulden(int amount) {
         this.gulden += amount;

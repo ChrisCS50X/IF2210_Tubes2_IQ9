@@ -11,7 +11,7 @@ public class Deck {
 
     public Deck() {
         mainDeck = new ArrayList<>();
-        hand = new ArrayList<>();
+        hand = new ArrayList<>(6);
     }
 
     public void shuffleMainDeck() {
@@ -30,6 +30,12 @@ public class Deck {
     public void addCardToHand(Card card) {
         if (hand.size() < 6) {
             hand.add(card);
+        }
+    }
+
+    public void addCardToHand(Integer index, Card card) {
+        if (hand.size() < 6) {
+            hand.add(index, card);
         }
     }
 

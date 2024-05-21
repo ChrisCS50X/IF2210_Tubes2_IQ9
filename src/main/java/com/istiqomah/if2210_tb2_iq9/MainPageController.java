@@ -28,7 +28,7 @@ public class MainPageController {
     @FXML
     private GridPane ladangGrid;
     @FXML
-    private HBox deckAktifBox;
+    private GridPane deckAktifBox;
     @FXML
     private Text turnText;
     @FXML
@@ -60,7 +60,7 @@ public class MainPageController {
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
     public void initialize() {
         setDeckAktifPlayer();
-        setLadangPlayer();
+        setLadangPlayer(Player.getPlayerNow());
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
@@ -73,6 +73,12 @@ public class MainPageController {
 
         // set button next turn
         nextTurn();
+
+        // set button ladangku
+        ladangku();
+
+        // set button ladang lawan
+        ladangLawan();
 
         // set gulden player
         player1Label.setText("Player 1:        " + Player.getPlayerByIdx(0).getGulden());
@@ -122,27 +128,50 @@ public class MainPageController {
         });
     }
 
-    void setDeckAktifPlayer() {
-        List<Card> deck = Player.getPlayerNow().getDeck().getHand();
-        deckAktifBox.getChildren().clear();
-        for (Card card : deck) {
-            Pane cardPane = createCardPane(card); // Buat pane untuk setiap kartu
-            deckAktifBox.getChildren().add(cardPane); // Tambahkan pane ke HBox
-            setupDragSource(cardPane, card); // Mengatur pane sebagai sumber drag dengan gambar kartu
+    // Metode untuk membersihkan kartu dari grid ladang tanpa menghapus pane wadah
+    private void clearGrid(GridPane grid) {
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Pane) {
+                if (((Pane) node).getChildren().size() > 0)
+                {
+                    ((Pane) node).getChildren().clear();
+                }
+                node.setStyle("-fx-border-color: grey;");
+            }
         }
     }
 
-    void setLadangPlayer()
+    private void setDeckAktifPlayer() {
+        List<Card> deck = Player.getPlayerNow().getDeck().getHand();
+        clearGrid(deckAktifBox);
+
+        for (int i = 0; i < deck.size(); i++) {
+            Card card = deck.get(i);
+            Pane cardPane = createCardPane(card);
+            deckAktifBox.add(cardPane, i, 0);
+            setupDragSource(cardPane, card);
+        }
+    }
+
+    private void setLadangPlayer(Player p)
     {
-        KomponenPetak[][] ladang = Player.getPlayerNow().getLadang().getGrid();
-        for (int i = 0; i < ladang.length ; i++) {
-            for (int j = 0; j < ladang[i].length ; j++) {
+        clearGrid(ladangGrid);
+        KomponenPetak[][] ladang = p.getLadang().getGrid();
+        for (int i = 0; i < 4 ; i++) {
+            for (int j = 0; j < 5 ; j++) {
                 if (ladang[i][j] != null)
                 {
                     Card card = (Card) ladang[i][j];
                     Pane cardPane = createCardPane(card);
                     ladangGrid.add(cardPane, j, i);
+                    setupDragTarget(cardPane);
                     setupDragSource(cardPane, card);
+                } else {
+                    Pane cardPane = new Pane();
+                    cardPane.setPrefSize(100, 100);
+                    cardPane.setStyle("-fx-border-color: grey;");
+                    ladangGrid.add(cardPane, j, i);
+                    setupDragTarget(cardPane);
                 }
             }
         }
@@ -166,6 +195,7 @@ public class MainPageController {
 
         return cardPane;
     }
+
     private void nextTurn() {
         nextButton.setOnAction(event -> {
 
@@ -173,33 +203,19 @@ public class MainPageController {
             turnText.setText("Turn " + TurnNow);
             Player.nextTurn();
             setDeckAktifPlayer();
-            setLadangPlayer();
+            setLadangPlayer(Player.getPlayerNow());
         });
     }
 
     private void ladangku() {
         ladangkuButton.setOnAction(event -> {
-//            deckLabel.setText("Ladangku");
-//            deckAktifBox.getChildren().clear();
-            Deck deck = Player.getPlayerNow().getDeck();
-//            for (int i = 0; i < deck.size() ; i++) {
-//                Pane pane = new Pane(new ImageView(image));
-//                deckAktifBox.getChildren().add(pane);
-//                setupDragSource(pane);
-//            }
+            setLadangPlayer(Player.getPlayerNow());
         });
     }
 
     private void ladangLawan() {
         ladangLawanButton.setOnAction(event -> {
-//            deckLabel.setText("Ladang Lawan");
-//            deckAktifBox.getChildren().clear();
-            Deck deck = Player.getPlayerEnemy().getDeck();
-//            for (int i = 0; i < deck.size() ; i++) {
-//                Pane pane = new Pane(new ImageView(image));
-//                deckAktifBox.getChildren().add(pane);
-//                setupDragSource(pane);
-//            }
+            setLadangPlayer(Player.getPlayerEnemy());
         });
     }
 }

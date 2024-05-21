@@ -15,7 +15,7 @@ public class Ladang extends Subject{
     private KomponenPetak[][] grid;
 
     public Ladang() {
-        grid = new KomponenPetak[5][4]; // Initialize the grid with null values
+        grid = new KomponenPetak[4][5]; // Initialize the grid with null values
     }
 
     public boolean isPositionEmpty(int x, int y) {
