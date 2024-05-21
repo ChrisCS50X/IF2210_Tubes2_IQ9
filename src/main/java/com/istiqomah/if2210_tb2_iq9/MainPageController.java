@@ -1,7 +1,9 @@
 package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
+import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
 import com.istiqomah.if2210_tb2_iq9.model.cardcollection.Deck;
+import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -58,7 +60,7 @@ public class MainPageController {
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
     public void initialize() {
         setDeckAktifPlayer();
-
+        setLadangPlayer();
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
@@ -83,11 +85,12 @@ public class MainPageController {
     }
 
     // Metode untuk mengatur sumber drag untuk kartu
-    private void setupDragSource(Pane source, Image cardImage) {
+    private void setupDragSource(Pane source, Card card) {
         source.setOnDragDetected(event -> {
             Dragboard db = source.startDragAndDrop(TransferMode.MOVE); // Memulai drag-and-drop dengan mode transfer MOVE
             ClipboardContent content = new ClipboardContent(); // Membuat clipboard content
-            content.putImage(cardImage);
+            content.putImage(card.getImage()); // Menetapkan gambar kartu ke clipboard content
+            source.setUserData(card); // Simpan data kartu di panel sumber
             db.setContent(content); // Menetapkan konten ke dragboard
             event.consume(); // Mengkonsumsi event
         });
@@ -105,15 +108,11 @@ public class MainPageController {
         target.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             if (db.hasImage()) {
-                Pane source = (Pane) event.getGestureSource(); // Mendapatkan sumber drag
-                ImageView imageView = new ImageView(db.getImage());
-                double targetWidth = target.getWidth();
-                double targetHeight = target.getHeight();
-                imageView.setFitWidth(targetWidth);
-                imageView.setFitHeight(targetHeight);
-                Pane newPane = new Pane(imageView); // Buat pane baru dengan imageView
-                target.getChildren().add(newPane); // Menambahkan pane baru ke target
-                setupDragSource(newPane, db.getImage()); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                Pane source = (Pane) event.getGestureSource();
+                Card newCard = (Card) source.getUserData();
+                Pane newPane = createCardPane(newCard);
+                target.getChildren().add(newPane);
+                setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
                 ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
                 event.setDropCompleted(true); // Menyatakan drop selesai
             } else {
@@ -129,9 +128,26 @@ public class MainPageController {
         for (Card card : deck) {
             Pane cardPane = createCardPane(card); // Buat pane untuk setiap kartu
             deckAktifBox.getChildren().add(cardPane); // Tambahkan pane ke HBox
-            setupDragSource(cardPane, card.getImage()); // Mengatur pane sebagai sumber drag dengan gambar kartu
+            setupDragSource(cardPane, card); // Mengatur pane sebagai sumber drag dengan gambar kartu
         }
     }
+
+    void setLadangPlayer()
+    {
+        KomponenPetak[][] ladang = Player.getPlayerNow().getLadang().getGrid();
+        for (int i = 0; i < ladang.length ; i++) {
+            for (int j = 0; j < ladang[i].length ; j++) {
+                if (ladang[i][j] != null)
+                {
+                    Card card = (Card) ladang[i][j];
+                    Pane cardPane = createCardPane(card);
+                    ladangGrid.add(cardPane, j, i);
+                    setupDragSource(cardPane, card);
+                }
+            }
+        }
+    }
+
     private Pane createCardPane(Card card) {
         VBox cardPane = new VBox();
         cardPane.setPrefSize(100, 100);
@@ -146,7 +162,7 @@ public class MainPageController {
 
         cardPane.getChildren().addAll(imageView, cardName);
 
-        setupDragSource(cardPane, card.getImage()); // Panggil setupDragSource dengan gambar kartu yang sebenarnya
+        setupDragSource(cardPane, card);
 
         return cardPane;
     }
@@ -157,6 +173,7 @@ public class MainPageController {
             turnText.setText("Turn " + TurnNow);
             Player.nextTurn();
             setDeckAktifPlayer();
+            setLadangPlayer();
         });
     }
 

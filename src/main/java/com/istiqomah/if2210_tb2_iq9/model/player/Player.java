@@ -95,6 +95,14 @@ public class Player {
         }
     }
 
+    public void addCardToLadang(Card card, int x, int y) {
+        ladang.addCardToPosition(card, x, y);
+    }
+
+    public void removeCardFromLadang(int x, int y) {
+        ladang.removeCardFromPosition(x, y);
+    }
+
     public void addCardsToHand(List<Card> cards) {
         deck.addToHand(cards);
     }

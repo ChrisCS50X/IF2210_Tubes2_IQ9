@@ -12,7 +12,6 @@ public class Cardfactory {
                     int tipe = 2;
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
 
-
                 }else if (id == 2){
                     String name = "Ayam";
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/chicken.png";
@@ -67,7 +66,7 @@ public class Cardfactory {
                 } else if (id == 2) {
                     return new Item(id, "Delay", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Delay.png");
                 } else if (id == 3) {
-                    return new Item(id, "Instant harvest", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Instant Harvest.png");
+                    return new Item(id, "Instant Harvest", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Instant Harvest.png");
                 }else if (id == 4) {
                     return new Item(id, "Destroy", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Destroy.png");
                 }else if (id == 5) {
@@ -77,21 +76,21 @@ public class Cardfactory {
                 }
             case "product":
                 if (id == 1) {
-                    return new Product(id, "sirip hiu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
+                    return new Product(id, "Sirip Hiu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
                 }else if (id == 2) {
-                    return new Product(id, "susu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/susu.png", 100, 4);
+                    return new Product(id, "Susu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/susu.png", 100, 4);
                 }else if (id == 3) {
-                    return new Product(id, "daging domba", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Domba.png", 120, 6);
+                    return new Product(id, "Daging Domba", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Domba.png", 120, 6);
                 } else if (id == 4) {
-                    return new Product(id, "daging kuda", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Kuda.png", 150, 8);
+                    return new Product(id, "Daging Kuda", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Kuda.png", 150, 8);
                 } else if (id == 5) {
-                    return new Product(id, "telur", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/telur.png", 50, 2);
+                    return new Product(id, "Telur", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/telur.png", 50, 2);
                 }else if (id == 6) {
-                    return new Product(id, "jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/corn.png",    150, 3);
+                    return new Product(id, "Jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/corn.png",    150, 3);
                 }else if (id == 7) {
-                    return new Product(id, "labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/pumpkin.png",    500, 10);
+                    return new Product(id, "Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/pumpkin.png",    500, 10);
                 }else if (id == 8) {
-                    return new Product(id, "stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/strawberry.png",    350, 5);
+                    return new Product(id, "Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/strawberry.png",    350, 5);
                 }
             default:
                 throw new IllegalArgumentException("Unknown card type: " + type);

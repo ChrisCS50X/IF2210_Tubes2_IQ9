@@ -16,16 +16,33 @@ public class MainPage extends Application {
     {
         Player player1 = Player.createPlayer(100);
         Player player2 = Player.createPlayer(100);
-        CardManager cardManager = CardManager.getInstance();
+        new CardManager();
         for (int i = 1; i <= 3; i++)
         {
-            player1.getDeck().addCardToHand(cardManager.getCard("animal",i));
-            player1.getDeck().addCardToHand(cardManager.getCard("plant",i));
-            player1.getDeck().addCardToHand(cardManager.getCard("item",i));
-            player2.getDeck().addCardToHand(cardManager.getCard("animal",i+1));
-            player2.getDeck().addCardToHand(cardManager.getCard("plant",i+1));
-            player2.getDeck().addCardToHand(cardManager.getCard("item",i+1));
+            player1.getDeck().addCardToHand(CardManager.getCard("animal","Beruang"));
+            player1.getDeck().addCardToHand(CardManager.getCard("plant","Biji Jagung"));
+            player1.getDeck().addCardToHand(CardManager.getCard("item","Accelerate"));
+            player2.getDeck().addCardToHand(CardManager.getCard("animal","Ayam"));
+            player2.getDeck().addCardToHand(CardManager.getCard("plant","Biji Labu"));
+            player2.getDeck().addCardToHand(CardManager.getCard("item","Accelerate"));
         }
+
+        // debug ladang player
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (i % 2 == 0)
+                {
+                    player1.addCardToLadang(CardManager.getCard("animal", "Ayam"), i, j);
+                }
+                else
+                {
+                    player2.addCardToLadang(CardManager.getCard("animal","Sapi"), i, j);
+                }
+            }
+        }
+
     }
 
     @Override

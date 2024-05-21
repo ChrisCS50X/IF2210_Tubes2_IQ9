@@ -8,6 +8,7 @@ import com.istiqomah.if2210_tb2_iq9.model.card.Harvestable;
 import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
 import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Ladang extends Subject{
@@ -37,6 +38,10 @@ public class Ladang extends Subject{
         } else {
             System.out.println("No card at this position.");
         }
+    }
+
+    public KomponenPetak[][] getGrid() {
+        return grid;
     }
 
     public KomponenPetak getCardAtPosition(int x, int y) {
