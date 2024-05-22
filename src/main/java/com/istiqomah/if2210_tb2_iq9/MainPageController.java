@@ -83,8 +83,10 @@ public class MainPageController {
             }
         }
 
+        // Mengatur giliran pemain
         turnText.setText("Turn " + TurnNow);
 
+        // Set button next turn
         nextTurn();
 
 <<<<<<< Updated upstream
@@ -254,7 +256,9 @@ public class MainPageController {
     private void setupDragTarget(Pane target) {
         target.setOnDragOver(event -> {
             if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.MOVE);
             }
+            event.consume();
         });
 
         target.setOnDragDropped(event -> {
@@ -281,7 +285,9 @@ public class MainPageController {
                 event.setDropCompleted(true);
 >>>>>>> Stashed changes
             } else {
+                event.setDropCompleted(false);
             }
+            event.consume();
         });
     }
 

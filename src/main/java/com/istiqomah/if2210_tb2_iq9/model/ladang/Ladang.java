@@ -36,7 +36,9 @@ public class Ladang {
         return grid[x][y] == null;
     }
 
+    public void addCardToPosition(Card card, int x, int y) {
         if (isPositionEmpty(x, y)) {
+            grid[x][y] = card;
         } else {
             System.out.println("Position is not empty.");
         }
@@ -68,7 +70,10 @@ public class Ladang {
 
     public Card harvest(int x, int y) {
         if (!isPositionEmpty(x, y)) {
+            Card card = grid[x][y];
+            if (card instanceof Harvestable) {
                 grid[x][y] = null; // Remove the card from the grid
+                return ((Harvestable) card).harvest();
             } else {
                 System.out.println("Card at this position is not harvestable.");
                 return null;
@@ -78,7 +83,7 @@ public class Ladang {
             return null;
         }
     }
-}
+
     public void initiateBearAttack() {
         List<int[]> attackPositions = getRandomSubgrid();
         currentBear = new BearAttack(attackPositions);
