@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="Toko" prefHeight="830.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.TokoController">
+<AnchorPane fx:id="Toko" prefHeight="830.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.TokoController">
    <children>
       <AnchorPane prefHeight="122.0" prefWidth="850.0" style="-fx-background-color: #e96151;">
          <children>
@@ -31,12 +27,12 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <GridPane fx:id="cardProducts" hgap="10.0" layoutX="35.0" layoutY="137.0" prefHeight="359.0" prefWidth="787.0" vgap="10.0">
+      <GridPane fx:id="cardProducts" hgap="10.0" layoutX="71.0" layoutY="137.0" prefHeight="502.0" prefWidth="696.0" vgap="10.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="185.0" prefWidth="185.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="185.0" prefWidth="185.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="185.0" prefWidth="185.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.0" minWidth="185.0" prefWidth="185.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="162.0" prefWidth="162.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="162.0" prefWidth="162.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="162.0" prefWidth="162.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="162.0" prefWidth="162.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="115.0" minHeight="115.0" prefHeight="115.0" vgrow="SOMETIMES" />
@@ -48,5 +44,22 @@
             <Insets bottom="10.0" left="10.0" right="10.0" />
          </padding>
       </GridPane>
+      <Pane layoutX="62.0" layoutY="658.0" prefHeight="142.0" prefWidth="721.0" style="-fx-background-color: #e96151;">
+         <children>
+            <GridPane fx:id="cardSellsDeck" hgap="20.0" layoutX="38.0" layoutY="21.0" prefHeight="100.0" prefWidth="650.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="105.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </children></Pane>
+      <Button fx:id="backButton" layoutX="14.0" layoutY="137.0" mnemonicParsing="false" text="Button" />
    </children>
 </AnchorPane>

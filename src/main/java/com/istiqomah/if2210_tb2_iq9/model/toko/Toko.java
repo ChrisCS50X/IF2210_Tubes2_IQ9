@@ -19,7 +19,7 @@ public class Toko {
     }
 
     public void removeProduct(Card card) {
-        if (card instanceof Product product && products.containsKey(product)) {
+        if (card instanceof Product product && products.containsKey(product) && products.get(product) > 0) {
             int count = products.get(product);
             if (count > 1) {
                 products.put(product, count - 1);

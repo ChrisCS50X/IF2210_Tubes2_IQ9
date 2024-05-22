@@ -118,6 +118,7 @@ public class Player {
         if (card instanceof Product product) {
             if (gulden >= product.getPrice()) {
                 toko.removeProduct(card);
+                deck.addCardToHand(card);
                 subtractGulden(product.getPrice());
             } else {
                 System.out.println("Gulden tidak cukup untuk membeli produk.");
