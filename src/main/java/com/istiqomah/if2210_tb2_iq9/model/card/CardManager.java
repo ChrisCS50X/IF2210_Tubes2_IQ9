@@ -145,4 +145,16 @@ public class CardManager {
             return getCard("product", ProductName.get(rand.nextInt(ProductName.size())));
         }
     }
+
+    public static List<String> getAnimalNames() {
+        return AnimalName;
+    }
+
+    public static List<String> getPlantNames() {
+        return PlantName;
+    }
+
+    public static List<String> getItemNames() {
+        return ItemName;
+    }
 }
