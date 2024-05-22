@@ -1,6 +1,6 @@
 package com.istiqomah.if2210_tb2_iq9;
 
-import com.istiqomah.if2210_tb2_iq9.model.card.Card;
+import com.istiqomah.if2210_tb2_iq9.model.card.*;
 import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
 import com.istiqomah.if2210_tb2_iq9.model.cardcollection.Deck;
 import com.istiqomah.if2210_tb2_iq9.model.card.Item;
@@ -86,7 +86,6 @@ public class MainPageController {
     public Toko toko;
     private int timeRemaining; // in tenths of a second
 
-    private Image image = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/bear.png");
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
 
     public void initialize() {
@@ -143,15 +142,27 @@ public class MainPageController {
     // Metode untuk mengatur target drag untuk sel
     private void setupDragTarget(Pane target) {
         target.setOnDragOver(event -> {
-            if (event.getGestureSource() != target && event.getDragboard().hasImage() && target.getChildren().isEmpty()) {
-                event.acceptTransferModes(TransferMode.MOVE); // Menerima mode transfer MOVE jika kondisi terpenuhi
+            if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
+                Pane source = (Pane) event.getGestureSource();
+                Card card = (Card) source.getUserData();
+                if (card instanceof Animal || card instanceof Plant) {
+                    if (target.getChildren().isEmpty()) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                }
+                else if (card instanceof Item || card instanceof Product)
+                {
+                    if (!target.getChildren().isEmpty()) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                }
             }
             event.consume(); // Mengkonsumsi event
         });
 
         target.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            if (db.hasImage() && target.getChildren().isEmpty()) {
+            if (db.hasImage()) {
                 Pane source = (Pane) event.getGestureSource();
                 Card newCard = (Card) source.getUserData();
                 Integer sourceCol = GridPane.getColumnIndex(source);
@@ -159,29 +170,47 @@ public class MainPageController {
                 Integer targetCol = GridPane.getColumnIndex(target);
                 Integer targetRow = GridPane.getRowIndex(target);
 
-                if (sourceCol != null && sourceRow != null) {
-                    if (source.getParent() == deckAktifBox) {
+                if (newCard instanceof Item || newCard instanceof Product) {
+                    if (!target.getChildren().isEmpty()) {
+
+                        // Remove the card from the source pane and the player's hand
+                        ((Pane) source.getParent()).getChildren().remove(source);
                         Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-                    } else {
-                        Player.getPlayerNow().getLadang().removeCardFromPosition(sourceRow, sourceCol);
+                        event.setDropCompleted(true);
                     }
                 }
+                else if (newCard instanceof Animal || newCard instanceof Plant)
+                {
+                    if (target.getChildren().isEmpty()){
+                        if (sourceCol != null && sourceRow != null) {
+                            if (source.getParent() == deckAktifBox) {
+                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                            } else {
+                                Player.getPlayerNow().getLadang().removeCardFromPosition(sourceRow, sourceCol);
+                            }
+                        }
 
-                if (targetCol != null && targetRow != null) {
-                    if (target.getParent() == deckAktifBox) {
-                        Player.getPlayerNow().getDeck().addCardToHand(newCard);
-                    } else {
-                        Player.getPlayerNow().getLadang().addCardToPosition(newCard, targetRow, targetCol);
+                        if (targetCol != null && targetRow != null) {
+                            if (target.getParent() == deckAktifBox) {
+                                Player.getPlayerNow().getDeck().addCardToHand(newCard);
+                            } else {
+                                Player.getPlayerNow().getLadang().addCardToPosition(newCard, targetRow, targetCol);
+                            }
+                        }
+                        Pane newPane = createCardPane(newCard);
+                        target.getChildren().add(newPane);
+                        setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                        ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
+                        event.setDropCompleted(true);
                     }
                 }
-
-                Pane newPane = createCardPane(newCard);
-                target.getChildren().add(newPane);
-                setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
-                setupClickHandler(newPane, newCard); // Mengatur handler klik untuk pane baru
-                ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
-                event.setDropCompleted(true); // Menyatakan drop selesai
-            } else {
+                else
+                {
+                    event.setDropCompleted(false);
+                }
+            }
+            else
+            {
                 event.setDropCompleted(false); // Menyatakan drop tidak selesai
             }
             event.consume(); // Mengkonsumsi event
