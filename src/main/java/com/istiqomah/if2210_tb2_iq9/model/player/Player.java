@@ -116,12 +116,12 @@ public class Player {
 
     public void buyProduct(Toko toko, Card card) {
         if (card instanceof Product product) {
-            if (gulden >= product.getPrice()) {
+            if (gulden >= product.getPrice() && !deck.isHandFull()) {
                 toko.removeProduct(card);
                 deck.addCardToHand(card);
                 subtractGulden(product.getPrice());
             } else {
-                System.out.println("Gulden tidak cukup untuk membeli produk.");
+                System.out.println("Gulden tidak cukup untuk membeli produk atau tangan penuh.");
             }
         } else {
             System.out.println("Card is not a product.");
@@ -132,8 +132,7 @@ public class Player {
         if (card instanceof Product product) {
             toko.addProduct(card);
             addGulden(product.getPrice());
-            // Remove the card from the player's hand
-            deck.getHand().remove(card);
+            deck.removeCardFromHand(card);
         } else {
             System.out.println("Card is not a product.");
         }

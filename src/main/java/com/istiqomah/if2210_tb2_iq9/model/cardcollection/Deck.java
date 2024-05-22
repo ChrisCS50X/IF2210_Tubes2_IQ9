@@ -71,4 +71,13 @@ public class Deck {
     public List<Card> getHand() {
         return hand; // Return a copy of the hand
     }
+
+    public void removeCardFromHand(Card card) {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i) != null && hand.get(i).equals(card)) {
+                hand.set(i, null);
+                break;
+            }
+        }
+    }
 }
