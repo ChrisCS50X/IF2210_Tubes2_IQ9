@@ -22,11 +22,11 @@ public class MainPage extends Application {
         {
             if (rand.nextBoolean())
             {
-                player1.getDeck().addCardToHand(CardManager.getRandomCard());
+                player1.getDeck().addCardToHand(i,CardManager.getRandomCard());
             }
             if (rand.nextBoolean())
             {
-                player2.getDeck().addCardToHand(CardManager.getRandomCard());
+                player2.getDeck().addCardToHand(i,CardManager.getRandomCard());
             }
         }
 

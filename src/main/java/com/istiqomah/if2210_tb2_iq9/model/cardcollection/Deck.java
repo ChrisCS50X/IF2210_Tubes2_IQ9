@@ -11,7 +11,7 @@ public class Deck {
 
     public Deck() {
         mainDeck = new ArrayList<>();
-        hand = new ArrayList<>(6);
+        hand = new ArrayList<>(Collections.nCopies(6, null));
     }
 
     public void shuffleMainDeck() {
@@ -28,37 +28,36 @@ public class Deck {
     }
 
     public void addCardToHand(Card card) {
-        if (hand.size() < 6) {
-            hand.add(card);
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i) == null) {
+                hand.set(i, card);
+                return;
+            }
         }
     }
 
     public void addCardToHand(Integer index, Card card) {
-        if (hand.size() < 6) {
-            hand.add(index, card);
+        if (index >= 0 && index < hand.size()) {
+            hand.set(index, card);
         }
     }
 
     public void addToHand(List<Card> cards) {
-        int spaceInHand = 6 - hand.size();
-        int cardsToDraw = Math.min(spaceInHand, cards.size());
-
-        for (int i = 0; i < cardsToDraw; i++) {
-            hand.add(cards.get(i));
+        for (Card card : cards) {
+            addCardToHand(card);
         }
     }
 
     public Card removeFromHand(int index) {
         if (index >= 0 && index < hand.size()) {
-            return hand.remove(index);
+            return hand.set(index, null); // return the removed card and set the position to null
         } else {
             // Handle the case where the index is out of bounds
             return null;
         }
     }
-
     public boolean isHandFull() {
-        return hand.size() == 6;
+        return !hand.contains(null);
     }
 
     public int getMainDeckSize() {
