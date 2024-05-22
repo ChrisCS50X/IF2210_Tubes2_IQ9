@@ -33,7 +33,7 @@ public class MainPageController {
     @FXML
     private GridPane ladangGrid;
     @FXML
-    private HBox deckAktifBox;
+    private GridPane deckAktifBox;
     @FXML
     private Text turnText;
     @FXML
@@ -159,11 +159,15 @@ public class MainPageController {
 
     private void setDeckAktifPlayer() {
         List<Card> deck = Player.getPlayerNow().getDeck().getHand();
-        deckAktifBox.getChildren().clear();
+        clearGrid(deckAktifBox);
 
-        for (Card card : deck) {
+        for (int i = 0; i < deck.size() && i < 6; i++) { // Add condition to prevent out of bounds access
+            Card card = deck.get(i);
+            if (card == null) {
+                continue;
+            }
             Pane cardPane = createCardPane(card);
-            deckAktifBox.getChildren().add(cardPane);
+            deckAktifBox.add(cardPane, i, 0);
             setupDragSource(cardPane, card);
         }
     }
@@ -294,21 +298,23 @@ public class MainPageController {
     }
 
     private void updateGridUI() {
-        for (Node node : ladangGrid.getChildren()) {
-            if (node instanceof Pane pane) {
-                Integer col = GridPane.getColumnIndex(pane);
-                Integer row = GridPane.getRowIndex(pane);
-                if (col != null && row != null) {
-                    if (col >= 0 && col < 4 && row >= 0 && row < 5) {
-                        Card card = (Card) ladang.getCardAtPosition(col, row);
-                        pane.getChildren().clear();
-                        if (card != null) {
-                            ImageView imageView = new ImageView(card.getImage());
-                            imageView.setFitWidth(pane.getWidth());
-                            imageView.setFitHeight(pane.getHeight());
-                            pane.getChildren().add(imageView);
-                        }
-                    }
+        clearGrid(ladangGrid); // Clear the grid first
+        KomponenPetak[][] ladangGrid = ladang.getGrid();
+        for (int i = 0; i < ladangGrid.length; i++) {
+            for (int j = 0; j < ladangGrid[i].length; j++) {
+                KomponenPetak component = ladangGrid[i][j];
+                if (component != null) {
+                    Card card = (Card) component;
+                    Pane cardPane = createCardPane(card);
+                    this.ladangGrid.add(cardPane, j, i);
+                    setupDragTarget(cardPane);
+                    setupDragSource(cardPane, card);
+                } else {
+                    Pane cardPane = new Pane();
+                    cardPane.setPrefSize(100, 100);
+                    cardPane.setStyle("-fx-border-color: grey;");
+                    this.ladangGrid.add(cardPane, j, i);
+                    setupDragTarget(cardPane);
                 }
             }
         }
@@ -321,7 +327,7 @@ public class MainPageController {
                 Integer row = GridPane.getRowIndex(pane);
                 if (col != null && row != null) {
                     for (int[] position : positions) {
-                        if (col == position[0] && row == position[1]) {
+                        if (row == position[0] && col == position[1]) { // Use correct order of indices
                             pane.setStyle("-fx-border-color: red; -fx-background-color: #ffcccc;");
                         }
                     }
