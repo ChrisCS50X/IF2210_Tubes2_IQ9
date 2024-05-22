@@ -9,7 +9,7 @@ import com.istiqomah.if2210_tb2_iq9.model.ladang.Ladang;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import com.istiqomah.if2210_tb2_iq9.model.save_load.Readconfig;
 import com.istiqomah.if2210_tb2_iq9.model.save_load.Pair;
-import java.util.Map;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class SaveController {
     private MainPageController mainPageController;
@@ -97,9 +98,11 @@ public class SaveController {
                 // Write hand cards
                 for (int i = 0; i < handSize; i++) {
                     Card card = deck.getHand().get(i);
-                    String name = card.getName();
-                    String lokasi = "A0" + i;
-                    writer.write(lokasi + " " + name + "\n");
+                    if (card != null) {
+                        String name = card.getName();
+                        String lokasi = "A0" + i;
+                        writer.write(lokasi + " " + name + "\n");
+                    }
                 }
 
                 // Write ladang cards
@@ -111,18 +114,20 @@ public class SaveController {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
                         if (komponen instanceof Card) {
                             Card card = (Card) komponen;
-                            count++;
-                            String name = card.getName();
-                            String lokasi = convertRowToLetter(i) + String.valueOf(j);
-                            int beratUmur = card.getBerat_Umur();
-                            List<Item> items = card.getActiveItems();
-                            int jumlahItem = items.size();
+                            if (card != null) {
+                                count++;
+                                String name = card.getName();
+                                String lokasi = convertRowToLetter(i) + String.valueOf(j);
+                                int beratUmur = card.getBerat_Umur();
+                                List<Item> items = card.getActiveItems();
+                                int jumlahItem = items.size();
 
-                            writer.write(lokasi + " " + name + " " + beratUmur + " " + jumlahItem);
-                            for (Item item : items) {
-                                writer.write(" " + item.getName());
+                                writer.write(lokasi + " " + name + " " + beratUmur + " " + jumlahItem);
+                                for (Item item : items) {
+                                    writer.write(" " + item.getName());
+                                }
+                                writer.write("\n");
                             }
-                            writer.write("\n");
                         }
                     }
                 }
@@ -131,7 +136,7 @@ public class SaveController {
 
             // Write to gamestate.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/gamestate.txt"))) {
-                int turn = 5;
+                int turn = mainPageController.TurnNow;
                 Map<Card, Integer> shopItems = mainPageController.toko.getAvailableProducts();
                 int jumlahItemShop = shopItems.size();
 
@@ -139,7 +144,10 @@ public class SaveController {
                 writer.write(jumlahItemShop + "\n");
 
                 for (Map.Entry<Card, Integer> item : shopItems.entrySet()) {
-                    writer.write(item.getKey().getName() + " " + item.getValue() + "\n");
+                    Card card = item.getKey();
+                    if (card != null) {
+                        writer.write(card.getName() + " " + item.getValue() + "\n");
+                    }
                 }
             }
 

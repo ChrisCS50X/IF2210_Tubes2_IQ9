@@ -3,17 +3,24 @@ package com.istiqomah.if2210_tb2_iq9;
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
 import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
 import com.istiqomah.if2210_tb2_iq9.model.cardcollection.Deck;
+import com.istiqomah.if2210_tb2_iq9.model.card.Item;
 import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import com.istiqomah.if2210_tb2_iq9.model.ladang.Ladang;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
+import com.istiqomah.if2210_tb2_iq9.model.save_load.Readconfig;
+import com.istiqomah.if2210_tb2_iq9.model.save_load.Triple;
+import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -21,9 +28,17 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -66,6 +81,7 @@ public class MainPageController {
 
     private Timeline timeline;
     private Ladang ladang;
+    public Toko toko;
     private int timeRemaining; // in tenths of a second
 
     private Image image = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/bear.png");
@@ -74,6 +90,7 @@ public class MainPageController {
     public void initialize() {
         setDeckAktifPlayer();
         setLadangPlayer(Player.getPlayerNow());
+        toko = new Toko();
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
@@ -241,9 +258,9 @@ public class MainPageController {
             setDeckAktifPlayer();
             setLadangPlayer(Player.getPlayerNow());
 
-            if (Math.random() < 0.3) {
-                initializeSerangan();
-            }
+//            if (Math.random() < 0.3) {
+//                initializeSerangan();
+//            }
         });
     }
 
@@ -362,5 +379,94 @@ public class MainPageController {
                 pane.setStyle("-fx-border-color: grey;");
             }
         }
+    }
+    public void loadState() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/Load.fxml"));
+            Parent root = loader.load();
+
+            LoadController loadController = loader.getController();
+            loadController.setMainPageController(this);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Load State");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("State loaded!");
+    }
+
+    public void saveState() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/Save.fxml"));
+            Parent root = loader.load();
+
+            SaveController saveController = loader.getController();
+            saveController.setMainPageController(this); // Set the reference to MainPageController
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Save State");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("State saved!");
+    }
+
+    public void loadData(String folderPath) {
+        Readconfig config = new Readconfig("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/" + folderPath);
+
+        // Update Player's Gulden
+        Player.getPlayerNow().setGulden(config.getJumlahGulden());
+
+        // Update Deck
+        Player.getPlayerNow().getDeck().clearHand();
+        for (Triple<String, Integer, String> cardInfo : config.getKordinatCard()) {
+            Card card = CardManager.getCard("deck", cardInfo.getRight());
+            if (card != null) {
+                Player.getPlayerNow().getDeck().addCardToHand(card);
+            }
+        }
+
+        // Clear ladang
+        Ladang ladang = Player.getPlayerNow().getLadang();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (ladang.getCardAtPosition(i, j) != null) {
+                    ladang.removeCardFromPosition(i, j);
+                }
+            }
+        }
+        for (int i = 0; i < config.getKordinatLadang().size(); i++) {
+            Triple<String, Integer, String> ladangInfo = config.getKordinatLadang().get(i);
+            String row = ladangInfo.getLeft();
+            int col = ladangInfo.getMiddle();
+            String cardName = ladangInfo.getRight();
+
+            int rowIndex = convertLetterToRow(row);
+            Card card = CardManager.getCard("ladang", cardName);
+            if (card != null) {
+                ladang.addCardToPosition(card, rowIndex, col);
+                // Apply items to card
+                ArrayList<String> items = config.getItem().get(i);
+                for (String itemName : items) {
+                    Item item = (Item) CardManager.getCard("item", itemName);
+                    card.applyItem(item);
+                }
+            }
+        }
+    }
+
+    public int getCurrentTurn() {
+        return TurnNow;
+    }
+
+    private int convertLetterToRow(String letter) {
+        return letter.charAt(0) - 'A';
     }
 }

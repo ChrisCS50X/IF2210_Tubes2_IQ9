@@ -26,8 +26,8 @@
                         <Button fx:id="ladangkuButton" mnemonicParsing="false" text="Ladangku" styleClass="menu-button"/>
                         <Button fx:id="ladangLawanButton" mnemonicParsing="false" text="Ladang Lawan" textAlignment="CENTER" styleClass="menu-button"/>
                         <Button fx:id="tokoButton" mnemonicParsing="false" text="Toko" styleClass="menu-button"/>
-                        <Button fx:id="saveStateButton" mnemonicParsing="false" text="Save State" styleClass="menu-button"/>
-                        <Button fx:id="loadStateButton" mnemonicParsing="false" text="Load State" styleClass="menu-button"/>
+                        <Button fx:id="saveStateButton" mnemonicParsing="false" text="Save State" styleClass="menu-button" onAction="#saveState"/>
+                        <Button fx:id="loadStateButton" mnemonicParsing="false" text="Load State" styleClass="menu-button" onAction="#loadState"/>
                         <Button fx:id="loadPluginButton" mnemonicParsing="false" text="Load Plugin" styleClass="menu-button"/>
                     </children>
                 </VBox>
