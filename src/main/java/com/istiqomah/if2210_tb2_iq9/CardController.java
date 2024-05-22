@@ -4,6 +4,7 @@ import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
 import com.istiqomah.if2210_tb2_iq9.model.card.Item;
 import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
+import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CardController {
 
@@ -38,7 +40,17 @@ public class CardController {
     @FXML
     private Button panenButton;
 
-    public void setCard(Card card) {
+    private int x;
+
+    private int y;
+
+    private Card card;
+
+    public void setCard(Card card,int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.card = card;
+
         String type = card.getType();
         StringBuilder activeItems = new StringBuilder();
         if (card instanceof Animal) {
@@ -115,10 +127,27 @@ public class CardController {
     @FXML
     private void initialize() {
         kembaliButton.setOnAction(event -> goBack());
+        panen();
     }
 
     private void goBack() {
         Stage stage = (Stage) kembaliButton.getScene().getWindow();
         stage.close();
+    }
+
+    private void panen() {
+        panenButton.setOnAction(event -> {
+            int maxSelections = 6 - (int) Player.getPlayerNow().getDeck().getHand().stream().filter(Objects::nonNull).count();
+            if (maxSelections != 0) {
+                Player.getPlayerNow().getLadang().removeCardFromPosition(this.x, this.y);
+                if (card instanceof Animal animal) {
+                    Player.getPlayerNow().getDeck().addCardToHand((animal.getProduct()));
+                } else if (card instanceof Plant plant) {
+                    Player.getPlayerNow().getDeck().addCardToHand((plant.getProduct()));
+                }
+            }
+            Stage stage = (Stage) kembaliButton.getScene().getWindow();
+            stage.close();
+        });
     }
 }

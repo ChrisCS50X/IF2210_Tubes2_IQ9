@@ -6,19 +6,20 @@ import java.util.List;
 public class Plant extends Card implements Harvestable {
     private int age;
     private int harvestDuration;
-    private Card product;
+    private String namaProduct;
     private List<Item> activeItems;
 
-    public Plant(int id, String name, String imagePath, int age, int harvestDuration) {
+    public Plant(int id, String name, String imagePath, int age, int harvestDuration, String Namaproduct) {
         super(id, name, imagePath);
         this.harvestDuration = harvestDuration;
         this.age = 0;
         this.activeItems = new ArrayList<>();
+        this.namaProduct = Namaproduct;
     }
 
-    public Card getProduct() {return this.product;}
+    public Card getProduct() {return CardManager.getCard("product", this.namaProduct);}
 
-    public void setProduct(Card product) {this.product = product;}
+    public void setProduct(String product) {this.namaProduct = product;}
 
     public int getHarvestDuration() {return this.harvestDuration;}
 
@@ -51,7 +52,7 @@ public class Plant extends Card implements Harvestable {
     public Card harvest() {
         if (isHarvestable()) {
             this.age = 0;
-            return this.product;
+            return CardManager.getCard("product", this.namaProduct);
         } else {
             return null;
         }

@@ -545,23 +545,27 @@ public class MainPageController {
     }
 
     private void setupClickHandler(Pane cardPane, Card card) {
+        int x = GridPane.getColumnIndex(cardPane);
+        int y = GridPane.getRowIndex(cardPane);
         cardPane.setOnMouseClicked(event -> {
-            handleCardClick(card);
+            handleCardClick(card,y,x);
         });
     }
 
-    private void handleCardClick(Card card) {
+    private void handleCardClick(Card card, int x, int y) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Card.fxml"));
             Pane view = loader.load();
             CardController cardController = loader.getController();
-            cardController.setCard(card);
+            cardController.setCard(card, x, y);
             Stage stage = new Stage();
             stage.setTitle("Shuffle View");
             stage.setScene(new Scene(view, 650, 300));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.showAndWait();
+            setLadangPlayer(Player.getPlayerNow());
+            setDeckAktifPlayer();
         } catch (IOException e) {
             e.printStackTrace();
         }

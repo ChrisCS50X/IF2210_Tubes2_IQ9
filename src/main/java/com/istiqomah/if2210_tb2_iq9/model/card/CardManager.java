@@ -116,7 +116,7 @@ public class CardManager {
 
     // Method to initialize product cards
     private static void initializeProductCards() {
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 9; i++) {
             Card card = createCard("product", i);
             addCard("product", card.getName(), card);
         }

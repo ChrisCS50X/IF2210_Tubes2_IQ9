@@ -6,21 +6,22 @@ import java.util.List;
 public class Animal extends Card implements Harvestable {
     private int weight;
     private int harvestWeight;
-    private Card product; // product yang dihasilkan
+    private String product; // product yang dihasilkan
     private String type;
     int tipe;
     private List<Item> activeItems;
 
-    public Animal(int id, String name, String imagePath,int weight, int harvestWeight, int tipe) {
+    public Animal(int id, String name, String imagePath,int weight, int harvestWeight, int tipe, String product) {
         super(id, name, imagePath);
         this.harvestWeight = harvestWeight;
         this.weight = 0;
         this.tipe = 0;
         this.activeItems = new ArrayList<>();
+        this.product = product;
     }
-    public Card getProduct() {return product;}
+    public Card getProduct() {return CardManager.getCard("product", this.product);}
 
-    public void setProduct(Card product) {this.product = product;}
+    public void setProduct(String product) {this.product = product;}
 
     public int getHarvestWeight() {return harvestWeight;}
 
@@ -64,7 +65,7 @@ public class Animal extends Card implements Harvestable {
     public Card harvest() {
         if (isHarvestable()) {
             this.weight = 0;
-            return this.product;
+            return CardManager.getCard("product", this.product);
         } else {
             return null;
         }

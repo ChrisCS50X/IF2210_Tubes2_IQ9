@@ -10,7 +10,8 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 25;
                     int tipe = 2;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Daging Beruang";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 2){
                     String name = "Ayam";
@@ -18,7 +19,8 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 5;
                     int tipe = 2;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Telur";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 3){
                     String name = "Kuda";
@@ -26,7 +28,8 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 14;
                     int tipe = 1;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Daging Kuda";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 4){
                     String name = "Domba";
@@ -34,7 +37,8 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 12;
                     int tipe = 1;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Daging Domba";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 5){
                     String name = "Sapi";
@@ -42,7 +46,8 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 10;
                     int tipe = 1;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Susu";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 6){
                     String name = "Hiu Darat";
@@ -50,15 +55,16 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 20;
                     int tipe = 0;
-                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe);
+                    String product = "Sirip Hiu";
+                    return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
                 }
             case "plant":
                 if (id == 1){
-                    return new Plant(id, "Biji Jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/corn seeds.png", 0, 3);
+                    return new Plant(id, "Biji Jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/corn seeds.png", 0, 3, "Jagung");
                 }else if (id == 2){
-                    return new Plant(id, "Biji Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/pumpkin seeds.png", 0, 5);
+                    return new Plant(id, "Biji Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/pumpkin seeds.png", 0, 5, "Labu");
                 }else if (id == 3) {
-                    return new Plant(id, "Biji Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/strawberry seeds.png", 0, 4);
+                    return new Plant(id, "Biji Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/strawberry seeds.png", 0, 4, "Stroberi");
                 }
             case "item":
                 if (id == 1) {
@@ -91,6 +97,9 @@ public class Cardfactory {
                     return new Product(id, "Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/pumpkin.png",    500, 10);
                 }else if (id == 8) {
                     return new Product(id, "Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/strawberry.png",    350, 5);
+                } else if (id == 9)
+                {
+                    return new Product((id), "Daging Beruang", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Beruang.png", 500, 12);
                 }
             default:
                 throw new IllegalArgumentException("Unknown card type: " + type);
