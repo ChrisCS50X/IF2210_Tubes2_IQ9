@@ -47,6 +47,7 @@ public class MainPage extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/newMain.fxml")));
+        root.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
         primaryStage.setTitle("Tugas Besar 2 IF2210 - IQ9");
         primaryStage.setScene(new Scene(root, 850, 830));
         primaryStage.show();

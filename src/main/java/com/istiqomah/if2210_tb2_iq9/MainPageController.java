@@ -218,7 +218,7 @@ public class MainPageController {
         VBox cardPane = new VBox();
         cardPane.setPrefSize(100, 100);
         cardPane.setAlignment(Pos.CENTER);
-        cardPane.setStyle("-fx-border-color: black; -fx-background-color: lightgrey;");
+        cardPane.setStyle("-fx-border-width: 1px; -fx-border-color: black; -fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: lightgrey;");
 
         ImageView imageView = new ImageView(card.getImage());
         imageView.setFitWidth(80);
