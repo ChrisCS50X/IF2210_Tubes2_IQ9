@@ -1,0 +1,58 @@
+.root {
+    -fx-background-image:url('../asset/grass-background.png');
+    -fx-background-size: cover;
+    -fx-font-family: "Segoe UI";
+}
+
+.player-label {
+    -fx-font-size: 18px;
+}
+
+.turn-circle {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 50%;
+}
+
+.circle {
+    -fx-fill: white;
+}
+
+.turn-text {
+    -fx-fill: black;
+    -fx-font-size: 14px;
+}
+
+.menu-button {
+    -fx-border-radius: 5px;
+    -fx-pref-height: 25px;
+    -fx-pref-width: 100px;
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 14px;
+}
+
+.grid-pane {
+    -fx-background-color: #f5dc7c;
+    -fx-pref-height: 27px;
+    -fx-pref-width: 110px;
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+
+.deck-container {
+    -fx-background-color: #ea7e16;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+}
+
+.deck-pane {
+    -fx-pref-height: 27px;
+    -fx-pref-width: 110px;
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 14px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-background-color: #f5dc7c;
+}
