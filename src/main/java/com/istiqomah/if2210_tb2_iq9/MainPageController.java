@@ -122,7 +122,7 @@ public class MainPageController {
     // Metode untuk mengatur target drag untuk sel
     private void setupDragTarget(Pane target) {
         target.setOnDragOver(event -> {
-            if (event.getGestureSource() != target && event.getDragboard().hasImage()) {
+            if (event.getGestureSource() != target && event.getDragboard().hasImage() && target.getChildren().isEmpty()) {
                 event.acceptTransferModes(TransferMode.MOVE); // Menerima mode transfer MOVE jika kondisi terpenuhi
             }
             event.consume(); // Mengkonsumsi event
@@ -130,7 +130,7 @@ public class MainPageController {
 
         target.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
-            if (db.hasImage()) {
+            if (db.hasImage() && target.getChildren().isEmpty()) {
                 Pane source = (Pane) event.getGestureSource();
                 Card newCard = (Card) source.getUserData();
                 Pane newPane = createCardPane(newCard);
