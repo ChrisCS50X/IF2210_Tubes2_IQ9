@@ -69,4 +69,12 @@ public class Animal extends Card implements Harvestable {
             return null;
         }
     }
+    @Override
+    public Integer getBerat_Umur(){
+        return weight;
+    }
+    @Override
+    public List<Item> getActiveItems() {
+        return activeItems;
+    }
 }

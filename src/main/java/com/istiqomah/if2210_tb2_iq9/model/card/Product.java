@@ -1,5 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9.model.card;
 
+import java.util.List;
+
 public class Product extends Card {
     private int price;
     private int weight;
@@ -48,5 +50,15 @@ public class Product extends Card {
     @Override
     public String getDetails(){
         return name;
+    }
+
+    @Override
+    public Integer getBerat_Umur() {
+        return null;
+    }
+
+    @Override
+    public List<Item> getActiveItems() {
+        return null;
     }
 }

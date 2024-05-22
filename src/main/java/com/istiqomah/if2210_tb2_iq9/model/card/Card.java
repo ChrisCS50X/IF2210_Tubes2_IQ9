@@ -2,6 +2,7 @@ package com.istiqomah.if2210_tb2_iq9.model.card;
 
 import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import javafx.scene.image.Image;
+import java.util.List;
 
 public abstract class   Card implements KomponenPetak {
     private int id;
@@ -46,6 +47,10 @@ public abstract class   Card implements KomponenPetak {
     public Card harvest() {
         return null; // Default implementation
     }
+
+    public abstract Integer getBerat_Umur();
+
+    public abstract List<Item> getActiveItems();
 }
 
 

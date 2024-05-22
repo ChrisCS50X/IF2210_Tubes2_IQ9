@@ -1,5 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9.model.card;
 
+import java.util.List;
+
 public class Item extends Card {
     private AnimalEffect animalEffect;
     private PlantEffect plantEffect;
@@ -31,5 +33,15 @@ public class Item extends Card {
 
     public String getDetails(){
         return description;
+
+    }
+    @Override
+    public Integer getBerat_Umur() {
+        return null;
+    }
+
+    @Override
+    public List<Item> getActiveItems() {
+        return null;
     }
 }

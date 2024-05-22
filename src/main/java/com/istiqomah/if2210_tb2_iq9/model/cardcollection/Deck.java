@@ -80,4 +80,8 @@ public class Deck {
             }
         }
     }
+
+    public void clearHand() {
+        hand.clear();
+    }
 }

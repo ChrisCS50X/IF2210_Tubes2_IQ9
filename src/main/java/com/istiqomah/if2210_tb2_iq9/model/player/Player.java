@@ -70,6 +70,10 @@ public class Player {
         return gulden;
     }
 
+    public void setGulden(int gulden) {
+        this.gulden = gulden;
+    }
+
     public Ladang getLadang() {
         return ladang;
     }

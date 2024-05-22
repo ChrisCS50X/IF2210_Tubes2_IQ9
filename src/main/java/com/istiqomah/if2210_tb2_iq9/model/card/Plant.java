@@ -57,4 +57,14 @@ public class Plant extends Card implements Harvestable {
         }
     }
 
+    @Override
+    public Integer getBerat_Umur() {
+        return age;
+    }
+
+    @Override
+    public List<Item> getActiveItems() {
+        return activeItems;
+    }
+
 }
