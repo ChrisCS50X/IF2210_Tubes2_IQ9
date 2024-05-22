@@ -69,6 +69,6 @@ public class Deck {
     }
 
     public List<Card> getHand() {
-        return new ArrayList<>(hand); // Return a copy of the hand
+        return hand; // Return a copy of the hand
     }
 }
