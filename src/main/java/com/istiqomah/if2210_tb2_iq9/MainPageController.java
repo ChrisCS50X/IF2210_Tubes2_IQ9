@@ -178,6 +178,7 @@ public class MainPageController {
                 Pane newPane = createCardPane(newCard);
                 target.getChildren().add(newPane);
                 setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                setupClickHandler(newPane, newCard); // Mengatur handler klik untuk pane baru
                 ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
                 event.setDropCompleted(true); // Menyatakan drop selesai
             } else {
@@ -225,6 +226,7 @@ public class MainPageController {
                     ladangGrid.add(cardPane, j, i);
                     setupDragTarget(cardPane);
                     setupDragSource(cardPane, card);
+                    setupClickHandler(cardPane, card);
                 } else {
                     Pane cardPane = new Pane();
                     cardPane.setPrefSize(100, 100);
@@ -507,6 +509,29 @@ public class MainPageController {
             // Menggantikan tampilan saat ini dengan tampilan toko
             Scene currentScene = tokoButton.getScene();
             currentScene.setRoot(tokoPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupClickHandler(Pane cardPane, Card card) {
+        cardPane.setOnMouseClicked(event -> {
+            handleCardClick(card);
+        });
+    }
+
+    private void handleCardClick(Card card) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Card.fxml"));
+            Pane view = loader.load();
+            CardController cardController = loader.getController();
+            cardController.setCard(card);
+            Stage stage = new Stage();
+            stage.setTitle("Shuffle View");
+            stage.setScene(new Scene(view, 650, 300));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
