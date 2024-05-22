@@ -200,6 +200,7 @@ public class MainPageController {
                         Pane newPane = createCardPane(newCard);
                         target.getChildren().add(newPane);
                         setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                        setupClickHandler(newPane,newCard);
                         ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
                         event.setDropCompleted(true);
                     }
