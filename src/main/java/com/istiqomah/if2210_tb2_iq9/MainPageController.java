@@ -110,6 +110,9 @@ public class MainPageController {
         // Set button ladang lawan
         ladangLawan();
 
+        // Set button toko
+        tokoButton.setOnAction(event -> openToko());
+
         // Set gulden player
         player1Label.setText("Player 1: " + Player.getPlayerByIdx(0).getGulden());
         player2Label.setText("Player 2: " + Player.getPlayerByIdx(1).getGulden());
@@ -468,5 +471,26 @@ public class MainPageController {
 
     private int convertLetterToRow(String letter) {
         return letter.charAt(0) - 'A';
+    }
+
+    private void openToko() {
+        try {
+            // Memuat file FXML toko
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Toko.fxml"));
+            Pane tokoPane = loader.load();
+
+            // Mendapatkan instance dari TokoController
+            TokoController tokoController = loader.getController();
+            Toko toko = new Toko(); // Atur ini sesuai dengan cara Anda menginisialisasi objek Toko
+            Player currentPlayer = Player.getPlayerNow();
+            tokoController.setToko(toko);
+            tokoController.setPlayer(currentPlayer);
+
+            // Menggantikan tampilan saat ini dengan tampilan toko
+            Scene currentScene = tokoButton.getScene();
+            currentScene.setRoot(tokoPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

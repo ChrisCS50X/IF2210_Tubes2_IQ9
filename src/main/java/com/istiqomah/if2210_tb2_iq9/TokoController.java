@@ -5,7 +5,9 @@ import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -30,7 +32,9 @@ public class TokoController {
     private Player player;
 
     @FXML
-    public void initialize() {}
+    public void initialize() {
+        backButton.setOnAction(event -> goBackToMainPage());
+    }
 
     public void setToko(Toko toko) {
         this.toko = toko;
@@ -124,4 +128,25 @@ public class TokoController {
             }
         }
     }
+
+    @FXML
+    private void goBackToMainPage() {
+        try {
+            // Load the FXML file for the main page
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/newMain.fxml"));
+            ScrollPane mainPagePane = loader.load();
+            mainPagePane.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
+
+            // Optionally, you can get the controller if you need to pass any data
+            // MainPageController mainPageController = loader.getController();
+            // mainPageController.someMethod();
+
+            // Set the main page pane as the root of the current scene
+            Scene currentScene = backButton.getScene();
+            currentScene.setRoot(mainPagePane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
