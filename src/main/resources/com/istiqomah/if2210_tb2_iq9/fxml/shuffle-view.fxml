@@ -2,9 +2,22 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.ShuffleController" spacing="10" alignment="CENTER">
-    <GridPane fx:id="cardContainer" hgap="10" vgap="10" alignment="CENTER">
-    </GridPane>
-    <Button text="↻" onAction="#reshuffle" style="-fx-background-radius: 40px; -fx-min-width: 40px; -fx-min-height: 40px; -fx-font-size: 20px;"/>
-</VBox>
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.ShuffleController">
+    <VBox alignment="TOP_CENTER" style="-fx-padding: 20px 0 0 0;">
+        <Label fx:id="remainingSelectionsLabel" style="-fx-font-size: 18px;" />
+        <Region />
+    </VBox>
+    <VBox spacing="10" alignment="CENTER" style="-fx-background-color: transparent;">
+        <GridPane fx:id="cardContainer" hgap="20" vgap="20" alignment="CENTER">
+        </GridPane>
+        <HBox alignment="CENTER" spacing="10">
+            <Button text="↻" onAction="#reshuffle" style="-fx-background-radius: 40px; -fx-pref-width: 45px; -fx-pref-height: 45px; -fx-font-size: 20px;"/>
+            <Button text="OK" fx:id="okButton" onAction="#closeWindow" style="-fx-background-radius: 40px; -fx-pref-width: 45px; -fx-pref-height: 45px; -fx-font-size: 16px;"/>
+        </HBox>
+    </VBox>
+</StackPane>

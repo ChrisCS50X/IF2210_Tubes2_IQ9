@@ -28,10 +28,12 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -255,15 +257,31 @@ public class MainPageController {
 
     private void nextTurn() {
         nextButton.setOnAction(event -> {
-            TurnNow++;
-            turnText.setText("Turn " + TurnNow);
-            Player.nextTurn();
-            setDeckAktifPlayer();
-            setLadangPlayer(Player.getPlayerNow());
+            try {
+                TurnNow++;
+                turnText.setText("Turn " + TurnNow);
+                Player.nextTurn();
+                setDeckAktifPlayer();
+                setLadangPlayer(Player.getPlayerNow());
 
-//            if (Math.random() < 0.3) {
-//                initializeSerangan();
-//            }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/shuffle-view.fxml"));
+                StackPane view = loader.load();
+
+                Stage stage = new Stage();
+                stage.setTitle("Shuffle View");
+                stage.setScene(new Scene(view, 450, 430));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.showAndWait();
+
+                setDeckAktifPlayer();
+
+                if (Math.random() < 0.3) {
+                    initializeSerangan();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 

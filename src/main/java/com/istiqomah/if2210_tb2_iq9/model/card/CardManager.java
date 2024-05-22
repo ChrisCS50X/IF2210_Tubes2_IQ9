@@ -157,4 +157,6 @@ public class CardManager {
     public static List<String> getItemNames() {
         return ItemName;
     }
+
+    public static List<String> getProductNames() { return ProductName; }
 }
