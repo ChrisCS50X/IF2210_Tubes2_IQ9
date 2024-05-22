@@ -1,6 +1,6 @@
 package com.istiqomah.if2210_tb2_iq9;
 
-import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
+import com.istiqomah.if2210_tb2_iq9.model.card.*;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainPage extends Application {
-<<<<<<< Updated upstream
     public static void inisialisasi()
     {
         Random rand = new Random();
@@ -42,19 +41,6 @@ public class MainPage extends Application {
                     player2.addCardToLadang(CardManager.getRandomCardAnimalPlant(), i, j);
                 }
             }
-=======
-    public static void inisialisasi() {
-        Player player1 = Player.createPlayer(100);
-        Player player2 = Player.createPlayer(100);
-        CardManager cardManager = CardManager.getInstance();
-        for (int i = 1; i <= 3; i++) {
-            player1.getDeck().addCardToHand(cardManager.getCard("animal", "Beruang"));
-            player1.getDeck().addCardToHand(cardManager.getCard("plant", "Biji Jagung"));
-            player1.getDeck().addCardToHand(cardManager.getCard("item", "Accelerate"));
-            player2.getDeck().addCardToHand(cardManager.getCard("animal", "Ayam"));
-            player2.getDeck().addCardToHand(cardManager.getCard("plant", "Biji Labu"));
-            player2.getDeck().addCardToHand(cardManager.getCard("item", "Accelerate"));
->>>>>>> Stashed changes
         }
     }
 
@@ -66,7 +52,8 @@ public class MainPage extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         inisialisasi();
         launch(args);
     }
