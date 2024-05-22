@@ -134,6 +134,55 @@ public class SaveController {
                 writer.write(String.valueOf(count) + "\n");
             }
 
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config2.txt"))) {
+                int gulden = Player.getPlayerByIdx(1).getGulden();
+                Deck deck = Player.getPlayerByIdx(1).getDeck();
+                int jumlahKartu = deck.getMainDeckSize();
+                int handSize = deck.getHand().size();
+
+                writer.write(gulden + "\n");
+                writer.write(jumlahKartu + "\n");
+                writer.write(handSize + "\n");
+
+                // Write hand cards
+                for (int i = 0; i < handSize; i++) {
+                    Card card = deck.getHand().get(i);
+                    if (card != null) {
+                        String name = card.getName();
+                        String lokasi = "A0" + i;
+                        writer.write(lokasi + " " + name + "\n");
+                    }
+                }
+
+                // Write ladang cards
+                Ladang ladang = Player.getPlayerByIdx(1).getLadang();
+                int count = 0;
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if (komponen instanceof Card) {
+                            Card card = (Card) komponen;
+                            if (card != null) {
+                                count++;
+                                String name = card.getName();
+                                String lokasi = convertRowToLetter(i) + String.valueOf(j);
+                                int beratUmur = card.getBerat_Umur();
+                                List<Item> items = card.getActiveItems();
+                                int jumlahItem = items.size();
+
+                                writer.write(lokasi + " " + name + " " + beratUmur + " " + jumlahItem);
+                                for (Item item : items) {
+                                    writer.write(" " + item.getName());
+                                }
+                                writer.write("\n");
+                            }
+                        }
+                    }
+                }
+                writer.write(String.valueOf(count) + "\n");
+            }
+
             // Write to gamestate.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/gamestate.txt"))) {
                 int turn = mainPageController.TurnNow;
