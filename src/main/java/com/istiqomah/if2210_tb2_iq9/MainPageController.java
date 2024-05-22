@@ -20,7 +20,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -133,6 +132,27 @@ public class MainPageController {
             if (db.hasImage() && target.getChildren().isEmpty()) {
                 Pane source = (Pane) event.getGestureSource();
                 Card newCard = (Card) source.getUserData();
+                Integer sourceCol = GridPane.getColumnIndex(source);
+                Integer sourceRow = GridPane.getRowIndex(source);
+                Integer targetCol = GridPane.getColumnIndex(target);
+                Integer targetRow = GridPane.getRowIndex(target);
+
+                if (sourceCol != null && sourceRow != null) {
+                    if (source.getParent() == deckAktifBox) {
+                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                    } else {
+                        Player.getPlayerNow().getLadang().removeCardFromPosition(sourceRow, sourceCol);
+                    }
+                }
+
+                if (targetCol != null && targetRow != null) {
+                    if (target.getParent() == deckAktifBox) {
+                        Player.getPlayerNow().getDeck().addCardToHand(newCard);
+                    } else {
+                        Player.getPlayerNow().getLadang().addCardToPosition(newCard, targetRow, targetCol);
+                    }
+                }
+
                 Pane newPane = createCardPane(newCard);
                 target.getChildren().add(newPane);
                 setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
@@ -221,9 +241,9 @@ public class MainPageController {
             setDeckAktifPlayer();
             setLadangPlayer(Player.getPlayerNow());
 
-            if (Math.random() < 0.3) {
-                initializeSerangan();
-            }
+//            if (Math.random() < 0.3) {
+//                initializeSerangan();
+//            }
         });
     }
 
