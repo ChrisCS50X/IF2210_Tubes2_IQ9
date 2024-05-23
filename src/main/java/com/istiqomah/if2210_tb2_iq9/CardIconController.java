@@ -2,12 +2,12 @@ package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
 
-
 import javafx.fxml.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+// Controller untuk menampilkan icon kartu
 public class CardIconController {
 
     public VBox cardIcon;
@@ -17,9 +17,9 @@ public class CardIconController {
     @FXML
     private Text cardName;
 
-
     @FXML
-    public void initialize() {}
+    public void initialize() {
+    }
 
     public void setCard(Card card) {
         cardImage.setImage(card.getImage());

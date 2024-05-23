@@ -1,11 +1,8 @@
 package com.istiqomah.if2210_tb2_iq9.model.ladang;
 
-import com.istiqomah.if2210_tb2_iq9.model.card.Card;
 import com.istiqomah.if2210_tb2_iq9.model.observer.Subject;
 import com.istiqomah.if2210_tb2_iq9.model.card.Product;
-import com.istiqomah.if2210_tb2_iq9.model.card.Harvestable;
 import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
-import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
 
 import java.util.ArrayList;
 import java.util.List;
