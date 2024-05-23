@@ -1,0 +1,6 @@
+1
+4
+Daging_Domba 1
+Labu 1
+Daging_Domba 1
+Daging_Kuda 1

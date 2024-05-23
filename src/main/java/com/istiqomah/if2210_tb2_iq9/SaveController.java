@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class SaveController {
     private MainPageController mainPageController;
+    private MainPage mainPage;
 
     @FXML
     private Button backButton;
@@ -49,6 +50,10 @@ public class SaveController {
 
     public void setMainPageController(MainPageController mainPageController) {
         this.mainPageController = mainPageController;
+    }
+
+    public void  setMainPage(MainPage mainPage){
+        this.mainPage = mainPage;
     }
 
     private void handleBackButton() {
@@ -214,7 +219,7 @@ public class SaveController {
             // Write to gamestate.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/gamestate.txt"))) {
                 int turn = mainPageController.TurnNow;
-                Map<Card, Integer> shopItems = mainPageController.toko.getAvailableProducts();
+                Map<Card, Integer> shopItems = mainPage.toko.getAvailableProducts();
                 int jumlahItemShop = shopItems.size();
 
                 writer.write(turn + "\n");

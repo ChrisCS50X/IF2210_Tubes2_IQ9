@@ -81,7 +81,9 @@ public class MainPageController {
 
     private Timeline timeline;
     private Ladang ladang;
-    public Toko toko;
+
+    private  MainPage mainpage;
+
     private int timeRemaining; // in tenths of a second
 
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
@@ -645,7 +647,7 @@ public class MainPageController {
         TurnNow = turn;
         int jumlahItemShop = Integer.parseInt(reader.readLine());
 
-        toko.clearProducts();
+        mainpage.toko.clearProducts();
 
         for (int i = 0; i < jumlahItemShop; i++) {
             line = reader.readLine();
@@ -656,7 +658,7 @@ public class MainPageController {
             Card itemCard = CardManager.getCard("product", productName);
             if (itemCard != null) {
                 for (int j = 0; j < quantity; j++) {
-                    toko.addProduct(itemCard);
+                    mainpage.toko.addProduct(itemCard);
                 }
             } else {
                 System.err.println("Product not found in shop: " + productName);

@@ -1,0 +1,20 @@
+750
+0
+3
+A02 Delay
+A03 Instant_Harvest
+A04 Sapi
+13
+A01 Domba 0 0
+A03 Kuda 0 0
+A04 Biji_Labu 1 0
+B00 Hiu_Darat 0 0
+B01 Biji_Jagung 1 0
+B02 Biji_Labu 1 0
+B03 Biji_Jagung 1 0
+B04 Biji_Jagung 1 0
+C01 Biji_Stroberi 1 0
+C03 Biji_Jagung 1 0
+D01 Biji_Jagung 1 0
+D02 Sapi 0 0
+D03 Hiu_Darat 0 0
