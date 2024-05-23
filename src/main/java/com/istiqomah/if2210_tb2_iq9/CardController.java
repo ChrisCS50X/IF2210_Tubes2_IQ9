@@ -40,13 +40,10 @@ public class CardController {
 
     private int y;
 
-    private Card card;
 
     public void setCard(Card card,int x, int y) {
         this.x = x;
         this.y = y;
-        this.card = card;
-
         String type = card.getType();
         StringBuilder activeItems = new StringBuilder();
         if (card instanceof Animal) {
@@ -75,11 +72,7 @@ public class CardController {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            if (animal.getWeight() >= animal.getHarvestWeight()) {
-                panenButton.setDisable(false);
-            } else {
-                panenButton.setDisable(true);
-            }
+            panenButton.setDisable(animal.getWeight() < animal.getHarvestWeight());
 
         }
         else if (card instanceof Plant) {
@@ -109,11 +102,7 @@ public class CardController {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            if (plant.getAge() >= plant.getHarvestDuration()) {
-                panenButton.setDisable(false);
-            } else {
-                panenButton.setDisable(true);
-            }
+            panenButton.setDisable(plant.getAge() < plant.getHarvestDuration());
         }
 
         // Assuming you have a method to get the image from the card
@@ -135,13 +124,12 @@ public class CardController {
         panenButton.setOnAction(event -> {
             int maxSelections = 6 - (int) Player.getPlayerNow().getDeck().getHand().stream().filter(Objects::nonNull).count();
             if (maxSelections != 0) {
-                Player.getPlayerNow().getLadang().removeCardFromPosition(this.x, this.y);
-                if (card instanceof Animal animal) {
-                    Player.getPlayerNow().getDeck().addCardToHand((animal.getProduct()));
-                } else if (card instanceof Plant plant) {
-                    Player.getPlayerNow().getDeck().addCardToHand((plant.getProduct()));
-                }
+                Player.getPlayerNow().harvest(x, y);
             }
+//            else
+//            {
+//                notifyObservers("Deck aktif player sudah penuh anda tidak bisa panen");
+//            }
             Stage stage = (Stage) kembaliButton.getScene().getWindow();
             stage.close();
         });

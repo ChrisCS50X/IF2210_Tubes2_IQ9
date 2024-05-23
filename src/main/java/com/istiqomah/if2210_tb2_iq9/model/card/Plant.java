@@ -62,10 +62,9 @@ public class Plant extends Card implements Harvestable {
     }
 
     @Override
-    public Card harvest() {
+    public Product harvest() {
         if (isHarvestable()) {
-            this.age = 0;
-            return CardManager.getCard("product", this.namaProduct);
+            return (Product) CardManager.getCard("product", this.namaProduct);
         } else {
             return null;
         }

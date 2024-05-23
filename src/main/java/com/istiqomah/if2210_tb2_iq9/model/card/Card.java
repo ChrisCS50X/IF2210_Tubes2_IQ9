@@ -44,7 +44,7 @@ public abstract class   Card implements KomponenPetak {
     }
 
     @Override
-    public Card harvest() {
+    public Product harvest() {
         return null; // Default implementation
     }
 

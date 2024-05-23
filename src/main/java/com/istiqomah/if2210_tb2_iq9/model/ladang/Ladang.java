@@ -53,13 +53,13 @@ public class Ladang extends Subject {
         return new int[]{grid.length, grid[0].length};
     }
 
-    public Card harvest(int x, int y) {
+    public Product harvest(int x, int y) {
         if (!isPositionEmpty(x, y)) {
             KomponenPetak component = grid[x][y];
             if (component.isHarvestable()) {
-                grid[x][y] = null; // Remove the card from the grid
+                removeCardFromPosition(x, y);
                 notifyObservers("Card harvested at position (" + x + ", " + y + ")");
-                return component.harvest();
+                return (Product) component.harvest();
             } else {
                 System.out.println("Card at this position is not harvestable.");
                 return null;
@@ -104,6 +104,17 @@ public class Ladang extends Subject {
 
     public BearAttack getCurrentBearAttack() {
         return currentBearAttack;
+    }
+
+    public void updateAgePlant() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] instanceof Plant) {
+                    Plant plant = (Plant) grid[i][j];
+                    plant.grow();
+                }
+            }
+        }
     }
 
     public static class BearAttack {

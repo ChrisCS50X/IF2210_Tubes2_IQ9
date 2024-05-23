@@ -81,13 +81,8 @@ public class CardManager {
 
     // Method to get a card from the manager
     public static Card getCard(String type, String name) {
-        return cardMap.get(type).get(name);
-    }
-
-    // Method to remove a card from the manager
-    public static void removeCard(String type, String name) {
-        cardMap.get(type).remove(name);
-    }
+        int id = cardMap.get(type).get(name).getId();
+        return Cardfactory.createCard(type,id);  }
 
     // Method to initialize animal cards
     private static void initializeAnimalCards() {

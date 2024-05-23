@@ -62,6 +62,12 @@ public class Player {
         return players;
     }
 
+    public static void updateAgePlant() {
+        for (Player player : players) {
+            player.ladang.updateAgePlant();
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -96,9 +102,9 @@ public class Player {
 
     // Methods to plant and harvest
     public void harvest(int x, int y) {
-        Card card = ladang.harvest(x, y);
+        Product card = (Product) ladang.harvest(x, y);
         if (card != null) {
-            deck.addToHand(List.of(card));
+            deck.addCardToHand(card);
         }
     }
 

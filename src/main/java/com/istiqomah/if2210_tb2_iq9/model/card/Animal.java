@@ -99,10 +99,10 @@ public class Animal extends Card implements Harvestable {
     }
 
     @Override
-    public Card harvest() {
+    public Product harvest() {
         if (isHarvestable()) {
             this.weight = 0;
-            return CardManager.getCard("product", this.product);
+            return (Product) CardManager.getCard("product", this.product);
         } else {
             return null;
         }

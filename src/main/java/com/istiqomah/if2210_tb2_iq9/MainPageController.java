@@ -221,7 +221,7 @@ public class MainPageController {
 
                 else if (newCard instanceof Animal || newCard instanceof Plant)
                 {
-                    if (target.getChildren().isEmpty()){
+                    if (target.getChildren().isEmpty()) {
                         if (sourceCol != null && sourceRow != null) {
                             if (source.getParent() == deckAktifBox) {
                                 Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
@@ -242,6 +242,7 @@ public class MainPageController {
                         setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
                         setupClickHandler(newPane,newCard);
                         ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
+                        setLadangPlayer(Player.getPlayerNow());
                         event.setDropCompleted(true);
                     }
                 }
@@ -257,6 +258,7 @@ public class MainPageController {
             event.consume(); // Mengkonsumsi event
         });
     }
+
 
     // Metode untuk membersihkan kartu dari grid ladang tanpa menghapus pane wadah
     private void clearGrid(GridPane grid) {
@@ -335,6 +337,7 @@ public class MainPageController {
                 TurnNow++;
                 turnText.setText("Turn " + TurnNow);
                 Player.nextTurn();
+                Player.updateAgePlant();
                 setDeckAktifPlayer();
                 setLadangPlayer(Player.getPlayerNow());
 
@@ -587,11 +590,21 @@ public class MainPageController {
     }
 
     private void setupClickHandler(Pane cardPane, Card card) {
-        int x = GridPane.getColumnIndex(cardPane);
-        int y = GridPane.getRowIndex(cardPane);
-        cardPane.setOnMouseClicked(event -> {
-            handleCardClick(card,y,x);
-        });
+        Integer rowIndex = GridPane.getRowIndex(cardPane);
+        Integer colIndex = GridPane.getColumnIndex(cardPane);
+
+        if (rowIndex != null && colIndex != null) {
+            int x = rowIndex;
+            int y = colIndex;
+            cardPane.setOnMouseClicked(event -> {
+                handleCardClick(card, x, y);
+            });
+        } else {
+            // Set default click handler if rowIndex or colIndex is null
+            cardPane.setOnMouseClicked(event -> {
+                System.out.println("Card position not set.");
+            });
+        }
     }
 
     private void handleCardClick(Card card, int x, int y) {
