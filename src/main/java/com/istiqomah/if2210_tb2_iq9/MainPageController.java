@@ -152,7 +152,11 @@ public class MainPageController {
                     }
                 } else if (card instanceof Item || card instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
-                        event.acceptTransferModes(TransferMode.MOVE);
+                        Card targetCard = (Card) target.getUserData();
+                        // If the target card is not a Plant or the dragged card is not a Product, accept the transfer
+                        if (!(targetCard instanceof Plant && card instanceof Product)) {
+                            event.acceptTransferModes(TransferMode.MOVE);
+                        }
                     }
                 }
             }

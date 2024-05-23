@@ -14,7 +14,7 @@ public class Animal extends Card implements Harvestable {
     private boolean isTrapped;
     private List<Item> activeItems;
 
-    public Animal(int id, String name, String imagePath,int weight, int harvestWeight, String tipe, String product) {
+    public Animal(int id, String name, String imagePath, int weight, int harvestWeight, String tipe, String product) {
         super(id, name, imagePath);
         this.harvestWeight = harvestWeight;
         this.weight = 0;
@@ -24,13 +24,22 @@ public class Animal extends Card implements Harvestable {
         isProtected = false;
         isTrapped = false;
     }
-    public Card getProduct() {return CardManager.getCard("product", this.product);}
 
-    public void setProduct(String product) {this.product = product;}
+    public Card getProduct() {
+        return CardManager.getCard("product", this.product);
+    }
 
-    public int getHarvestWeight() {return harvestWeight;}
+    public void setProduct(String product) {
+        this.product = product;
+    }
 
-    public void setHarvestWeight(int harvestWeight) {this.harvestWeight = harvestWeight;}
+    public int getHarvestWeight() {
+        return harvestWeight;
+    }
+
+    public void setHarvestWeight(int harvestWeight) {
+        this.harvestWeight = harvestWeight;
+    }
 
     public int getWeight() {
         return weight;
@@ -40,47 +49,52 @@ public class Animal extends Card implements Harvestable {
         this.weight = weight;
     }
 
-    public void setProtected (boolean isProtected) {
+    public void setProtected(boolean isProtected) {
         this.isProtected = isProtected;
     }
 
-    public boolean getProtected () {
+    public boolean getProtected() {
         return this.isProtected;
     }
 
-    public void setTrapped (boolean isTrapped) {
+    public void setTrapped(boolean isTrapped) {
         this.isTrapped = isTrapped;
     }
 
-    public boolean getTrapped () {
+    public boolean getTrapped() {
         return this.isTrapped;
     }
 
-    public void feed(Product product){
-        if (Objects.equals(tipe, "Carnivore")){
-            if (CarnivoreFood.contains(product.getName())){
+    public void feed(Product product) {
+        System.out.println("Makanan yang dimakan: " + product.getName());
+        System.out.println("Tipe hewan: " + tipe);
+        if (Objects.equals(tipe, "Karnivora")) {
+            System.out.println("Hewan: " + this.getName() + " Tipe: " + tipe);
+            if (CarnivoreFood.contains(product.getName())) {
                 this.weight += product.getWeight();
+            } else {
+                System.out.println("Karnivora tidak bisa makan " + product.getName());
             }
-        }
-        else if (Objects.equals(tipe, "Herbivore")){
-            if (HerbivoreFood.contains(product.getName())){
+        } else if (Objects.equals(tipe, "Herbivora")) {
+            if (HerbivoreFood.contains(product.getName())) {
                 this.weight += product.getWeight();
+            } else {
+                System.out.println("Herbivora tidak bisa makan " + product.getName());
             }
         }
 
-        else{
+        else {
             this.weight += product.getWeight();
         }
     }
 
     @Override
-    public void applyItem(Item item)
-    {
+    public void applyItem(Item item) {
         item.useItemOnAnimal(this);
         this.activeItems.add(item);
     }
 
-    public String getjenis(){
+    public String getjenis() {
         return tipe;
     }
 
@@ -88,6 +102,7 @@ public class Animal extends Card implements Harvestable {
     public String getType() {
         return "Animal";
     }
+
     @Override
     public String getDetails() {
         return "Animal: " + getName() + ", Weight: " + weight + ", Harvest Weight: " + harvestWeight;
@@ -107,16 +122,19 @@ public class Animal extends Card implements Harvestable {
             return null;
         }
     }
+
     @Override
-    public Integer getBerat_Umur(){
+    public Integer getBerat_Umur() {
         return weight;
     }
+
     @Override
     public List<Item> getActiveItems() {
         return activeItems;
     }
 
-    public List<String> CarnivoreFood = Arrays.asList("Sirip Hiu","Susu","Telur","Daging Kuda", "Daging Domba", "Daging Beruang");
+    public List<String> CarnivoreFood = Arrays.asList("Sirip_Hiu", "Susu", "Telur", "Daging_Kuda", "Daging_Domba",
+            "Daging_Beruang");
 
     public List<String> HerbivoreFood = Arrays.asList("Jagung", "Labu", "Stroberi");
 
