@@ -37,8 +37,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,8 +81,7 @@ public class MainPageController {
 
     private Timeline timeline;
     private Ladang ladang;
-
-    private  MainPage mainpage;
+    private MainPage mainpage;
 
     private int timeRemaining; // in tenths of a second
 
@@ -153,8 +150,7 @@ public class MainPageController {
                     if (target.getChildren().isEmpty()) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
-                }
-                else if (card instanceof Item || card instanceof Product) {
+                } else if (card instanceof Item || card instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
@@ -436,13 +432,38 @@ public class MainPageController {
     private void handleBearAttackEnd() {
         System.out.println("Bear attack ended. Plants/Animals in the attack zone are removed.");
         List<int[]> attackPositions = ladang.getCurrentBearAttack().getAttackPositions();
+        boolean trapFound = false;
+
+        // Check if there is any card with item "trap" in the attack positions
         for (int[] position : attackPositions) {
             int x = position[0];
             int y = position[1];
-            if (x >= 0 && x < 4 && y >= 0 && y < 5 && ladang.getCardAtPosition(x, y) != null) {
-                ladang.removeCardFromPosition(x, y);
+            Card card = (Card) ladang.getCardAtPosition(x, y);
+            if (card != null && card.hasItem("Trap")) {
+                trapFound = true;
+                break;
             }
         }
+
+        // If a card with item "trap" is found, add a bear card to the active deck and do not remove any card
+        if (trapFound) {
+            Card bearCard = CardManager.getCard("animal", "Beruang");
+            if (bearCard != null) {
+                Player.getPlayerNow().getDeck().addCardToHand(bearCard);
+                setDeckAktifPlayer();
+            }
+        } else {
+            // Remove cards that do not have the "protected" item
+            for (int[] position : attackPositions) {
+                int x = position[0];
+                int y = position[1];
+                Card card = (Card) ladang.getCardAtPosition(x, y);
+                if (card != null && !card.hasItem("Protect")) {
+                    ladang.removeCardFromPosition(x, y);
+                }
+            }
+        }
+
         updateGridUI();
         bearAttackLabel.setText("");
         timerLabel.setText("");

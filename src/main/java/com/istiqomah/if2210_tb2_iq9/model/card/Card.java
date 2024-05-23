@@ -54,6 +54,17 @@ public abstract class   Card implements KomponenPetak {
 
     public abstract void setBerat_Umur(Integer berat_umur);
 
+    public boolean hasItem(String itemName) {
+        for (Item item : getActiveItems()) {
+            if (item.getName().equals(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }
 
 
