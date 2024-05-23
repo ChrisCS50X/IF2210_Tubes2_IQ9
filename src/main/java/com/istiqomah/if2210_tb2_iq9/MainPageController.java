@@ -79,6 +79,8 @@ public class MainPageController {
     @FXML
     private Label timerLabel;
 
+    public boolean ladangku;
+
     private Timeline timeline;
     private Ladang ladang;
 
@@ -90,6 +92,7 @@ public class MainPageController {
 
     public void initialize() {
         setDeckAktifPlayer();
+        ladangku = true;
         setLadangPlayer(Player.getPlayerNow());
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
@@ -174,16 +177,40 @@ public class MainPageController {
                     if (!target.getChildren().isEmpty()) {
                         Card targetCard = (Card) target.getUserData();
                         // Apply the item to the target card
-                        if (targetCard instanceof Animal) {
-                            ((Animal) targetCard).applyItem((Item) newCard);
-                        } else if (targetCard instanceof Plant) {
-                            ((Plant) targetCard).applyItem((Item) newCard);
+                        if (ladangku){
+                            if (newCard.getName().equals("Acclerate") || newCard.getName().equals("Instant_Harvest") || newCard.getName().equals("Protect") || newCard.getName().equals("Trap")){
+                                if (targetCard instanceof Animal) {
+                                    ((Animal) targetCard).applyItem((Item) newCard);
+                                } else if (targetCard instanceof Plant) {
+                                    ((Plant) targetCard).applyItem((Item) newCard);
+                                }
+                                ((Pane) source.getParent()).getChildren().remove(source);
+                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                event.setDropCompleted(true);
+                            }else {
+                                System.err.println("salah bang");
+                                System.err.println(newCard.getName());
+                            }
+                        }else{
+                            if (newCard.getName().equals("Delay") || newCard.getName().equals("Destroy")){
+                                if (targetCard instanceof Animal) {
+                                    ((Animal) targetCard).applyItem((Item) newCard);
+                                } else if (targetCard instanceof Plant) {
+                                    ((Plant) targetCard).applyItem((Item) newCard);
+                                }
+                                ((Pane) source.getParent()).getChildren().remove(source);
+                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                event.setDropCompleted(true);
+                            } else{
+                                System.err.println("Salah bang");
+                            }
                         }
 
+
                         // Remove the card from the source pane and the player's hand
-                        ((Pane) source.getParent()).getChildren().remove(source);
-                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-                        event.setDropCompleted(true);
+//                        ((Pane) source.getParent()).getChildren().remove(source);
+//                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+//                        event.setDropCompleted(true);
                     }
                 } else if (newCard instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
@@ -314,6 +341,7 @@ public class MainPageController {
         return cardPane;
     }
 
+
     private void nextTurn() {
         nextButton.setOnAction(event -> {
             try {
@@ -335,7 +363,7 @@ public class MainPageController {
                 stage.showAndWait();
 
                 setDeckAktifPlayer();
-
+                ladangku = true;
                 if (Math.random() < 0.3) {
                     initializeSerangan();
                 }
@@ -348,12 +376,15 @@ public class MainPageController {
     private void ladangku() {
         ladangkuButton.setOnAction(event -> {
             setLadangPlayer(Player.getPlayerNow());
+            ladangku = true;
         });
     }
 
     private void ladangLawan() {
         ladangLawanButton.setOnAction(event -> {
             setLadangPlayer(Player.getPlayerEnemy());
+            ladangku = false;
+
         });
     }
 
