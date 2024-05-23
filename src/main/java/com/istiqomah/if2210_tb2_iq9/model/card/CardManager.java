@@ -5,7 +5,6 @@ import java.util.*;
 import static com.istiqomah.if2210_tb2_iq9.model.card.Cardfactory.createCard;
 
 public class CardManager {
-    private static CardManager instance;
     private static Map<String, Map<String, Card>> cardMap = new HashMap<>();
     private static List<String> AnimalName = new ArrayList<>();
     private static List<String> PlantName = new ArrayList<>();

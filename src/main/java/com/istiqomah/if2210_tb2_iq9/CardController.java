@@ -6,16 +6,12 @@ import com.istiqomah.if2210_tb2_iq9.model.card.Item;
 import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

@@ -9,7 +9,6 @@ public class Animal extends Card implements Harvestable {
     private int weight;
     private int harvestWeight;
     private String product; // product yang dihasilkan
-    private String type;
     String tipe;
     private boolean isProtected;
     private boolean isTrapped;
