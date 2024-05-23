@@ -1,9 +1,6 @@
 package com.istiqomah.if2210_tb2_iq9;
 
-import com.istiqomah.if2210_tb2_iq9.model.card.Animal;
-import com.istiqomah.if2210_tb2_iq9.model.card.Card;
-import com.istiqomah.if2210_tb2_iq9.model.card.Item;
-import com.istiqomah.if2210_tb2_iq9.model.card.Plant;
+import com.istiqomah.if2210_tb2_iq9.model.card.*;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -41,7 +38,7 @@ public class CardController {
     private int y;
 
 
-    public void setCard(Card card,int x, int y) {
+    public void setCard(Card card,int x, int y,boolean isladangku) {
         this.x = x;
         this.y = y;
         String type = card.getType();
@@ -49,7 +46,15 @@ public class CardController {
         if (card instanceof Animal) {
             System.out.println("Animal");
             Animal animal = (Animal) card;
-            namaCardText.setText(animal.getName());
+            if (animal.isHarvestable()) {
+                Product product = (Product) animal.getProduct();
+                cardImage.setImage(product.getImage());
+                namaCardText.setText(product.getName());
+            } else {
+                cardImage.setImage(animal.getImage());
+                namaCardText.setText(animal.getName());
+            }
+
             umurLabel.setText("Berat : " + animal.getWeight() + " (" + animal.getHarvestWeight() + ")");
 
             // Map untuk menyimpan item dan jumlah kemunculannya
@@ -67,18 +72,31 @@ public class CardController {
             if (!activeItems.isEmpty()) {
                 activeItems.setLength(activeItems.length() - 2);
                 itemAktifLabel.setText("Item aktif : " + activeItems.toString());
-            }
-            else {
+            } else {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            panenButton.setDisable(animal.getWeight() < animal.getHarvestWeight());
-
+            if (isladangku)
+            {
+                panenButton.setDisable(animal.getWeight() < animal.getHarvestWeight());
+            }
+            else
+            {
+                panenButton.setDisable(true);
+            }
         }
         else if (card instanceof Plant) {
             System.out.println("Plant");
             Plant plant = (Plant) card;
-            namaCardText.setText(card.getName());
+            if (plant.isHarvestable()) {
+                Product product = (Product) plant.getProduct();
+                cardImage.setImage(product.getImage());
+                namaCardText.setText(product.getName());
+            } else
+            {
+                cardImage.setImage(plant.getImage());
+                namaCardText.setText(plant.getName());
+            }
             umurLabel.setText("Umur : " + plant.getAge() +" (" + plant.getHarvestDuration() + ")");
 
             // Map untuk menyimpan item dan jumlah kemunculannya
@@ -102,11 +120,15 @@ public class CardController {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            panenButton.setDisable(plant.getAge() < plant.getHarvestDuration());
+            if (isladangku)
+            {
+                panenButton.setDisable(plant.getAge() < plant.getHarvestDuration());
+            }
+            else
+            {
+                panenButton.setDisable(true);
+            }
         }
-
-        // Assuming you have a method to get the image from the card
-        cardImage.setImage(card.getImage());
     }
 
     @FXML
