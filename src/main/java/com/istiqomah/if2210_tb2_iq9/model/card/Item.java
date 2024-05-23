@@ -2,13 +2,18 @@ package com.istiqomah.if2210_tb2_iq9.model.card;
 
 import java.util.List;
 
+import com.istiqomah.if2210_tb2_iq9.model.ladang.Ladang;
+
 public class Item extends Card {
     private AnimalEffect animalEffect;
     private PlantEffect plantEffect;
-    private String description;
+    private LadangEffect ladangEffect;
 
-    public Item(int id, String name, String imagePath) {
+    public Item(int id, String name, String imagePath, AnimalEffect animalEffect, PlantEffect plantEffect, LadangEffect ladangEffect) {
         super(id, name, imagePath);
+        this.animalEffect = animalEffect;
+        this.plantEffect = plantEffect;
+        this.ladangEffect = ladangEffect;
     }
 
     @Override
@@ -27,12 +32,17 @@ public class Item extends Card {
             plantEffect.applyEffect(plant);
         }
     }
-    public void applyItem(Item item) {
 
+    public void useItemOnLadang(Ladang ladang, int x, int y) {
+        if (ladangEffect != null) {
+            ladangEffect.applyEffect(ladang,x,y);
+        }
     }
 
+    public void applyItem(Item item) {}
+
     public String getDetails(){
-        return description;
+        return "Item : " + getName();
 
     }
     @Override

@@ -170,8 +170,29 @@ public class MainPageController {
                 Integer targetCol = GridPane.getColumnIndex(target);
                 Integer targetRow = GridPane.getRowIndex(target);
 
-                if (newCard instanceof Item || newCard instanceof Product) {
+                if (newCard instanceof Item ) {
                     if (!target.getChildren().isEmpty()) {
+                        Card targetCard = (Card) target.getChildren().get(0).getUserData();
+                        // Apply the item to the target card
+                        if (targetCard instanceof Animal) {
+//                            System.out.println("Weight before: " + ((Animal) targetCard).getWeight());
+//                            System.out.println("Protected before: " + ((Animal) targetCard).getProtected());
+//                            System.out.println("Trapped before: " + ((Animal) targetCard).getTrapped());
+                            ((Animal) targetCard).applyItem((Item) newCard);
+//                            System.out.println("Weight after: " + ((Animal) targetCard).getWeight());
+//                            System.out.println("Protected after: " + ((Animal) targetCard).getProtected());
+//                            System.out.println("Trapped after: " + ((Animal) targetCard).getTrapped());
+                        }
+                        else if (targetCard instanceof Plant)
+                        {
+//                            System.out.println("Umur before: " + ((Plant) targetCard).getBerat_Umur());
+//                            System.out.println("Protected before: " + ((Plant) targetCard).getProtected());
+//                            System.out.println("Trapped before: " + ((Plant) targetCard).getTrapped());
+                            ((Plant) targetCard).applyItem((Item) newCard);
+//                            System.out.println("Umur after: " + ((Plant) targetCard).getBerat_Umur());
+//                            System.out.println("Protected after: " + ((Plant) targetCard).getProtected());
+//                            System.out.println("Trapped after: " + ((Plant) targetCard).getTrapped());
+                        }
 
                         // Remove the card from the source pane and the player's hand
                         ((Pane) source.getParent()).getChildren().remove(source);
@@ -179,6 +200,25 @@ public class MainPageController {
                         event.setDropCompleted(true);
                     }
                 }
+
+                else if (newCard instanceof Product) {
+                    if (!target.getChildren().isEmpty()){
+                        Card targetCard = (Card) target.getChildren().get(0).getUserData();
+
+                        if (targetCard instanceof Animal) {
+//                            System.out.println("Target card: " + targetCard.getName());
+//                            System.out.println("Weight before feeding: " + ((Animal) targetCard).getWeight());
+                            ((Animal) targetCard).feed((Product) newCard);
+//                            System.out.println("Weight after feeding: " + ((Animal) targetCard).getWeight());
+                        }
+
+                        // Remove the card from the source pane and the player's hand
+                        ((Pane) source.getParent()).getChildren().remove(source);
+                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                        event.setDropCompleted(true);
+                    }
+                }
+
                 else if (newCard instanceof Animal || newCard instanceof Plant)
                 {
                     if (target.getChildren().isEmpty()){
@@ -281,6 +321,8 @@ public class MainPageController {
         Text cardName = new Text(card.getName());
 
         cardPane.getChildren().addAll(imageView, cardName);
+
+        cardPane.setUserData(card); // Set the Card as the user data of the Pane
 
         setupDragSource(cardPane, card);
 

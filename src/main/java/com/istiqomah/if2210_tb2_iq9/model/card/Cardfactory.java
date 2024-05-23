@@ -9,7 +9,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/bear.png";
                     int weight = 0;
                     int harvestWeight = 25;
-                    int tipe = 2;
+                    String tipe = "Omnivora";
                     String product = "Daging Beruang";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
@@ -18,7 +18,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/chicken.png";
                     int weight = 0;
                     int harvestWeight = 5;
-                    int tipe = 2;
+                    String tipe = "Omnivora";
                     String product = "Telur";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
@@ -27,7 +27,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/horse.png";
                     int weight = 0;
                     int harvestWeight = 14;
-                    int tipe = 1;
+                    String tipe = "Herbivora";
                     String product = "Daging Kuda";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
@@ -36,7 +36,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/sheep.png";
                     int weight = 0;
                     int harvestWeight = 12;
-                    int tipe = 1;
+                    String tipe = "Herbivora";
                     String product = "Daging Domba";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
@@ -45,7 +45,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/cow.png";
                     int weight = 0;
                     int harvestWeight = 10;
-                    int tipe = 1;
+                    String tipe = "Herbivora";
                     String product = "Susu";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
@@ -54,7 +54,7 @@ public class Cardfactory {
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/hiu darat.png";
                     int weight = 0;
                     int harvestWeight = 20;
-                    int tipe = 0;
+                    String tipe = "Karnivora";
                     String product = "Sirip Hiu";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
                 }
@@ -67,19 +67,63 @@ public class Cardfactory {
                     return new Plant(id, "Biji Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/strawberry seeds.png", 0, 4, "Stroberi");
                 }
             case "item":
+                AnimalEffect animalEffect;
+                PlantEffect plantEffect;
+                LadangEffect ladangEffect;
+                String name;
+                String imagePath;
                 if (id == 1) {
-                    return new Item(id, "Accelerate", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Accelerate.png");
+                    name = "Accelerate";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Accelerate.png";
+                    animalEffect = new Accelerate();
+                    plantEffect = new Accelerate();
+                    ladangEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
+
                 } else if (id == 2) {
-                    return new Item(id, "Delay", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Delay.png");
+                    name = "Delay";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Delay.png";
+                    animalEffect = new Delay();
+                    plantEffect = new Delay();
+                    ladangEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
+
                 } else if (id == 3) {
-                    return new Item(id, "Instant Harvest", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Instant Harvest.png");
+                    name = "Instant Harvest";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Instant Harvest.png";
+                    animalEffect = new InstantHarvest();
+                    plantEffect = new InstantHarvest();
+                    ladangEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
+
                 }else if (id == 4) {
-                    return new Item(id, "Destroy", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Destroy.png");
-                }else if (id == 5) {
-                    return new Item(id, "Protect", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Protect.png");
-                }else if (id == 6) {
-                    return new Item(id, "Trap", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/bear trap.png");
+                    name = "Destroy";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Destroy.png";
+                    ladangEffect = new Destroy();
+                    animalEffect = null;
+                    plantEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
                 }
+
+                else if (id == 5) {
+                    name = "Protect";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Protect.png";
+                    animalEffect = new Protect();
+                    plantEffect = new Protect();
+                    ladangEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
+
+                }
+
+                else if (id == 6) {
+                    name = "Trap";
+                    imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/bear trap.png";
+                    animalEffect = new Trap();
+                    plantEffect = new Trap();
+                    ladangEffect = null;
+                    return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
+                }
+
             case "product":
                 if (id == 1) {
                     return new Product(id, "Sirip Hiu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
