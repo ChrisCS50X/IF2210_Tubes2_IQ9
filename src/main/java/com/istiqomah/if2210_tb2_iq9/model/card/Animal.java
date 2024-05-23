@@ -5,15 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+// Kelas Animal merupakan turunan dari kelas Card dan implementasi dari interface Harvestable
 public class Animal extends Card implements Harvestable {
     private int weight;
     private int harvestWeight;
-    private String product; // product yang dihasilkan
-    String tipe;
+    private String product;
+    private String tipe;
     private boolean isProtected;
     private boolean isTrapped;
     private List<Item> activeItems;
 
+    // Konstruktor
     public Animal(int id, String name, String imagePath, int weight, int harvestWeight, String tipe, String product) {
         super(id, name, imagePath);
         this.harvestWeight = harvestWeight;
@@ -25,6 +27,7 @@ public class Animal extends Card implements Harvestable {
         isTrapped = false;
     }
 
+    // Metode getter dan setter
     public Card getProduct() {
         return CardManager.getCard("product", this.product);
     }
@@ -65,6 +68,8 @@ public class Animal extends Card implements Harvestable {
         return this.isTrapped;
     }
 
+    // Metode untuk memberikan makan kepada hewan dengan tipe makanan yang
+    // berbeda-beda
     public void feed(Product product) {
         System.out.println("Makanan yang dimakan: " + product.getName());
         System.out.println("Tipe hewan: " + tipe);
@@ -88,31 +93,32 @@ public class Animal extends Card implements Harvestable {
         }
     }
 
+    // Metode untuk menerapkan item ke hewan
     @Override
     public void applyItem(Item item) {
         item.useItemOnAnimal(this);
         this.activeItems.add(item);
     }
 
-    public String getjenis() {
-        return tipe;
-    }
-
+    // Metode turunan dari kelas Card untuk mendapatkan tipe kartu
     @Override
     public String getType() {
         return "Animal";
     }
 
+    // Metode turunan untuk mendapatkan detail hewan
     @Override
     public String getDetails() {
         return "Animal: " + getName() + ", Weight: " + weight + ", Harvest Weight: " + harvestWeight;
     }
 
+    // Metode untuk mengecek apakah hewan sudah bisa dipanen atau belum
     @Override
     public boolean isHarvestable() {
         return this.weight >= this.harvestWeight;
     }
 
+    // Metode untuk memanen hewan
     @Override
     public Product harvest() {
         if (isHarvestable()) {
@@ -123,6 +129,7 @@ public class Animal extends Card implements Harvestable {
         }
     }
 
+    // Getter animal
     @Override
     public Integer getBerat_Umur() {
         return weight;
@@ -133,11 +140,13 @@ public class Animal extends Card implements Harvestable {
         return activeItems;
     }
 
+    // List makanan hewan
     public List<String> CarnivoreFood = Arrays.asList("Sirip_Hiu", "Susu", "Telur", "Daging_Kuda", "Daging_Domba",
             "Daging_Beruang");
 
     public List<String> HerbivoreFood = Arrays.asList("Jagung", "Labu", "Stroberi");
 
+    // Setter animal
     @Override
     public void setBerat_Umur(Integer berat_umur) {
         this.weight = berat_umur;
