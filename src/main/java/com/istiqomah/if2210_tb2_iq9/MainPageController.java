@@ -192,7 +192,7 @@ public class MainPageController {
                                 System.err.println(newCard.getName());
                             }
                         }else{
-                            if (newCard.getName().equals("Delay") || newCard.getName().equals("Destroy")){
+                            if (newCard.getName().equals("Delay")){
                                 if (targetCard instanceof Animal) {
                                     ((Animal) targetCard).applyItem((Item) newCard);
                                 } else if (targetCard instanceof Plant) {
@@ -201,7 +201,15 @@ public class MainPageController {
                                 ((Pane) source.getParent()).getChildren().remove(source);
                                 Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
                                 event.setDropCompleted(true);
-                            } else{
+                            }else if(newCard.getName().equals("Destroy")) {
+                                Player.getPlayerEnemy().getLadang().removeCardFromPosition(targetRow,targetCol);
+                                setLadangPlayer(Player.getPlayerEnemy());
+                                ((Pane) source.getParent()).getChildren().remove(source);
+                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                event.setDropCompleted(true);
+                            }
+                            else
+                            {
                                 System.err.println("Salah bang");
                             }
                         }
