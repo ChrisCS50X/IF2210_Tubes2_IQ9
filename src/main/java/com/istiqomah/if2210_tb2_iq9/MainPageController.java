@@ -172,7 +172,7 @@ public class MainPageController {
 
                 if (newCard instanceof Item) {
                     if (!target.getChildren().isEmpty()) {
-                        Card targetCard = (Card) target.getChildren().get(0).getUserData();
+                        Card targetCard = (Card) target.getUserData();
                         // Apply the item to the target card
                         if (targetCard instanceof Animal) {
                             ((Animal) targetCard).applyItem((Item) newCard);
@@ -187,7 +187,7 @@ public class MainPageController {
                     }
                 } else if (newCard instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
-                        Card targetCard = (Card) target.getChildren().get(0).getUserData();
+                        Card targetCard = (Card) target.getUserData();
 
                         if (targetCard instanceof Animal) {
                             ((Animal) targetCard).feed((Product) newCard);
