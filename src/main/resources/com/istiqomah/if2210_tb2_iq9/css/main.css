@@ -1,11 +1,39 @@
 .root {
     -fx-background-image:url('../asset/grass-background.png');
     -fx-background-size: cover;
-    -fx-font-family: "Segoe UI";
+    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 
 .player-label {
-    -fx-font-size: 18px;
+    -fx-pref-width: 220px;
+    -fx-pref-height: 6px;
+    -fx-background-color: linear-gradient(to right, #d8824b, #a8581d);
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2px;
+    -fx-border-color: #f3c13f;
+    -fx-font-size: 16px;
+    -fx-padding: 4px;
+    -fx-text-alignment: center;
+}
+
+.vbox-buttons {
+    -fx-pref-width: 100px;
+}
+
+.menu-button {
+    -fx-font-family: CircularStd, sans-serif;
+    -fx-alignment: center;
+    -fx-background-color: #f2feff;
+    /*-fx-background-color: linear-gradient(to bottom right, #4F58FD, #149BF3);*/
+    -fx-border-radius: 100px;
+    -fx-background-radius: 100px;
+    -fx-padding: 6px 10px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+    /*-fx-font-weight: bold;*/
+    -fx-wrap-text: true;
 }
 
 .turn-circle {

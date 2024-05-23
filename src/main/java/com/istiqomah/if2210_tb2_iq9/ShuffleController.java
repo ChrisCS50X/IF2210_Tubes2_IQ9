@@ -60,18 +60,22 @@ public class ShuffleController {
         if (playerDeck.getMainDeckSize() != 0) {
             for (int i = 0; i < 4; i++) {
                 try {
-                    Card randomCard;
-                    do {
-                        randomCard = playerDeck.getMainDeck().get(new Random().nextInt(playerDeck.getMainDeckSize()));
-                    } while (displayedCards.contains(randomCard));
+                    Random random = new Random();
+                    Boolean cek = true;
+                    while (cek) {
+                        Card randomCard = playerDeck.getMainDeck().get(random.nextInt(playerDeck.getMainDeckSize()));
+                        if (!displayedCards.stream().anyMatch(card -> card.getName().equals(randomCard.getName())) && !randomCard.getName().equals("Beruang")) {
+                            displayedCards.add(randomCard);
+                            cek = false;
+                        }
+                    }
 
-                    System.out.println("Random card: " + randomCard.getName());
+//                    System.out.println("Random card: " + randomCard.getName());
                     System.out.println("Displayed cards:");
                     for (Card displayedCard : displayedCards) {
                         System.out.println(displayedCard.getName());
                     }
 
-                    displayedCards.add(randomCard);
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardIcon.fxml"));
                     Pane cardPane = loader.load();
@@ -107,7 +111,7 @@ public class ShuffleController {
             selectedCards.remove(card);
             cardButton.setStyle("");
         } else {
-            if (selectedCards.size() <= maxSelections) {
+            if (selectedCards.size() < maxSelections) {
                 selectedCards.add(card);
                 cardButton.setStyle("-fx-background-color: lightgreen;");
             }
