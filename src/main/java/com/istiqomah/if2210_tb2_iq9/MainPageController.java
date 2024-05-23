@@ -38,10 +38,8 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.List;
 
 public class MainPageController {
@@ -128,15 +126,17 @@ public class MainPageController {
     }
 
     // Metode untuk mengatur sumber drag untuk kartu
-    private void setupDragSource(Pane source, Card card) {
-        source.setOnDragDetected(event -> {
-            Dragboard db = source.startDragAndDrop(TransferMode.MOVE); // Memulai drag-and-drop dengan mode transfer MOVE
-            ClipboardContent content = new ClipboardContent(); // Membuat clipboard content
-            content.putImage(card.getImage()); // Menetapkan gambar kartu ke clipboard content
-            source.setUserData(card); // Simpan data kartu di panel sumber
-            db.setContent(content); // Menetapkan konten ke dragboard
-            event.consume(); // Mengkonsumsi event
-        });
+    private void setupDragSource(Pane source, Card card, boolean isCurrentPlayerLadang) {
+        if (isCurrentPlayerLadang) {
+            source.setOnDragDetected(event -> {
+                Dragboard db = source.startDragAndDrop(TransferMode.MOVE); // Memulai drag-and-drop dengan mode transfer MOVE
+                ClipboardContent content = new ClipboardContent(); // Membuat clipboard content
+                content.putImage(card.getImage()); // Menetapkan gambar kartu ke clipboard content
+                source.setUserData(card); // Simpan data kartu di panel sumber
+                db.setContent(content); // Menetapkan konten ke dragboard
+                event.consume(); // Mengkonsumsi event
+            });
+        }
     }
 
     // Metode untuk mengatur target drag untuk sel
@@ -150,8 +150,7 @@ public class MainPageController {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
                 }
-                else if (card instanceof Item || card instanceof Product)
-                {
+                else if (card instanceof Item || card instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
@@ -170,28 +169,14 @@ public class MainPageController {
                 Integer targetCol = GridPane.getColumnIndex(target);
                 Integer targetRow = GridPane.getRowIndex(target);
 
-                if (newCard instanceof Item ) {
+                if (newCard instanceof Item) {
                     if (!target.getChildren().isEmpty()) {
                         Card targetCard = (Card) target.getChildren().get(0).getUserData();
                         // Apply the item to the target card
                         if (targetCard instanceof Animal) {
-//                            System.out.println("Weight before: " + ((Animal) targetCard).getWeight());
-//                            System.out.println("Protected before: " + ((Animal) targetCard).getProtected());
-//                            System.out.println("Trapped before: " + ((Animal) targetCard).getTrapped());
                             ((Animal) targetCard).applyItem((Item) newCard);
-//                            System.out.println("Weight after: " + ((Animal) targetCard).getWeight());
-//                            System.out.println("Protected after: " + ((Animal) targetCard).getProtected());
-//                            System.out.println("Trapped after: " + ((Animal) targetCard).getTrapped());
-                        }
-                        else if (targetCard instanceof Plant)
-                        {
-//                            System.out.println("Umur before: " + ((Plant) targetCard).getBerat_Umur());
-//                            System.out.println("Protected before: " + ((Plant) targetCard).getProtected());
-//                            System.out.println("Trapped before: " + ((Plant) targetCard).getTrapped());
+                        } else if (targetCard instanceof Plant) {
                             ((Plant) targetCard).applyItem((Item) newCard);
-//                            System.out.println("Umur after: " + ((Plant) targetCard).getBerat_Umur());
-//                            System.out.println("Protected after: " + ((Plant) targetCard).getProtected());
-//                            System.out.println("Trapped after: " + ((Plant) targetCard).getTrapped());
                         }
 
                         // Remove the card from the source pane and the player's hand
@@ -199,17 +184,12 @@ public class MainPageController {
                         Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
                         event.setDropCompleted(true);
                     }
-                }
-
-                else if (newCard instanceof Product) {
-                    if (!target.getChildren().isEmpty()){
+                } else if (newCard instanceof Product) {
+                    if (!target.getChildren().isEmpty()) {
                         Card targetCard = (Card) target.getChildren().get(0).getUserData();
 
                         if (targetCard instanceof Animal) {
-//                            System.out.println("Target card: " + targetCard.getName());
-//                            System.out.println("Weight before feeding: " + ((Animal) targetCard).getWeight());
                             ((Animal) targetCard).feed((Product) newCard);
-//                            System.out.println("Weight after feeding: " + ((Animal) targetCard).getWeight());
                         }
 
                         // Remove the card from the source pane and the player's hand
@@ -217,10 +197,7 @@ public class MainPageController {
                         Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
                         event.setDropCompleted(true);
                     }
-                }
-
-                else if (newCard instanceof Animal || newCard instanceof Plant)
-                {
+                } else if (newCard instanceof Animal || newCard instanceof Plant) {
                     if (target.getChildren().isEmpty()) {
                         if (sourceCol != null && sourceRow != null) {
                             if (source.getParent() == deckAktifBox) {
@@ -239,26 +216,21 @@ public class MainPageController {
                         }
                         Pane newPane = createCardPane(newCard);
                         target.getChildren().add(newPane);
-                        setupDragSource(newPane, newCard); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
-                        setupClickHandler(newPane,newCard);
+                        setupDragSource(newPane, newCard, true); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                        setupClickHandler(newPane, newCard);
                         ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
                         setLadangPlayer(Player.getPlayerNow());
                         event.setDropCompleted(true);
                     }
-                }
-                else
-                {
+                } else {
                     event.setDropCompleted(false);
                 }
-            }
-            else
-            {
+            } else {
                 event.setDropCompleted(false); // Menyatakan drop tidak selesai
             }
             event.consume(); // Mengkonsumsi event
         });
     }
-
 
     // Metode untuk membersihkan kartu dari grid ladang tanpa menghapus pane wadah
     private void clearGrid(GridPane grid) {
@@ -283,13 +255,14 @@ public class MainPageController {
             }
             Pane cardPane = createCardPane(card);
             deckAktifBox.add(cardPane, i, 0);
-            setupDragSource(cardPane, card);
+            setupDragSource(cardPane, card, true);
         }
     }
 
     private void setLadangPlayer(Player p) {
         clearGrid(ladangGrid);
         KomponenPetak[][] ladang = p.getLadang().getGrid();
+        boolean isCurrentPlayerLadang = p.equals(Player.getPlayerNow());
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 if (ladang[i][j] != null) {
@@ -297,7 +270,7 @@ public class MainPageController {
                     Pane cardPane = createCardPane(card);
                     ladangGrid.add(cardPane, j, i);
                     setupDragTarget(cardPane);
-                    setupDragSource(cardPane, card);
+                    setupDragSource(cardPane, card, isCurrentPlayerLadang);
                     setupClickHandler(cardPane, card);
                 } else {
                     Pane cardPane = new Pane();
@@ -307,6 +280,17 @@ public class MainPageController {
                     setupDragTarget(cardPane);
                 }
             }
+        }
+        updateButtonColors(p);
+    }
+
+    private void updateButtonColors(Player currentPlayer) {
+        if (currentPlayer.equals(Player.getPlayerNow())) {
+            ladangkuButton.setStyle("-fx-background-color: green;");
+            ladangLawanButton.setStyle("");
+        } else {
+            ladangkuButton.setStyle("");
+            ladangLawanButton.setStyle("-fx-background-color: green;");
         }
     }
 
@@ -325,8 +309,6 @@ public class MainPageController {
         cardPane.getChildren().addAll(imageView, cardName);
 
         cardPane.setUserData(card); // Set the Card as the user data of the Pane
-
-        setupDragSource(cardPane, card);
 
         return cardPane;
     }
@@ -443,7 +425,7 @@ public class MainPageController {
                     Pane cardPane = createCardPane(card);
                     this.ladangGrid.add(cardPane, j, i);
                     setupDragTarget(cardPane);
-                    setupDragSource(cardPane, card);
+                    setupDragSource(cardPane, card, true);
                 } else {
                     Pane cardPane = new Pane();
                     cardPane.setPrefSize(100, 100);
@@ -478,6 +460,7 @@ public class MainPageController {
             }
         }
     }
+
     public void loadState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/Load.fxml"));
@@ -503,7 +486,7 @@ public class MainPageController {
             AnchorPane root = loader.load();
 
             SaveController saveController = loader.getController();
-            saveController.setMainPageController(this); // Set the reference to MainPageControlle
+            saveController.setMainPageController(this); // Set the reference to MainPageController
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -542,7 +525,6 @@ public class MainPageController {
                 setLadangPlayer(Player.getPlayerNow());
                 setDeckAktifPlayer();
 
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -562,7 +544,7 @@ public class MainPageController {
 
             player.setGulden(gulden);
             player.getDeck().clearHand();
-            if (player.getDeck().getHand().isEmpty()){
+            if (player.getDeck().getHand().isEmpty()) {
                 System.err.println("kosong: ");
             }
 
@@ -579,13 +561,13 @@ public class MainPageController {
                 int lok = Integer.parseInt(slot.substring(1));
                 Card card = getCardByName(cardName);
                 if (card != null) {
-                    player.getDeck().addCardToHand(lok,card);
+                    player.getDeck().addCardToHand(lok, card);
 
                 } else {
                     System.err.println("Card not found: " + cardName);
                 }
             }
-            if (player.getDeck().getHand().isEmpty()){
+            if (player.getDeck().getHand().isEmpty()) {
                 System.err.println(" Masih kosong: ");
             }
 
@@ -638,8 +620,6 @@ public class MainPageController {
     private int convertLetterToRow(String letter) {
         return letter.charAt(0) - 'A';
     }
-
-
 
     private Card getCardByName(String cardName) {
         Card card = null;
