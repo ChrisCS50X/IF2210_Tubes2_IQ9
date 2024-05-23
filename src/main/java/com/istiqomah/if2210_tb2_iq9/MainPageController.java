@@ -240,28 +240,30 @@ public class MainPageController {
                     }
                 } else if (newCard instanceof Animal || newCard instanceof Plant) {
                     if (target.getChildren().isEmpty()) {
-                        if (sourceCol != null && sourceRow != null) {
-                            if (source.getParent() == deckAktifBox) {
-                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-                            } else {
-                                Player.getPlayerNow().getLadang().removeCardFromPosition(sourceRow, sourceCol);
+                        if(ladangku) {
+                            if (sourceCol != null && sourceRow != null) {
+                                if (source.getParent() == deckAktifBox) {
+                                    Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                } else {
+                                    Player.getPlayerNow().getLadang().removeCardFromPosition(sourceRow, sourceCol);
+                                }
                             }
-                        }
 
-                        if (targetCol != null && targetRow != null) {
-                            if (target.getParent() == deckAktifBox) {
-                                Player.getPlayerNow().getDeck().addCardToHand(newCard);
-                            } else {
-                                Player.getPlayerNow().getLadang().addCardToPosition(newCard, targetRow, targetCol);
+                            if (targetCol != null && targetRow != null) {
+                                if (target.getParent() == deckAktifBox) {
+                                    Player.getPlayerNow().getDeck().addCardToHand(newCard);
+                                } else {
+                                    Player.getPlayerNow().getLadang().addCardToPosition(newCard, targetRow, targetCol);
+                                }
                             }
+                            Pane newPane = createCardPane(newCard);
+                            target.getChildren().add(newPane);
+                            setupDragSource(newPane, newCard, true); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                            setupClickHandler(newPane, newCard);
+                            ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
+                            setLadangPlayer(Player.getPlayerNow());
+                            event.setDropCompleted(true);
                         }
-                        Pane newPane = createCardPane(newCard);
-                        target.getChildren().add(newPane);
-                        setupDragSource(newPane, newCard, true); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
-                        setupClickHandler(newPane, newCard);
-                        ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
-                        setLadangPlayer(Player.getPlayerNow());
-                        event.setDropCompleted(true);
                     }
                 } else {
                     event.setDropCompleted(false);
