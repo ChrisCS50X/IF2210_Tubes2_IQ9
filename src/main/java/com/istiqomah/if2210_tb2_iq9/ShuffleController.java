@@ -105,7 +105,7 @@ public class ShuffleController {
                 controller.setCard(displayedCards.get(i));
 
                 int index = i;
-                cardButton.setOnAction(event -> toggleSelection(cardButton, items.get(index)));
+                cardButton.setOnAction(event -> toggleSelection(cardButton, displayedCards.get(index)));
 
                 cardButtons.add(cardButton);
 
