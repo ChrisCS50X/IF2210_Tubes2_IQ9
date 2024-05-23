@@ -24,22 +24,22 @@
                   <Font name="Roboto" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="umurLabel" layoutX="23.0" layoutY="118.0" prefHeight="30.0" prefWidth="178.0" text="Umur :">
+            <Label fx:id="umurLabel" layoutX="23.0" layoutY="110.0" prefHeight="30.0" prefWidth="275.0" text="Umur :">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="panenButton" layoutX="266.0" layoutY="195.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Panen">
+            <Button fx:id="panenButton" layoutX="267.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Panen">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>
             </Button>
-            <Label fx:id="itemAktifLabel" layoutX="23.0" layoutY="164.0" prefHeight="30.0" prefWidth="178.0" text="Item Aktif :">
+            <Label fx:id="itemAktifLabel" layoutX="23.0" layoutY="164.0" prefHeight="30.0" prefWidth="571.0" text="Item Aktif :">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="19.0" layoutY="52.0" prefHeight="58.0" prefWidth="578.0">
+            <HBox alignment="CENTER" layoutX="19.0" layoutY="31.0" prefHeight="58.0" prefWidth="578.0">
                <children>
                   <Text fx:id="namaCardText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="218.93670845031738">
                      <font>
@@ -48,7 +48,7 @@
                   </Text>
                </children>
             </HBox>
-            <ImageView fx:id="cardImage" fitHeight="100.0" fitWidth="100.0" layoutX="479.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="cardImage" fitHeight="100.0" fitWidth="100.0" layoutX="477.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </children>
