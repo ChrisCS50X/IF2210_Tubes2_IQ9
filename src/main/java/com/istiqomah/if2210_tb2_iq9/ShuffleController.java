@@ -1,7 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
-import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
+import com.istiqomah.if2210_tb2_iq9.model.cardcollection.Deck;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,45 +25,23 @@ public class ShuffleController {
     private Label remainingSelectionsLabel;
 
     private int maxSelections;
-    private List<Card> items;
+    private Deck playerDeck = Player.getPlayerNow().getDeck();;
     private List<Card> selectedCards = new ArrayList<>();
     private List<Button> cardButtons = new ArrayList<>();
     private List<Card> displayedCards = new ArrayList<>();
 
     @FXML
-    public void initialize() {
-        items = new ArrayList<>();
-        new CardManager();
-
-        addAllCards();
+    private void initialize() {
+        System.out.println("playerDeck: " + playerDeck.getMainDeckSize());
         reshuffle();
     }
-
-    private void addAllCards() {
-        // Tambahin animal cards
-        for (String name : CardManager.getAnimalNames()) {
-            items.add(CardManager.getCard("animal", name));
-        }
-        // Tambahin plant cards
-        for (String name : CardManager.getPlantNames()) {
-            items.add(CardManager.getCard("plant", name));
-        }
-        // Tambahin item cards
-        for (String name : CardManager.getItemNames()) {
-            items.add(CardManager.getCard("item", name));
-        }
-
-        // Tambahin product cards
-        for (String name : CardManager.getProductNames()) {
-            items.add(CardManager.getCard("product", name));
-        }
-    }
-
     @FXML
     private void reshuffle() {
         displayedCards.clear();
         selectedCards.clear();
-        Collections.shuffle(items);
+        System.out.println("Shuffling main deck...");
+        playerDeck.shuffleMainDeck();
+        System.out.println("Starting display cards...");
         displayCards();
     }
 
@@ -73,46 +51,53 @@ public class ShuffleController {
         double cardHeight = 230;
 
         // Jumlah cards yang bisa diselect player
-        maxSelections = 6 - (int) Player.getPlayerNow().getDeck().getHand().stream().filter(Objects::nonNull).count();
+        maxSelections = 6 - (int) playerDeck.getHand().stream().filter(Objects::nonNull).count();
+        System.out.println("maxSelections: " + maxSelections);
         updateLabel(maxSelections);
 
-        for (int i = 0; i < 4 && i < items.size(); i++) {
-            try {
-                Card randomCard;
-                do {
-                    randomCard = items.get(new Random().nextInt(items.size()));
-                } while (displayedCards.contains(randomCard));
+        System.out.println("Main deck size: " + playerDeck.getMainDeckSize());
 
-                System.out.println("Random card: " + randomCard.getName());
-                System.out.println("Displayed cards:");
-                for (Card displayedCard : displayedCards) {
-                    System.out.println(displayedCard.getName());
+        if (playerDeck.getMainDeckSize() != 0) {
+            for (int i = 0; i < 4; i++) {
+                try {
+                    Card randomCard;
+                    do {
+                        randomCard = playerDeck.getMainDeck().get(new Random().nextInt(playerDeck.getMainDeckSize()));
+                    } while (displayedCards.contains(randomCard));
+
+                    System.out.println("Random card: " + randomCard.getName());
+                    System.out.println("Displayed cards:");
+                    for (Card displayedCard : displayedCards) {
+                        System.out.println(displayedCard.getName());
+                    }
+
+                    displayedCards.add(randomCard);
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardIcon.fxml"));
+                    Pane cardPane = loader.load();
+
+                    cardPane.setPrefWidth(cardWidth);
+                    cardPane.setPrefHeight(cardHeight);
+
+                    // Ubah card jadi button type biar clickable
+                    Button cardButton = new Button();
+                    cardButton.setGraphic(cardPane);
+
+                    CardIconController controller = loader.getController();
+                    controller.setCard(displayedCards.get(i));
+
+                    int index = i;
+                    cardButton.setOnAction(event -> toggleSelection(cardButton, displayedCards.get(index)));
+
+                    cardButtons.add(cardButton);
+
+                    cardContainer.add(cardButton, i % 2, i / 2);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                displayedCards.add(randomCard);
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardIcon.fxml"));
-                Pane cardPane = loader.load();
-
-                cardPane.setPrefWidth(cardWidth);
-                cardPane.setPrefHeight(cardHeight);
-
-                // Ubah card jadi button type biar clickable
-                Button cardButton = new Button();
-                cardButton.setGraphic(cardPane);
-
-                CardIconController controller = loader.getController();
-                controller.setCard(displayedCards.get(i));
-
-                int index = i;
-                cardButton.setOnAction(event -> toggleSelection(cardButton, displayedCards.get(index)));
-
-                cardButtons.add(cardButton);
-
-                cardContainer.add(cardButton, i % 2, i / 2);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+        } else {
+            updateLabel(0);
         }
     }
 
@@ -122,7 +107,7 @@ public class ShuffleController {
             selectedCards.remove(card);
             cardButton.setStyle("");
         } else {
-            if (selectedCards.size() < maxSelections) {
+            if (selectedCards.size() <= maxSelections) {
                 selectedCards.add(card);
                 cardButton.setStyle("-fx-background-color: lightgreen;");
             }
@@ -135,6 +120,8 @@ public class ShuffleController {
             remainingSelectionsLabel.setText("Select " + maxSelections + " cards");
         } else if (maxSelections >= 4) {
             remainingSelectionsLabel.setText("Select all cards");
+        } else if (maxSelections == 0) {
+            remainingSelectionsLabel.setText("Your deck is empty");
         } else {
             remainingSelectionsLabel.setText("Your hand is full! Click OK");
         }
@@ -146,12 +133,17 @@ public class ShuffleController {
         Player.getPlayerNow().addCardsToHand(selectedCards);
     }
 
+    // ok Button
     @FXML
     public void closeWindow() {
-        selectCards();
-        System.out.println(Player.getPlayerNow().getDeck().getHand());
-        Stage stage = (Stage) okButton.getScene().getWindow();
-        selectedCards.clear();
-        stage.close();
+        if (selectedCards.size() < Math.min(4, maxSelections)) {
+            System.out.println("Select more cards");
+        } else {
+            selectCards();
+            Stage stage = (Stage) okButton.getScene().getWindow();
+            playerDeck.removeFromMainDeck(selectedCards);
+            selectedCards.clear();
+            stage.close();
+        }
     }
 }

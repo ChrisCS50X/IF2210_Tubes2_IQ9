@@ -95,7 +95,7 @@
                         <Pane styleClass="grid-pane" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                     </children>
                 </GridPane>
-                <Label fx:id="deckLabel" contentDisplay="CENTER" layoutX="740.0" layoutY="661.0" text="Deck 33/40" textAlignment="CENTER" />
+                <Label fx:id="deckLabel" contentDisplay="CENTER" layoutX="740.0" layoutY="661.0"/>
                 <GridPane fx:id="deckAktifBox" hgap="10.0" layoutX="28.0" layoutY="620.0" styleClass="deck-container" vgap="10.0">
                     <columnConstraints>
                         <ColumnConstraints prefWidth="100.0" />

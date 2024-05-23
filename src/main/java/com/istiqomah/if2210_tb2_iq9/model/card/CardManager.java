@@ -126,18 +126,25 @@ public class CardManager {
         }
     }
 
-    public static Card getRandomCard() {
+    public static Card getRandomAnimal() {
         Random rand = new Random();
-        int index = rand.nextInt(4);
-        if (index == 0) {
-            return getCard("animal", AnimalName.get(rand.nextInt(AnimalName.size())));
-        } else if (index == 1) {
-            return getCard("plant", PlantName.get(rand.nextInt(PlantName.size())));
-        } else if (index == 2) {
-            return getCard("item", ItemName.get(rand.nextInt(ItemName.size())));
-        } else {
-            return getCard("product", ProductName.get(rand.nextInt(ProductName.size())));
-        }
+        return getCard("animal", AnimalName.get(rand.nextInt(AnimalName.size())));
+    }
+
+    public static Card getRandomPlant() {
+        Random rand = new Random();
+        return getCard("plant", PlantName.get(rand.nextInt(PlantName.size())));
+    }
+
+    public static Card getRandomItem() {
+        Random rand = new Random();
+        System.out.println("test: "+ ItemName.size());
+        return getCard("item", ItemName.get(rand.nextInt(ItemName.size())));
+    }
+
+    public static Card getRandomProduct() {
+        Random rand = new Random();
+        return getCard("product", ProductName.get(rand.nextInt(ProductName.size())));
     }
 
     public static List<String> getAnimalNames() {

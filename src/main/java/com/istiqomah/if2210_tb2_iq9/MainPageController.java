@@ -87,6 +87,11 @@ public class MainPageController {
 
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
 
+    @FXML
+    private void updateDeckLabel(int newDeckSize) {
+        deckLabel.setText("Deck: " + newDeckSize + "/40");
+    }
+
     public void initialize() {
         setDeckAktifPlayer();
         ladangku = true;
@@ -371,6 +376,7 @@ public class MainPageController {
                 stage.showAndWait();
 
                 setDeckAktifPlayer();
+                updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
                 ladangku = true;
                 if (Math.random() < 0.3) {
                     initializeSerangan();
