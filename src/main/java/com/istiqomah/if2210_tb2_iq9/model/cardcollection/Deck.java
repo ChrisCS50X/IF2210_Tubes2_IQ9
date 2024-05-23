@@ -82,6 +82,20 @@ public class Deck {
     }
 
     public void clearHand() {
-        hand.clear();
+        for (int i= 0; i < hand.size(); i++){
+            if (hand.get(i) != null){
+                hand.set(i,null);
+            }
+        }
+    }
+
+    public Integer deckCount (){
+        Integer count= 0;
+        for (int i= 0; i < mainDeck.size(); i++){
+            if (mainDeck.get(i) != null){
+                count++;
+            }
+        }
+        return count;
     }
 }

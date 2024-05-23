@@ -147,6 +147,14 @@ public class Player {
             System.out.println("Card is not a product.");
         }
     }
-
+    public void clearLadang(){
+        for (int i = 0 ; i < 4; i++){
+            for (int j = 0; j < 5 ; j++){
+                if (!ladang.isPositionEmpty(i,j)){
+                    ladang.removeCardFromPosition(i,j);
+                }
+            }
+        }
+    }
 
 }

@@ -51,6 +51,9 @@ public abstract class   Card implements KomponenPetak {
     public abstract Integer getBerat_Umur();
 
     public abstract List<Item> getActiveItems();
+
+    public abstract void setBerat_Umur(Integer berat_umur);
+
 }
 
 

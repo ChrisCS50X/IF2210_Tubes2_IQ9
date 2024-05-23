@@ -45,6 +45,7 @@ public class Item extends Card {
         return "Item : " + getName();
 
     }
+
     @Override
     public Integer getBerat_Umur() {
         return null;
@@ -53,5 +54,10 @@ public class Item extends Card {
     @Override
     public List<Item> getActiveItems() {
         return null;
+    }
+
+    @Override
+    public void setBerat_Umur(Integer berat_umur) {
+        ;
     }
 }

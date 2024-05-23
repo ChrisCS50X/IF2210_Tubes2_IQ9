@@ -32,4 +32,8 @@ public class Toko {
     public Map<Card, Integer> getAvailableProducts() {
         return products;
     }
+
+    public void clearProducts() {
+        products.clear();
+    }
 }

@@ -80,4 +80,9 @@ public class Plant extends Card implements Harvestable {
         return activeItems;
     }
 
+    @Override
+    public void setBerat_Umur(Integer berat_umur) {
+        this.age = berat_umur;
+    }
+
 }

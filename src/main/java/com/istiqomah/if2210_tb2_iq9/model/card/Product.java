@@ -61,4 +61,9 @@ public class Product extends Card {
     public List<Item> getActiveItems() {
         return null;
     }
+
+    @Override
+    public void setBerat_Umur(Integer berat_umur) {
+        ;
+    }
 }

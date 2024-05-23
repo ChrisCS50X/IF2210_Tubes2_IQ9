@@ -30,19 +30,19 @@ public class CardManager {
         AnimalName.add("Kuda");
         AnimalName.add("Domba");
         AnimalName.add("Sapi");
-        AnimalName.add("Hiu Darat");
+        AnimalName.add("Hiu_Darat");
     }
 
     private static void initializePlantName() {
-        PlantName.add("Biji Jagung");
-        PlantName.add("Biji Labu");
-        PlantName.add("Biji Stroberi");
+        PlantName.add("Biji_Jagung");
+        PlantName.add("Biji_Labu");
+        PlantName.add("Biji_Stroberi");
     }
 
     private static void initializeItemName() {
         ItemName.add("Accelerate");
         ItemName.add("Delay");
-        ItemName.add("Instant Harvest");
+        ItemName.add("Instant_Harvest");
         ItemName.add("Destroy");
         ItemName.add("Protect");
         ItemName.add("Trap");
@@ -50,10 +50,10 @@ public class CardManager {
 
 
     private static void initializeProductName() {
-        ProductName.add("Sirip Hiu");
+        ProductName.add("Sirip_Hiu");
         ProductName.add("Susu");
-        ProductName.add("Daging Domba");
-        ProductName.add("Daging Kuda");
+        ProductName.add("Daging_Domba");
+        ProductName.add("Daging_Kuda");
         ProductName.add("Telur");
         ProductName.add("Jagung");
         ProductName.add("Labu");

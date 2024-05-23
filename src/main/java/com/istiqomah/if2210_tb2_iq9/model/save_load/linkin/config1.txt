@@ -1,0 +1,16 @@
+100
+0
+4
+A00 Accelerate
+A03 Daging_Kuda
+A04 Ayam
+A05 Labu
+8
+A00 Biji_Stroberi 0 0
+A01 Sapi 0 0
+A03 Biji_Labu 0 0
+B03 Biji_Labu 0 0
+C02 Ayam 0 0
+D02 Sapi 0 0
+D03 Hiu_Darat 0 0
+D04 Sapi 0 0

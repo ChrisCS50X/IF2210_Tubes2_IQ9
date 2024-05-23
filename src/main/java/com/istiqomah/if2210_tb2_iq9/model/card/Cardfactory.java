@@ -50,7 +50,7 @@ public class Cardfactory {
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 6){
-                    String name = "Hiu Darat";
+                    String name = "Hiu_Darat";
                     String imagepath ="file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Hewan/hiu darat.png";
                     int weight = 0;
                     int harvestWeight = 20;
@@ -126,13 +126,13 @@ public class Cardfactory {
 
             case "product":
                 if (id == 1) {
-                    return new Product(id, "Sirip Hiu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
+                    return new Product(id, "Sirip_Hiu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/shark-fin.png", 500, 12);
                 }else if (id == 2) {
                     return new Product(id, "Susu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/susu.png", 100, 4);
                 }else if (id == 3) {
-                    return new Product(id, "Daging Domba", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Domba.png", 120, 6);
+                    return new Product(id, "Daging_Domba", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Domba.png", 120, 6);
                 } else if (id == 4) {
-                    return new Product(id, "Daging Kuda", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Kuda.png", 150, 8);
+                    return new Product(id, "Daging_Kuda", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Kuda.png", 150, 8);
                 } else if (id == 5) {
                     return new Product(id, "Telur", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/telur.png", 50, 2);
                 }else if (id == 6) {

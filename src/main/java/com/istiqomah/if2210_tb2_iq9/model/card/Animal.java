@@ -119,4 +119,9 @@ public class Animal extends Card implements Harvestable {
     public List<String> CarnivoreFood = Arrays.asList("Sirip Hiu","Susu","Telur","Daging Kuda", "Daging Domba", "Daging Beruang");
 
     public List<String> HerbivoreFood = Arrays.asList("Jagung", "Labu", "Stroberi");
+
+    @Override
+    public void setBerat_Umur(Integer berat_umur) {
+        this.weight = berat_umur;
+    }
 }

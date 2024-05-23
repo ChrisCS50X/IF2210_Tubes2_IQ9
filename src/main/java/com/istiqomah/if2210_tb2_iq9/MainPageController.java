@@ -38,6 +38,9 @@ import javafx.util.Duration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -500,15 +503,15 @@ public class MainPageController {
     public void saveState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/Save.fxml"));
-            Parent root = loader.load();
+            StackPane view = loader.load();
 
             SaveController saveController = loader.getController();
             saveController.setMainPageController(this); // Set the reference to MainPageController
-
             Stage stage = new Stage();
+            stage.setTitle("Shuffle View");
+            stage.setScene(new Scene(view, 450, 430));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Save State");
-            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -517,55 +520,172 @@ public class MainPageController {
     }
 
     public void loadData(String folderPath) {
-        Readconfig config = new Readconfig("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/" + folderPath);
+        try {
+            String config1Path = folderPath + "/config1.txt";
+            String config2Path = folderPath + "/config2.txt";
+            String gameStatePath = folderPath + "/gamestate.txt";
 
-        // Update Player's Gulden
-        Player.getPlayerNow().setGulden(config.getJumlahGulden());
+            System.out.println("Loading config1 from: " + config1Path);
+            System.out.println("Loading config2 from: " + config2Path);
+            System.out.println("Loading game state from: " + gameStatePath);
 
-        // Update Deck
-        Player.getPlayerNow().getDeck().clearHand();
-        for (Triple<String, Integer, String> cardInfo : config.getKordinatCard()) {
-            Card card = CardManager.getCard("deck", cardInfo.getRight());
-            if (card != null) {
-                Player.getPlayerNow().getDeck().addCardToHand(card);
+            try (BufferedReader config1Reader = new BufferedReader(new FileReader(config1Path));
+                 BufferedReader config2Reader = new BufferedReader(new FileReader(config2Path));
+                 BufferedReader gameStateReader = new BufferedReader(new FileReader(gameStatePath))) {
+
+                // Load data for player 1
+                loadPlayerData(config1Reader, Player.getPlayerByIdx(0));
+
+                // Load data for player 2
+                loadPlayerData(config2Reader, Player.getPlayerByIdx(1));
+
+                // Read gamestate.txt
+                loadGameState(gameStateReader);
+
+                setLadangPlayer(Player.getPlayerNow());
+                setDeckAktifPlayer();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-
-        // Clear ladang
-        Ladang ladang = Player.getPlayerNow().getLadang();
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                if (ladang.getCardAtPosition(i, j) != null) {
-                    ladang.removeCardFromPosition(i, j);
-                }
-            }
-        }
-        for (int i = 0; i < config.getKordinatLadang().size(); i++) {
-            Triple<String, Integer, String> ladangInfo = config.getKordinatLadang().get(i);
-            String row = ladangInfo.getLeft();
-            int col = ladangInfo.getMiddle();
-            String cardName = ladangInfo.getRight();
-
-            int rowIndex = convertLetterToRow(row);
-            Card card = CardManager.getCard("ladang", cardName);
-            if (card != null) {
-                ladang.addCardToPosition(card, rowIndex, col);
-                // Apply items to card
-                ArrayList<String> items = config.getItem().get(i);
-                for (String itemName : items) {
-                    Item item = (Item) CardManager.getCard("item", itemName);
-                    card.applyItem(item);
-                }
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public int getCurrentTurn() {
-        return TurnNow;
+    private void loadPlayerData(BufferedReader reader, Player player) throws IOException {
+        String line;
+
+        // Read player data
+        try {
+            int gulden = Integer.parseInt(reader.readLine());
+            int jumlahKartu = Integer.parseInt(reader.readLine());
+            int handSize = Integer.parseInt(reader.readLine());
+
+            player.setGulden(gulden);
+            player.getDeck().clearHand();
+            if (player.getDeck().getHand().isEmpty()){
+                System.err.println("kosong: ");
+            }
+
+            // Read hand cards
+            for (int i = 0; i < handSize; i++) {
+                line = reader.readLine();
+                String[] parts = line.split(" ");
+                if (parts.length < 2) {
+                    System.err.println("Invalid hand card entry: " + line);
+                    continue;
+                }
+                String cardName = parts[1];
+                String slot = parts[0];
+                int lok = Integer.parseInt(slot.substring(1));
+                Card card = getCardByName(cardName);
+                if (card != null) {
+                    player.getDeck().addCardToHand(lok,card);
+
+                } else {
+                    System.err.println("Card not found: " + cardName);
+                }
+            }
+            if (player.getDeck().getHand().isEmpty()){
+                System.err.println(" Masih kosong: ");
+            }
+
+            // Read ladang cards
+            player.clearLadang();
+
+            int count = Integer.parseInt(reader.readLine());
+            for (int i = 0; i < count; i++) {
+                line = reader.readLine();
+                String[] parts = line.split(" ");
+                if (parts.length < 4) {
+                    System.err.println("Invalid ladang card entry: " + line);
+                    continue;
+                }
+                String lokasi = parts[0];
+                String cardName = parts[1];
+                int beratUmur = Integer.parseInt(parts[2]);
+                int jumlahItem = Integer.parseInt(parts[3]);
+
+                // Extract row and column from lokasi
+                String rowLetter = lokasi.substring(0, 1);
+                String colIndexStr = lokasi.substring(1);
+                int rowIndex = convertLetterToRow(rowLetter);
+                int colIndex = Integer.parseInt(colIndexStr);
+
+                Card card = getCardByName(cardName);
+                if (card != null) {
+                    card.setBerat_Umur(beratUmur);
+                    player.addCardToLadang(card, rowIndex, colIndex);
+                    for (int j = 0; j < jumlahItem; j++) {
+                        String itemName = parts[4 + j];
+                        Item item = (Item) CardManager.getCard("item", itemName);
+                        if (item != null) {
+                            card.applyItem(item);
+                        } else {
+                            System.err.println("Item not found: " + itemName);
+                        }
+                    }
+                } else {
+                    System.err.println("Card not found in ladang: " + cardName);
+                }
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing player data: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error reading player data: " + e.getMessage());
+        }
     }
 
     private int convertLetterToRow(String letter) {
         return letter.charAt(0) - 'A';
+    }
+
+
+
+    private Card getCardByName(String cardName) {
+        Card card = null;
+        if (CardManager.getAnimalNames().contains(cardName)) {
+            card = CardManager.getCard("animal", cardName);
+        } else if (CardManager.getPlantNames().contains(cardName)) {
+            card = CardManager.getCard("plant", cardName);
+        } else if (CardManager.getProductNames().contains(cardName)) {
+            card = CardManager.getCard("product", cardName);
+        } else {
+            card = CardManager.getCard("item", cardName);
+        }
+
+        if (card == null) {
+            System.err.println("Card not found in CardManager: " + cardName);
+        }
+
+        return card;
+    }
+
+    private void loadGameState(BufferedReader reader) throws IOException {
+        String line;
+        int turn = Integer.parseInt(reader.readLine());
+        TurnNow = turn;
+        int jumlahItemShop = Integer.parseInt(reader.readLine());
+
+        toko.clearProducts();
+
+        for (int i = 0; i < jumlahItemShop; i++) {
+            line = reader.readLine();
+            String[] parts = line.split(" ");
+            String productName = parts[0];
+            int quantity = Integer.parseInt(parts[1]);
+
+            Card itemCard = CardManager.getCard("product", productName);
+            if (itemCard != null) {
+                for (int j = 0; j < quantity; j++) {
+                    toko.addProduct(itemCard);
+                }
+            } else {
+                System.err.println("Product not found in shop: " + productName);
+            }
+        }
     }
 
     private void openToko() {

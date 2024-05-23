@@ -9,21 +9,35 @@ import java.util.Scanner;
 public class Readconfig{
 
     private ArrayList<Triple<String, Integer, String>>  kordinat_Ladang;
+    private ArrayList<Triple<String, Integer, String>> kordinat_Ladang2;
+
     private ArrayList<Triple<String, Integer, String>> kordinat_Card;
+    private ArrayList<Triple<String, Integer, String>> kordinat_Card2;
+
     private Integer Jumlah_Gulden;
+    private Integer Jumlah_Gulden2;
+
     private Integer Jumlah_Deck;
-    private Integer Umur_Berat;
+    private Integer Jumlah_Deck2;
+
+    private ArrayList<Integer> Umur_Berat;
+    private ArrayList<Integer> Umur_Berat2;
+
     private ArrayList<ArrayList<String>> Item;
+
     private int currentTurn;
     private int jumlah_item_shop;
     private ArrayList<Pair<String, Integer>> item_shop;
 
     public Readconfig(String folder_name) {
         kordinat_Ladang = new ArrayList<>();
+        kordinat_Ladang2 = new ArrayList<>();
         kordinat_Card = new ArrayList<>();
         Item = new ArrayList<>();
         item_shop = new ArrayList<>();
+        Umur_Berat = new ArrayList<>();
         readPlayer(folder_name + "/config1.txt");
+        readPlayer(folder_name + "/config2.txt");
         readgameState(folder_name + "/gamestate.txt");
     }
 
@@ -87,6 +101,7 @@ public class Readconfig{
                             int col = Integer.parseInt(lokasiKartuLadang.substring(1));
                             kordinat_Ladang.add(new Triple<>(row, col, kartuLadang));
                             Item.add(items);
+                            Umur_Berat.add(umurBerat);
                         }
                     }
                 }

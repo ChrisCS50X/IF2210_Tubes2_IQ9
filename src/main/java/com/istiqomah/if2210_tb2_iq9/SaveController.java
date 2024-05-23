@@ -86,18 +86,24 @@ public class SaveController {
 
             // Write to config1.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config1.txt"))) {
-                int gulden = Player.getPlayerNow().getGulden();
-                Deck deck = Player.getPlayerNow().getDeck();
-                int jumlahKartu = deck.getMainDeckSize();
-                int handSize = deck.getHand().size();
+                int gulden = Player.getPlayerByIdx(0).getGulden();
+                int jumlahKartu = Player.getPlayerByIdx(0).getDeck().getMainDeckSize();
+                int n_hand = 0;
+                List<Card> handc = Player.getPlayerByIdx(0).getDeck().getHand();
+                for (int i = 0; i < 6; i++){
+                    if (handc.get(i) != null ){
+                        n_hand++;
+                    }
+                }
+
 
                 writer.write(gulden + "\n");
                 writer.write(jumlahKartu + "\n");
-                writer.write(handSize + "\n");
+                writer.write(n_hand + "\n");
 
                 // Write hand cards
-                for (int i = 0; i < handSize; i++) {
-                    Card card = deck.getHand().get(i);
+                for (int i = 0; i < 6; i++) {
+                    Card card = Player.getPlayerByIdx(0).getDeck().getHand().get(i);
                     if (card != null) {
                         String name = card.getName();
                         String lokasi = "A0" + i;
@@ -106,18 +112,26 @@ public class SaveController {
                 }
 
                 // Write ladang cards
-                Ladang ladang = Player.getPlayerNow().getLadang();
+                Ladang ladang = Player.getPlayerByIdx(0).getLadang();
                 int count = 0;
 
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if(komponen != null){
+                            count++;
+                        }
+                    }
+                }
+                writer.write(count +"\n");
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
                         if (komponen instanceof Card) {
                             Card card = (Card) komponen;
                             if (card != null) {
-                                count++;
                                 String name = card.getName();
-                                String lokasi = convertRowToLetter(i) + String.valueOf(j);
+                                String lokasi = convertRowToLetter(i) +"0"+ String.valueOf(j);
                                 int beratUmur = card.getBerat_Umur();
                                 List<Item> items = card.getActiveItems();
                                 int jumlahItem = items.size();
@@ -131,22 +145,27 @@ public class SaveController {
                         }
                     }
                 }
-                writer.write(String.valueOf(count) + "\n");
             }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config2.txt"))) {
                 int gulden = Player.getPlayerByIdx(1).getGulden();
-                Deck deck = Player.getPlayerByIdx(1).getDeck();
-                int jumlahKartu = deck.getMainDeckSize();
-                int handSize = deck.getHand().size();
+                int jumlahKartu = Player.getPlayerByIdx(1).getDeck().getMainDeckSize();
+                int n_hand = 0;
+                List<Card> handc = Player.getPlayerByIdx(1).getDeck().getHand();
+                for (int i = 0; i < 6; i++){
+                    if (handc.get(i) != null ){
+                        n_hand++;
+                    }
+                }
+
 
                 writer.write(gulden + "\n");
                 writer.write(jumlahKartu + "\n");
-                writer.write(handSize + "\n");
+                writer.write(n_hand + "\n");
 
                 // Write hand cards
-                for (int i = 0; i < handSize; i++) {
-                    Card card = deck.getHand().get(i);
+                for (int i = 0; i < 6; i++) {
+                    Card card = Player.getPlayerByIdx(1).getDeck().getHand().get(i);
                     if (card != null) {
                         String name = card.getName();
                         String lokasi = "A0" + i;
@@ -161,12 +180,22 @@ public class SaveController {
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if(komponen != null){
+                            count++;
+                        }
+                    }
+                }
+                writer.write(count+"\n");
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
                         if (komponen instanceof Card) {
                             Card card = (Card) komponen;
                             if (card != null) {
-                                count++;
+
                                 String name = card.getName();
-                                String lokasi = convertRowToLetter(i) + String.valueOf(j);
+                                String lokasi = convertRowToLetter(i) +"0"+ String.valueOf(j);
                                 int beratUmur = card.getBerat_Umur();
                                 List<Item> items = card.getActiveItems();
                                 int jumlahItem = items.size();
@@ -180,7 +209,6 @@ public class SaveController {
                         }
                     }
                 }
-                writer.write(String.valueOf(count) + "\n");
             }
 
             // Write to gamestate.txt
