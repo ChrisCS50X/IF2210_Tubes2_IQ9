@@ -285,7 +285,7 @@ public class MainPageController {
         }
     }
 
-    private void setDeckAktifPlayer() {
+    public void setDeckAktifPlayer() {
         List<Card> deck = Player.getPlayerNow().getDeck().getHand();
         clearGrid(deckAktifBox);
 
@@ -358,6 +358,11 @@ public class MainPageController {
     private void nextTurn() {
         nextButton.setOnAction(event -> {
             try {
+                if (TurnNow == 20) {
+                    calculateWinner();
+                    return;
+                }
+
                 TurnNow++;
                 turnText.setText("Turn " + TurnNow);
                 Player.nextTurn();
@@ -740,7 +745,7 @@ public class MainPageController {
         try {
             // Memuat file FXML toko
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Toko.fxml"));
-            Pane tokoPane = loader.load();
+            Pane view = loader.load();
 
             // Mendapatkan instance dari TokoController
             TokoController tokoController = loader.getController();
@@ -750,9 +755,23 @@ public class MainPageController {
             tokoController.setPlayer(currentPlayer);
             tokoController.updateCardSellsDeck();
 
-            // Menggantikan tampilan saat ini dengan tampilan toko
-            Scene currentScene = tokoButton.getScene();
-            currentScene.setRoot(tokoPane);
+            // Set listener untuk mengetahui saat toko ditutup
+            tokoController.setOnTokoClosedListener(() -> {
+                int numberPlayer = Player.getIdxTurnPlayer() + 1;
+                if (numberPlayer == 1) {
+                    player1Label.setText("Player 1: " + Player.getPlayerByIdx(0).getGulden());
+                } else {
+                    player2Label.setText("Player 2: " + Player.getPlayerByIdx(1).getGulden());
+                }
+            });
+
+            Stage stage = new Stage();
+            stage.setTitle("Toko View");
+            stage.setScene(new Scene(view, 850, 830));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -792,6 +811,19 @@ public class MainPageController {
             setDeckAktifPlayer();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void calculateWinner()
+    {
+        int gulden1 = Player.getPlayerByIdx(0).getGulden();
+        int gulden2 = Player.getPlayerByIdx(1).getGulden();
+        if (gulden1 > gulden2) {
+            System.out.println("Player 1 wins!");
+        } else if (gulden2 > gulden1) {
+            System.out.println("Player 2 wins!");
+        } else {
+            System.out.println("It's a draw!");
         }
     }
 }

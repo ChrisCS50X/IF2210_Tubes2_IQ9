@@ -1,6 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.*;
+import com.istiqomah.if2210_tb2_iq9.model.toko.OnDisplayClosedListener;
 import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Map;
@@ -30,12 +32,16 @@ public class TokoController {
 
     private Toko toko;
     private Player player;
+    private OnDisplayClosedListener listener;
 
     @FXML
     public void initialize() {
         backButton.setOnAction(event -> goBackToMainPage());
     }
 
+    public void setOnTokoClosedListener(OnDisplayClosedListener listener) {
+        this.listener = listener;
+    }
     public void setToko(Toko toko) {
         this.toko = toko;
         loadProducts();
@@ -138,8 +144,13 @@ public class TokoController {
             mainPagePane.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
 
             // Set the main page pane as the root of the current scene
-            Scene currentScene = backButton.getScene();
-            currentScene.setRoot(mainPagePane);
+            Stage currentScene = (Stage) backButton.getScene().getWindow();
+            currentScene.close();
+
+            // Notifikasi bahwa toko telah ditutup
+            if (listener != null) {
+                listener.onSceneClosed();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
