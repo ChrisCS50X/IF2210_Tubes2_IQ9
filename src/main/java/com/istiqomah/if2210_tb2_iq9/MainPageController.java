@@ -89,7 +89,6 @@ public class MainPageController {
     public void initialize() {
         setDeckAktifPlayer();
         setLadangPlayer(Player.getPlayerNow());
-        toko = new Toko();
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
@@ -673,10 +672,11 @@ public class MainPageController {
 
             // Mendapatkan instance dari TokoController
             TokoController tokoController = loader.getController();
-            Toko toko = new Toko(); // Atur ini sesuai dengan cara Anda menginisialisasi objek Toko
             Player currentPlayer = Player.getPlayerNow();
-            tokoController.setToko(toko);
+
+            tokoController.setToko(MainPage.toko);
             tokoController.setPlayer(currentPlayer);
+            tokoController.updateCardSellsDeck();
 
             // Menggantikan tampilan saat ini dengan tampilan toko
             Scene currentScene = tokoButton.getScene();

@@ -2,6 +2,7 @@ package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.*;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
+import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +13,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public class MainPage extends Application {
+    public static Toko toko;
     public static void inisialisasi()
     {
+        toko = new Toko ();
         Random rand = new Random();
         Player player1 = Player.createPlayer(100);
         Player player2 = Player.createPlayer(100);

@@ -137,10 +137,6 @@ public class TokoController {
             ScrollPane mainPagePane = loader.load();
             mainPagePane.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
 
-            // Optionally, you can get the controller if you need to pass any data
-            // MainPageController mainPageController = loader.getController();
-            // mainPageController.someMethod();
-
             // Set the main page pane as the root of the current scene
             Scene currentScene = backButton.getScene();
             currentScene.setRoot(mainPagePane);
