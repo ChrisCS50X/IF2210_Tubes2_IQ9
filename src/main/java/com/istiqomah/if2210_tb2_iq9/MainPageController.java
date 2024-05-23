@@ -26,12 +26,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -503,15 +500,15 @@ public class MainPageController {
     public void saveState() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/Save.fxml"));
-            StackPane view = loader.load();
+            AnchorPane root = loader.load();
 
             SaveController saveController = loader.getController();
-            saveController.setMainPageController(this); // Set the reference to MainPageController
+            saveController.setMainPageController(this); // Set the reference to MainPageControlle
+
             Stage stage = new Stage();
-            stage.setTitle("Shuffle View");
-            stage.setScene(new Scene(view, 450, 430));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Load State");
+            stage.setScene(new Scene(root));
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

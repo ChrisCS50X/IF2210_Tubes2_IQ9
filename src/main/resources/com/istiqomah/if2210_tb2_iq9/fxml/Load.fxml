@@ -8,7 +8,8 @@
 <?import java.lang.String?>
 
 <?import javafx.scene.layout.StackPane?>
-<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.istiqomah.if2210_tb2_iq9.LoadController" prefWidth="750" prefHeight="650">
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.istiqomah.if2210_tb2_iq9.LoadController" prefWidth="750" prefHeight="650">
     <Button fx:id="backButton" text="Kembali" layoutX="20" layoutY="20" />
     <Label text="Load" layoutX="350" layoutY="50" style="-fx-font-size: 24px;" />
 
@@ -27,4 +28,4 @@
 
     <Button fx:id="loadButton" text="Load" layoutX="300" layoutY="250" prefWidth="200" />
     <Label fx:id="statusLabel" text="State Loaded Successfully" layoutX="300" layoutY="300" style="-fx-text-fill: green;" visible="false" />
-</StackPane>
+</AnchorPane>

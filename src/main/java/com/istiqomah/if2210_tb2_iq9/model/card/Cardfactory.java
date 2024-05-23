@@ -10,7 +10,7 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 25;
                     String tipe = "Omnivora";
-                    String product = "Daging Beruang";
+                    String product = "Daging_Beruang";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 2){
@@ -28,7 +28,7 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 14;
                     String tipe = "Herbivora";
-                    String product = "Daging Kuda";
+                    String product = "Daging_Kuda";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 4){
@@ -37,7 +37,7 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 12;
                     String tipe = "Herbivora";
-                    String product = "Daging Domba";
+                    String product = "Daging_Domba";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
 
                 }else if (id == 5){
@@ -55,16 +55,16 @@ public class Cardfactory {
                     int weight = 0;
                     int harvestWeight = 20;
                     String tipe = "Karnivora";
-                    String product = "Sirip Hiu";
+                    String product = "Sirip_Hiu";
                     return new Animal(id,name, imagepath, weight, harvestWeight, tipe, product);
                 }
             case "plant":
                 if (id == 1){
-                    return new Plant(id, "Biji Jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/corn seeds.png", 0, 3, "Jagung");
+                    return new Plant(id, "Biji_Jagung", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/corn seeds.png", 0, 3, "Jagung");
                 }else if (id == 2){
-                    return new Plant(id, "Biji Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/pumpkin seeds.png", 0, 5, "Labu");
+                    return new Plant(id, "Biji_Labu", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/pumpkin seeds.png", 0, 5, "Labu");
                 }else if (id == 3) {
-                    return new Plant(id, "Biji Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/strawberry seeds.png", 0, 4, "Stroberi");
+                    return new Plant(id, "Biji_Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Tanaman/strawberry seeds.png", 0, 4, "Stroberi");
                 }
             case "item":
                 AnimalEffect animalEffect;
@@ -89,7 +89,7 @@ public class Cardfactory {
                     return new Item(id,name, imagePath, animalEffect, plantEffect, ladangEffect);
 
                 } else if (id == 3) {
-                    name = "Instant Harvest";
+                    name = "Instant_Harvest";
                     imagePath = "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Item/Instant Harvest.png";
                     animalEffect = new InstantHarvest();
                     plantEffect = new InstantHarvest();
@@ -143,7 +143,7 @@ public class Cardfactory {
                     return new Product(id, "Stroberi", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/strawberry.png",    350, 5);
                 } else if (id == 9)
                 {
-                    return new Product((id), "Daging Beruang", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Beruang.png", 500, 12);
+                    return new Product((id), "Daging_Beruang", "file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Produk/Daging_Beruang.png", 500, 12);
                 }
             default:
                 throw new IllegalArgumentException("Unknown card type: " + type);

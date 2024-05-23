@@ -1,0 +1,19 @@
+100
+0
+4
+A00 Destroy
+A01 Protect
+A02 Delay
+A04 Destroy
+11
+A00 Ayam 0 0
+A01 Biji_Labu 0 0
+A02 Biji_Jagung 0 0
+A03 Sapi 0 0
+B00 Biji_Jagung 0 0
+B01 Biji_Labu 0 0
+B03 Ayam 0 0
+C00 Biji_Labu 0 0
+C01 Beruang 0 0
+C03 Biji_Stroberi 0 0
+D00 Kuda 0 0
