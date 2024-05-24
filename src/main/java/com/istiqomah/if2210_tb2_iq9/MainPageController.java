@@ -84,7 +84,7 @@ public class MainPageController {
     private MainPage mainpage;
 
     private int timeRemaining; // in tenths of a second
-
+    private List<int[]> bearAttackPositions;
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
 
     @FXML
@@ -300,6 +300,7 @@ public class MainPageController {
         }
     }
 
+    // Modify the setLadangPlayer method to ensure highlights are reapplied
     private void setLadangPlayer(Player p) {
         clearGrid(ladangGrid);
         KomponenPetak[][] ladang = p.getLadang().getGrid();
@@ -332,6 +333,9 @@ public class MainPageController {
             }
         }
         updateButtonColors(p);
+        if (bearAttackPositions != null) {
+            highlightAttackZone(bearAttackPositions); // Reapply highlight only if bear attack is ongoing
+        }
     }
 
     private void updateButtonColors(Player currentPlayer) {
@@ -410,9 +414,9 @@ public class MainPageController {
                 setDeckAktifPlayer();
                 updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
                 ladangku = true;
-//                if (Math.random() < 0.3) {
-//                    initializeSerangan();
-//                }
+                if (Math.random() < 0.3) {
+                    initializeSerangan();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -511,11 +515,17 @@ public class MainPageController {
         timerLabel.setText("");
         clearHighlight();
 
+        // Clear bear attack positions after attack ends
+        bearAttackPositions = null;
+
         // Re-enable the next turn, ladang lawan, and toko buttons after bear attack
         nextButton.setDisable(false);
         ladangLawanButton.setDisable(false);
         tokoButton.setDisable(false);
     }
+
+
+
 
     private void updateGridUI() {
         clearGrid(ladangGrid); // Clear the grid first
@@ -538,9 +548,13 @@ public class MainPageController {
                 }
             }
         }
+        if (bearAttackPositions != null) {
+            highlightAttackZone(bearAttackPositions); // Reapply highlight only if bear attack is ongoing
+        }
     }
 
     private void highlightAttackZone(List<int[]> positions) {
+        bearAttackPositions = positions; // Store positions for later use
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
                 Integer col = GridPane.getColumnIndex(pane);
