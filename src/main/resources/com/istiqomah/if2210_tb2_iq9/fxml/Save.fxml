@@ -8,11 +8,11 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.istiqomah.if2210_tb2_iq9.SaveController" prefWidth="750" prefHeight="650">
-    <Button fx:id="backButton" text="Kembali" layoutX="20" layoutY="20" />
-    <Label text="Save" layoutX="350" layoutY="50" style="-fx-font-size: 24px;" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.istiqomah.if2210_tb2_iq9.SaveController" prefWidth="750" prefHeight="650" stylesheets="@../css/setting.css" styleClass="wood-window">
+    <Button fx:id="backButton" text="BACK" layoutX="20" layoutY="20" style="-fx-background-radius: 36; -fx-background-color: white"/>
+    <Label text="Save" layoutX="350" layoutY="50" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white"/>
 
-    <Label text="Format" layoutX="200" layoutY="150" />
+    <Label text="Format" layoutX="200" layoutY="150" style="-fx-font-weight: bold; -fx-text-fill: white"/>
     <ComboBox fx:id="formatComboBox" layoutX="300" layoutY="150" prefWidth="200">
         <items>
             <FXCollections fx:factory="observableArrayList">
@@ -22,7 +22,7 @@
         </items>
     </ComboBox>
 
-    <Label text="Folder" layoutX="200" layoutY="200" />
+    <Label text="Folder" layoutX="200" layoutY="200" style="-fx-font-weight: bold; -fx-text-fill: white"/>
     <TextField fx:id="folderTextField" layoutX="300" layoutY="200" prefWidth="200"/>
 
     <Button fx:id="saveButton" text="Save" layoutX="300" layoutY="250" prefWidth="200" />

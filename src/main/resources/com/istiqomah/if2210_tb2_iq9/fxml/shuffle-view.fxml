@@ -7,9 +7,12 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.Label?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.ShuffleController">
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.istiqomah.if2210_tb2_iq9.ShuffleController"
+           stylesheets="@../css/shuffle.css"
+           styleClass="stack-pane">
     <VBox alignment="TOP_CENTER" style="-fx-padding: 20px 0 0 0;">
-        <Label fx:id="remainingSelectionsLabel" style="-fx-font-size: 18px;" />
+        <Label fx:id="remainingSelectionsLabel" styleClass="remaining-button" />
         <Region />
     </VBox>
     <VBox spacing="10" alignment="CENTER" style="-fx-background-color: transparent;">

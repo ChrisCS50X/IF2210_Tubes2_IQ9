@@ -1,0 +1,5 @@
+.wood-window {
+    -fx-background-image:url('../asset/wood.png');
+    -fx-background-size: cover;
+    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}

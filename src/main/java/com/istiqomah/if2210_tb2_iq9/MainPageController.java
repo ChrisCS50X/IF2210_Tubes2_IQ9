@@ -51,13 +51,9 @@ public class MainPageController {
     @FXML
     private Button nextButton;
     @FXML
-    private Label player1Label;
+    private Label player1Score;
     @FXML
-    private Label player2Label;
-    @FXML
-    private ImageView gold1;
-    @FXML
-    private ImageView gold2;
+    private Label player2Score;
     @FXML
     private Button ladangkuButton;
     @FXML
@@ -76,6 +72,8 @@ public class MainPageController {
     private Label bearAttackLabel;
     @FXML
     private Label timerLabel;
+    @FXML
+    private Label ladangTitle;
 
     public boolean ladangku;
 
@@ -96,6 +94,7 @@ public class MainPageController {
         setDeckAktifPlayer();
         ladangku = true;
         setLadangPlayer(Player.getPlayerNow());
+        ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
         // Mendapatkan semua node yang merupakan anak dari GridPane
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
@@ -119,12 +118,8 @@ public class MainPageController {
         tokoButton.setOnAction(event -> openToko());
 
         // Set gulden player
-        player1Label.setText("Player 1: " + Player.getPlayerByIdx(0).getGulden());
-        player2Label.setText("Player 2: " + Player.getPlayerByIdx(1).getGulden());
-
-        // Set image gold
-        gold1.setImage(gold);
-        gold2.setImage(gold);
+        player1Score.setText(String.valueOf(Player.getPlayerByIdx(0).getGulden()));
+        player2Score.setText(String.valueOf(Player.getPlayerByIdx(1).getGulden()));
 
         // Initialize bear attack UI elements
         bearAttackLabel.setText("");
@@ -281,7 +276,6 @@ public class MainPageController {
                 if (((Pane) node).getChildren().size() > 0) {
                     ((Pane) node).getChildren().clear();
                 }
-                node.setStyle("-fx-border-color: grey;");
             }
         }
     }
@@ -289,6 +283,9 @@ public class MainPageController {
     public void setDeckAktifPlayer() {
         List<Card> deck = Player.getPlayerNow().getDeck().getHand();
         clearGrid(deckAktifBox);
+        updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
+        System.out.println(Player.getPlayerNow().getName());
+        System.out.println(Player.getPlayerNow().getDeck().getMainDeckSize());
 
         for (int i = 0; i < deck.size() && i < 6; i++) { // Add condition to prevent out of bounds access
             Card card = deck.get(i);
@@ -327,7 +324,6 @@ public class MainPageController {
                 } else {
                     Pane cardPane = new Pane();
                     cardPane.setPrefSize(100, 100);
-                    cardPane.setStyle("-fx-border-color: grey;");
                     ladangGrid.add(cardPane, j, i);
                     setupDragTarget(cardPane);
                 }
@@ -353,7 +349,7 @@ public class MainPageController {
         VBox cardPane = new VBox();
         cardPane.setPrefSize(100, 100);
         cardPane.setAlignment(Pos.CENTER);
-        cardPane.setStyle("-fx-border-width: 1px; -fx-border-color: black; -fx-background-radius: 8; -fx-border-radius: 8;");
+        cardPane.setStyle("-fx-border-width: 1px; -fx-background-radius: 8; -fx-border-radius: 8;");
 
         ImageView imageView = new ImageView(card.getImage());
         imageView.setFitWidth(80);
@@ -373,7 +369,7 @@ public class MainPageController {
         VBox cardPane = new VBox();
         cardPane.setPrefSize(100, 100);
         cardPane.setAlignment(Pos.CENTER);
-        cardPane.setStyle("-fx-border-width: 1px; -fx-border-color: black; -fx-background-radius: 8; -fx-border-radius: 8;");
+        cardPane.setStyle("-fx-border-width: 1px; -fx-background-radius: 8; -fx-border-radius: 8;");
 
         ImageView imageView = new ImageView(img);
         imageView.setFitWidth(80);
@@ -413,7 +409,7 @@ public class MainPageController {
                 stage.showAndWait();
 
                 setDeckAktifPlayer();
-                updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
+                ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
                 ladangku = true;
                 if (Math.random() < 0.3) {
                     initializeSerangan();
@@ -427,6 +423,7 @@ public class MainPageController {
     private void ladangku() {
         ladangkuButton.setOnAction(event -> {
             setLadangPlayer(Player.getPlayerNow());
+            ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
             ladangku = true;
         });
     }
@@ -434,6 +431,7 @@ public class MainPageController {
     private void ladangLawan() {
         ladangLawanButton.setOnAction(event -> {
             setLadangPlayer(Player.getPlayerEnemy());
+            ladangTitle.setText("LADANG LAWAN");
             ladangku = false;
 
         });
@@ -543,7 +541,6 @@ public class MainPageController {
                 } else {
                     Pane cardPane = new Pane();
                     cardPane.setPrefSize(100, 100);
-                    cardPane.setStyle("-fx-border-color: grey;");
                     this.ladangGrid.add(cardPane, j, i);
                     setupDragTarget(cardPane);
                 }
@@ -801,9 +798,9 @@ public class MainPageController {
             tokoController.setOnTokoClosedListener(() -> {
                 int numberPlayer = Player.getIdxTurnPlayer() + 1;
                 if (numberPlayer == 1) {
-                    player1Label.setText("Player 1: " + Player.getPlayerByIdx(0).getGulden());
+                    player1Score.setText(String.valueOf(Player.getPlayerByIdx(0).getGulden()));
                 } else {
-                    player2Label.setText("Player 2: " + Player.getPlayerByIdx(1).getGulden());
+                    player2Score.setText(String.valueOf(Player.getPlayerByIdx(1).getGulden()));
                 }
                 setDeckAktifPlayer();
             });
@@ -865,6 +862,7 @@ public class MainPageController {
             {
                 setLadangPlayer(Player.getPlayerEnemy());
             }
+            updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
             setDeckAktifPlayer();
         } catch (IOException e) {
             e.printStackTrace();

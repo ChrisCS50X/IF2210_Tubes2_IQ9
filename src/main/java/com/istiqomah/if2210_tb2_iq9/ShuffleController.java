@@ -86,6 +86,7 @@ public class ShuffleController {
                     // Ubah card jadi button type biar clickable
                     Button cardButton = new Button();
                     cardButton.setGraphic(cardPane);
+                    cardButton.setStyle("-fx-background-color: none; -fx-font-size: 14px; -fx-border-radius: 5; -fx-background-radius: 5;");
 
                     CardIconController controller = loader.getController();
                     controller.setCard(displayedCards.get(i));
@@ -121,13 +122,11 @@ public class ShuffleController {
     @FXML
     private void updateLabel(int maxSelections) {
         if (maxSelections > 0 && maxSelections < 4) {
-            remainingSelectionsLabel.setText("Select " + maxSelections + " cards");
+            remainingSelectionsLabel.setText("SELECT " + maxSelections + " CARDS");
         } else if (maxSelections >= 4) {
-            remainingSelectionsLabel.setText("Select all cards");
+            remainingSelectionsLabel.setText("SELECT ALL CARDS");
         } else if (maxSelections == 0) {
-            remainingSelectionsLabel.setText("Your deck is empty");
-        } else {
-            remainingSelectionsLabel.setText("Your hand is full! Click OK");
+            remainingSelectionsLabel.setText("YOUR HAND IS FULL! CLICK OK");
         }
     }
 

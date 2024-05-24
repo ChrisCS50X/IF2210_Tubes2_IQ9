@@ -1,0 +1,11 @@
+.stack-pane {
+    -fx-background-image: url('../asset/wood.png');
+    -fx-background-radius: 20px;
+    -fx-font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.remaining-button {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
