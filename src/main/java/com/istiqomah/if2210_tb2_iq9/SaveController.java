@@ -69,7 +69,7 @@ public class SaveController {
             return;
         }
 
-        mainPageController.saveData("com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath, format);
+        mainPageController.saveData("classes/com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath, format);
         statusLabel.setText("State Saved Successfully");
     }
 }
