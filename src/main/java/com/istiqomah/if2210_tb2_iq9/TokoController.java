@@ -6,7 +6,6 @@ import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
@@ -16,76 +15,92 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Map;
 
+// Controller untuk menampilkan toko
 public class TokoController {
 
+    // Mendeklarasikan elemen-elemen yang ada di antarmuka pengguna
     @FXML
-    public GridPane cardSellsDeck;
-
-    @FXML
-    public GridPane sellsBox;
+    public GridPane cardSellsDeck; // Dek kartu yang dijual
 
     @FXML
-    public Button backButton;
+    public GridPane sellsBox; // Kotak penjualan
 
     @FXML
-    private GridPane cardProducts;
+    public Button backButton; // Tombol kembali
 
-    private Toko toko;
-    private Player player;
-    private OnDisplayClosedListener listener;
+    @FXML
+    private GridPane cardProducts; // Produk kartu
 
+    // Mendeklarasikan variabel-variabel yang dibutuhkan
+    private Toko toko; // Toko
+    private Player player; // Pemain
+    private OnDisplayClosedListener listener; // Listener untuk event penutupan tampilan
+
+    // Metode untuk inisialisasi
     @FXML
     public void initialize() {
+        // Mengatur aksi untuk tombol kembali
         backButton.setOnAction(event -> goBackToMainPage());
     }
 
+    // Metode untuk mengatur listener penutupan tampilan
     public void setOnTokoClosedListener(OnDisplayClosedListener listener) {
         this.listener = listener;
     }
+
+    // Metode untuk mengatur toko
     public void setToko(Toko toko) {
         this.toko = toko;
-        loadProducts();
+        loadProducts(); // Memuat produk
     }
 
+    // Metode untuk mengatur pemain
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    // Metode untuk memuat produk
     public void loadProducts() {
+        // Menghapus semua anak dari cardProducts
         cardProducts.getChildren().clear();
         int row = 0;
         int column = 0;
+        // Iterasi melalui semua produk yang tersedia di toko
         for (Map.Entry<Card, Integer> entry : toko.getAvailableProducts().entrySet()) {
             try {
+                // Membuat loader dan memuat Pane baru
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardToko.fxml"));
                 Pane newLoadedPane = loader.load();
 
+                // Mengatur toko dan kartu untuk controller
                 CardTokoController cardTokoController = loader.getController();
                 cardTokoController.setToko(toko);
                 cardTokoController.setCardToko(entry.getKey());
 
+                // Mengatur aksi ketika Pane diklik
                 newLoadedPane.setOnMouseClicked(event -> {
                     Card card = entry.getKey();
-                    if (card instanceof Product product){
+                    if (card instanceof Product product) {
+                        // Jika pemain memiliki cukup uang, beli produk
                         if (player.getGulden() >= product.getPrice()) {
                             player.buyProduct(toko, card);
-                            System.out.println("Product bought: " + entry.getKey());
+                            System.out.println("Produk dibeli: " + entry.getKey());
                             System.out.println("Gulden: " + player.getGulden());
-                            loadProducts();
-                            updateCardSellsDeck();
-                        }
-                        else
-                        {
-                            System.out.println("Not enough money to buy this product.");
+                            loadProducts(); // Memuat ulang produk
+                            updateCardSellsDeck(); // Memperbarui dek penjualan kartu
+                        } else {
+                            System.err.println("Uang tidak cukup untuk membeli produk ini.");
                         }
                     }
                 });
 
+                // Menambahkan Pane ke cardProducts
                 GridPane.setConstraints(newLoadedPane, column, row);
                 cardProducts.getChildren().add(newLoadedPane);
 
+                // Mengatur posisi untuk Pane berikutnya
                 column++;
-                if (column > 3) { // if you want 4 items per row
+                if (column > 3) { // jika Anda ingin 4 item per baris
                     column = 0;
                     row++;
                 }
@@ -95,36 +110,40 @@ public class TokoController {
         }
     }
 
+    // Metode untuk memperbarui dek penjualan kartu
     public void updateCardSellsDeck() {
+        // Menghapus semua anak dari cardSellsDeck
         cardSellsDeck.getChildren().clear();
         int column = 0;
+        // Iterasi melalui semua kartu di tangan pemain
         for (Card card : player.getDeck().getHand()) {
             try {
                 if (card == null) {
                     continue;
                 }
+                // Membuat loader dan memuat Pane baru
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/CardIcon.fxml"));
                 Pane newLoadedPane = loader.load();
 
-                // Set the maximum size of the Pane to allow it to fill the cell
-                newLoadedPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
+                // Mengatur kartu untuk controller
                 CardIconController cardIconController = loader.getController();
                 cardIconController.setCard(card);
 
+                // Mengatur aksi ketika Pane diklik
                 newLoadedPane.setOnMouseClicked(event -> {
-                    if (card instanceof Product product){
-                        player.sellProduct(toko,card);
-                        System.out.println("Product sold: " + card);
+                    if (card instanceof Product product) {
+                        // Jual produk
+                        player.sellProduct(toko, card);
+                        System.out.println("Produk dijual: " + card);
                         System.out.println("Gulden: " + player.getGulden());
-                        loadProducts();
-                        updateCardSellsDeck();
-                    }
-                    else {
-                        System.out.println("Card is not a product.");
+                        loadProducts(); // Memuat ulang produk
+                        updateCardSellsDeck(); // Memperbarui dek penjualan kartu
+                    } else {
+                        System.err.println("Kartu bukan produk.");
                     }
                 });
 
+                // Menambahkan Pane ke cardSellsDeck
                 GridPane.setConstraints(newLoadedPane, column, 0);
                 cardSellsDeck.getChildren().add(newLoadedPane);
 
@@ -135,15 +154,17 @@ public class TokoController {
         }
     }
 
+    // Metode untuk kembali ke halaman utama
     @FXML
     private void goBackToMainPage() {
         try {
-            // Load the FXML file for the main page
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/newMain.fxml"));
+            // Memuat file FXML untuk halaman utama
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/newMain.fxml"));
             ScrollPane mainPagePane = loader.load();
             mainPagePane.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
 
-            // Set the main page pane as the root of the current scene
+            // Mengatur pane halaman utama sebagai root dari scene saat ini
             Stage currentScene = (Stage) backButton.getScene().getWindow();
             currentScene.close();
 

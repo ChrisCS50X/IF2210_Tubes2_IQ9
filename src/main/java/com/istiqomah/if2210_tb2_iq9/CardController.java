@@ -37,8 +37,7 @@ public class CardController {
 
     private int y;
 
-
-    public void setCard(Card card,int x, int y,boolean isladangku) {
+    public void setCard(Card card, int x, int y, boolean isladangku) {
         this.x = x;
         this.y = y;
         String type = card.getType();
@@ -76,28 +75,23 @@ public class CardController {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            if (isladangku)
-            {
+            if (isladangku) {
                 panenButton.setDisable(animal.getWeight() < animal.getHarvestWeight());
-            }
-            else
-            {
+            } else {
                 panenButton.setDisable(true);
             }
-        }
-        else if (card instanceof Plant) {
+        } else if (card instanceof Plant) {
             System.out.println("Plant");
             Plant plant = (Plant) card;
             if (plant.isHarvestable()) {
                 Product product = (Product) plant.getProduct();
                 cardImage.setImage(product.getImage());
                 namaCardText.setText(product.getName());
-            } else
-            {
+            } else {
                 cardImage.setImage(plant.getImage());
                 namaCardText.setText(plant.getName());
             }
-            umurLabel.setText("Umur : " + plant.getAge() +" (" + plant.getHarvestDuration() + ")");
+            umurLabel.setText("Umur : " + plant.getAge() + " (" + plant.getHarvestDuration() + ")");
 
             // Map untuk menyimpan item dan jumlah kemunculannya
             Map<String, Integer> itemCounts = new HashMap<>();
@@ -115,17 +109,13 @@ public class CardController {
             if (!activeItems.isEmpty()) {
                 activeItems.setLength(activeItems.length() - 2);
                 itemAktifLabel.setText("Item aktif : " + activeItems.toString());
-            }
-            else {
+            } else {
                 itemAktifLabel.setText("Item aktif : Tidak ada item aktif");
             }
 
-            if (isladangku)
-            {
+            if (isladangku) {
                 panenButton.setDisable(plant.getAge() < plant.getHarvestDuration());
-            }
-            else
-            {
+            } else {
                 panenButton.setDisable(true);
             }
         }
@@ -144,14 +134,15 @@ public class CardController {
 
     private void panen() {
         panenButton.setOnAction(event -> {
-            int maxSelections = 6 - (int) Player.getPlayerNow().getDeck().getHand().stream().filter(Objects::nonNull).count();
+            int maxSelections = 6
+                    - (int) Player.getPlayerNow().getDeck().getHand().stream().filter(Objects::nonNull).count();
             if (maxSelections != 0) {
                 Player.getPlayerNow().harvest(x, y);
             }
-//            else
-//            {
-//                notifyObservers("Deck aktif player sudah penuh anda tidak bisa panen");
-//            }
+            // else
+            // {
+            // notifyObservers("Deck aktif player sudah penuh anda tidak bisa panen");
+            // }
             Stage stage = (Stage) kembaliButton.getScene().getWindow();
             stage.close();
         });

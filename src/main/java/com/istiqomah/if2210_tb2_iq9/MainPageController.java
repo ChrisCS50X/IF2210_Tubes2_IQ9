@@ -130,7 +130,8 @@ public class MainPageController {
     private void setupDragSource(Pane source, Card card, boolean isCurrentPlayerLadang) {
         if (isCurrentPlayerLadang) {
             source.setOnDragDetected(event -> {
-                Dragboard db = source.startDragAndDrop(TransferMode.MOVE); // Memulai drag-and-drop dengan mode transfer MOVE
+                Dragboard db = source.startDragAndDrop(TransferMode.MOVE); // Memulai drag-and-drop dengan mode transfer
+                                                                           // MOVE
                 ClipboardContent content = new ClipboardContent(); // Membuat clipboard content
                 content.putImage(card.getImage()); // Menetapkan gambar kartu ke clipboard content
                 source.setUserData(card); // Simpan data kartu di panel sumber
@@ -153,7 +154,8 @@ public class MainPageController {
                 } else if (card instanceof Item || card instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
                         Card targetCard = (Card) target.getUserData();
-                        // If the target card is not a Plant or the dragged card is not a Product, accept the transfer
+                        // If the target card is not a Plant or the dragged card is not a Product,
+                        // accept the transfer
                         if (!(targetCard instanceof Plant && card instanceof Product)) {
                             event.acceptTransferModes(TransferMode.MOVE);
                         }
@@ -178,7 +180,8 @@ public class MainPageController {
                         Card targetCard = (Card) target.getUserData();
                         // Apply the item to the target card
                         if (ladangku) {
-                            if (newCard.getName().equals("Accelerate") || newCard.getName().equals("Instant_Harvest") || newCard.getName().equals("Protect") || newCard.getName().equals("Trap")) {
+                            if (newCard.getName().equals("Accelerate") || newCard.getName().equals("Instant_Harvest")
+                                    || newCard.getName().equals("Protect") || newCard.getName().equals("Trap")) {
                                 if (targetCard instanceof Animal) {
                                     ((Animal) targetCard).applyItem((Item) newCard);
                                 } else if (targetCard instanceof Plant) {
@@ -188,35 +191,40 @@ public class MainPageController {
                                 Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
                                 event.setDropCompleted(true);
                             } else {
-                                System.err.println("salah bang");
+                                System.err.println("Tidak bisa menggunakan item ini di sini");
                                 System.err.println(newCard.getName());
                             }
                         } else {
                             if (newCard.getName().equals("Delay")) {
-                                if (targetCard instanceof Animal) {
-                                    ((Animal) targetCard).applyItem((Item) newCard);
-                                } else if (targetCard instanceof Plant) {
-                                    ((Plant) targetCard).applyItem((Item) newCard);
+                                if (targetCard.hasItem("Protect")) {
+                                    System.err.println("Tidak bisa menggunakan item destroy untuk kartu yang dilindungi");
                                 }
-                                ((Pane) source.getParent()).getChildren().remove(source);
-                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-                                event.setDropCompleted(true);
+
+                                else {
+                                    if (targetCard instanceof Animal) {
+                                        ((Animal) targetCard).applyItem((Item) newCard);
+                                    } else if (targetCard instanceof Plant) {
+                                        ((Plant) targetCard).applyItem((Item) newCard);
+                                    }
+                                    ((Pane) source.getParent()).getChildren().remove(source);
+                                    Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                    event.setDropCompleted(true);
+                                }
                             } else if (newCard.getName().equals("Destroy")) {
-                                Player.getPlayerEnemy().getLadang().removeCardFromPosition(targetRow, targetCol);
-                                setLadangPlayer(Player.getPlayerEnemy());
-                                ((Pane) source.getParent()).getChildren().remove(source);
-                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-                                event.setDropCompleted(true);
+                                if (targetCard.hasItem("Protect")) {
+                                    System.err.println("Tidak bisa menggunakan item destroy untuk kartu yang dilindungi");
+                                } else {
+                                    Player.getPlayerEnemy().getLadang().removeCardFromPosition(targetRow, targetCol);
+                                    setLadangPlayer(Player.getPlayerEnemy());
+                                    ((Pane) source.getParent()).getChildren().remove(source);
+                                    Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                    event.setDropCompleted(true);
+                                }
                             } else {
-                                System.err.println("Salah bang");
+                                System.err.println("Tidak bisa menggunakan item ini di sini");
                             }
                         }
 
-
-                        // Remove the card from the source pane and the player's hand
-//                        ((Pane) source.getParent()).getChildren().remove(source);
-//                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
-//                        event.setDropCompleted(true);
                     }
                 } else if (newCard instanceof Product) {
                     if (!target.getChildren().isEmpty()) {
@@ -252,9 +260,11 @@ public class MainPageController {
                             }
                             Pane newPane = createCardPane(newCard);
                             target.getChildren().add(newPane);
-                            setupDragSource(newPane, newCard, true); // Mengatur pane baru sebagai sumber drag dengan gambar yang sama
+                            setupDragSource(newPane, newCard, true); // Mengatur pane baru sebagai sumber drag dengan
+                                                                     // gambar yang sama
                             setupClickHandler(newPane, newCard);
-                            ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari parent-nya
+                            ((Pane) source.getParent()).getChildren().remove(source); // Menghapus sumber dari
+                                                                                      // parent-nya
                             setLadangPlayer(Player.getPlayerNow());
                             event.setDropCompleted(true);
                         }
@@ -364,8 +374,7 @@ public class MainPageController {
         return cardPane;
     }
 
-    private Pane createCardPaneHarvest(Card card , Image img,String productName)
-    {
+    private Pane createCardPaneHarvest(Card card, Image img, String productName) {
         VBox cardPane = new VBox();
         cardPane.setPrefSize(100, 100);
         cardPane.setAlignment(Pos.CENTER);
@@ -383,6 +392,7 @@ public class MainPageController {
 
         return cardPane;
     }
+
     private void nextTurn() {
         nextButton.setOnAction(event -> {
             try {
@@ -490,7 +500,8 @@ public class MainPageController {
             }
         }
 
-        // If a card with item "trap" is found, add a bear card to the active deck and do not remove any card
+        // If a card with item "trap" is found, add a bear card to the active deck and
+        // do not remove any card
         if (trapFound) {
             Card bearCard = CardManager.getCard("animal", "Beruang");
             if (bearCard != null) {
@@ -522,9 +533,6 @@ public class MainPageController {
         ladangLawanButton.setDisable(false);
         tokoButton.setDisable(false);
     }
-
-
-
 
     private void updateGridUI() {
         clearGrid(ladangGrid); // Clear the grid first
@@ -625,8 +633,8 @@ public class MainPageController {
             System.out.println("Loading game state from: " + gameStatePath);
 
             try (BufferedReader config1Reader = new BufferedReader(new FileReader(config1Path));
-                 BufferedReader config2Reader = new BufferedReader(new FileReader(config2Path));
-                 BufferedReader gameStateReader = new BufferedReader(new FileReader(gameStatePath))) {
+                    BufferedReader config2Reader = new BufferedReader(new FileReader(config2Path));
+                    BufferedReader gameStateReader = new BufferedReader(new FileReader(gameStatePath))) {
 
                 // Load data for player 1
                 loadPlayerData(config1Reader, Player.getPlayerByIdx(0));
@@ -840,13 +848,10 @@ public class MainPageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Card.fxml"));
             Pane view = loader.load();
             CardController cardController = loader.getController();
-            if (ladangku)
-            {
-                cardController.setCard(card, x, y,true);
-            }
-            else
-            {
-                cardController.setCard(card, x, y,false);
+            if (ladangku) {
+                cardController.setCard(card, x, y, true);
+            } else {
+                cardController.setCard(card, x, y, false);
             }
             Stage stage = new Stage();
             stage.setTitle("Shuffle View");
@@ -854,12 +859,9 @@ public class MainPageController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.showAndWait();
-            if (ladangku)
-            {
+            if (ladangku) {
                 setLadangPlayer(Player.getPlayerNow());
-            }
-            else
-            {
+            } else {
                 setLadangPlayer(Player.getPlayerEnemy());
             }
             updateDeckLabel(Player.getPlayerNow().getDeck().getMainDeckSize());
@@ -869,8 +871,7 @@ public class MainPageController {
         }
     }
 
-    private void calculateWinner()
-    {
+    private void calculateWinner() {
         int gulden1 = Player.getPlayerByIdx(0).getGulden();
         int gulden2 = Player.getPlayerByIdx(1).getGulden();
         if (gulden1 > gulden2) {

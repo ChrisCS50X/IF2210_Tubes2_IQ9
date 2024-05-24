@@ -1,14 +1,10 @@
 package com.istiqomah.if2210_tb2_iq9;
 
 import com.istiqomah.if2210_tb2_iq9.model.card.Card;
-import com.istiqomah.if2210_tb2_iq9.model.card.CardManager;
 import com.istiqomah.if2210_tb2_iq9.model.card.Item;
-import com.istiqomah.if2210_tb2_iq9.model.cardcollection.Deck;
 import com.istiqomah.if2210_tb2_iq9.model.ladang.KomponenPetak;
 import com.istiqomah.if2210_tb2_iq9.model.ladang.Ladang;
 import com.istiqomah.if2210_tb2_iq9.model.player.Player;
-import com.istiqomah.if2210_tb2_iq9.model.save_load.Readconfig;
-import com.istiqomah.if2210_tb2_iq9.model.save_load.Pair;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,65 +44,69 @@ public class SaveController {
         saveButton.setOnAction(event -> handleSaveButton());
     }
 
+    // Mengatur controller untuk halaman utama
     public void setMainPageController(MainPageController mainPageController) {
         this.mainPageController = mainPageController;
     }
 
-    public void  setMainPage(MainPage mainPage){
+    // Mengatur halaman utama
+    public void setMainPage(MainPage mainPage) {
         this.mainPage = mainPage;
     }
 
+    // Menangani aksi tombol kembali
     private void handleBackButton() {
-        // Implement the action for the back button
+        // Implementasi ketika tombol kembali ditekan
         System.out.println("Back button clicked");
         backButton.getScene().getWindow().hide();
     }
 
+    // Menangani aksi tombol simpan
     private void handleSaveButton() {
-        // Get the folder path from the TextField
+        // Dapatkan path folder dari TextField
         String folderPath = folderTextField.getText();
 
-        // Validate the folder path
+        // Validasi path folder
         if (folderPath == null || folderPath.isEmpty()) {
             statusLabel.setText("Folder path is empty");
             statusLabel.setVisible(true);
             return;
         }
 
-        // Call method to save the game state
+        // Panggil metode saveData pada controller halaman utama
         saveData("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/" + folderPath);
 
-        // Update status label
+        // Perbarui label status
         statusLabel.setText("State Saved Successfully");
         statusLabel.setVisible(true);
     }
 
+    // Metode untuk menyimpan data
     private void saveData(String folderPath) {
         try {
-            // Ensure the folder exists
+            // Memastikan keberadaan folder ada
             File folder = new File(folderPath);
             if (!folder.exists()) {
-                folder.mkdirs();  // Create the folder if it doesn't exist
+                folder.mkdirs(); // Buat folder jika belum ada
             }
 
-            // Write to config1.txt
+            // Tulis ke config1.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config1.txt"))) {
                 int gulden = Player.getPlayerByIdx(0).getGulden();
                 int jumlahKartu = Player.getPlayerByIdx(0).getDeck().getMainDeckSize();
                 int n_hand = 0;
                 List<Card> handc = Player.getPlayerByIdx(0).getDeck().getHand();
-                for (int i = 0; i < 6; i++){
-                    if (handc.get(i) != null ){
+                for (int i = 0; i < 6; i++) {
+                    if (handc.get(i) != null) {
                         n_hand++;
                     }
                 }
-
 
                 writer.write(gulden + "\n");
                 writer.write(jumlahKartu + "\n");
                 writer.write(n_hand + "\n");
 
-                // Write hand cards
+                // Tulis kartu untuk jadi hand cards
                 for (int i = 0; i < 6; i++) {
                     Card card = Player.getPlayerByIdx(0).getDeck().getHand().get(i);
                     if (card != null) {
@@ -116,19 +116,19 @@ public class SaveController {
                     }
                 }
 
-                // Write ladang cards
+                // Tulis kartu untuk jadi ladang cards
                 Ladang ladang = Player.getPlayerByIdx(0).getLadang();
                 int count = 0;
 
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
-                        if(komponen != null){
+                        if (komponen != null) {
                             count++;
                         }
                     }
                 }
-                writer.write(count +"\n");
+                writer.write(count + "\n");
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
@@ -136,7 +136,7 @@ public class SaveController {
                             Card card = (Card) komponen;
                             if (card != null) {
                                 String name = card.getName();
-                                String lokasi = convertRowToLetter(i) +"0"+ String.valueOf(j);
+                                String lokasi = convertRowToLetter(i) + "0" + String.valueOf(j);
                                 int beratUmur = card.getBerat_Umur();
                                 List<Item> items = card.getActiveItems();
                                 int jumlahItem = items.size();
@@ -157,18 +157,17 @@ public class SaveController {
                 int jumlahKartu = Player.getPlayerByIdx(1).getDeck().getMainDeckSize();
                 int n_hand = 0;
                 List<Card> handc = Player.getPlayerByIdx(1).getDeck().getHand();
-                for (int i = 0; i < 6; i++){
-                    if (handc.get(i) != null ){
+                for (int i = 0; i < 6; i++) {
+                    if (handc.get(i) != null) {
                         n_hand++;
                     }
                 }
-
 
                 writer.write(gulden + "\n");
                 writer.write(jumlahKartu + "\n");
                 writer.write(n_hand + "\n");
 
-                // Write hand cards
+                // Tulis hand cards
                 for (int i = 0; i < 6; i++) {
                     Card card = Player.getPlayerByIdx(1).getDeck().getHand().get(i);
                     if (card != null) {
@@ -178,19 +177,19 @@ public class SaveController {
                     }
                 }
 
-                // Write ladang cards
+                // Tulis ladang cards
                 Ladang ladang = Player.getPlayerByIdx(1).getLadang();
                 int count = 0;
 
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
                         KomponenPetak komponen = ladang.getCardAtPosition(i, j);
-                        if(komponen != null){
+                        if (komponen != null) {
                             count++;
                         }
                     }
                 }
-                writer.write(count+"\n");
+                writer.write(count + "\n");
 
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 5; j++) {
@@ -200,7 +199,7 @@ public class SaveController {
                             if (card != null) {
 
                                 String name = card.getName();
-                                String lokasi = convertRowToLetter(i) +"0"+ String.valueOf(j);
+                                String lokasi = convertRowToLetter(i) + "0" + String.valueOf(j);
                                 int beratUmur = card.getBerat_Umur();
                                 List<Item> items = card.getActiveItems();
                                 int jumlahItem = items.size();
@@ -216,7 +215,7 @@ public class SaveController {
                 }
             }
 
-            // Write to gamestate.txt
+            // Tulis gamestate.txt
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/gamestate.txt"))) {
                 int turn = mainPageController.TurnNow;
                 Map<Card, Integer> shopItems = mainPage.toko.getAvailableProducts();
@@ -238,6 +237,7 @@ public class SaveController {
         }
     }
 
+    // Metode untuk mengubah baris menjadi huruf
     private String convertRowToLetter(int row) {
         return Character.toString((char) ('A' + row));
     }
