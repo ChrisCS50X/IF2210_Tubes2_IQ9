@@ -183,7 +183,7 @@ public class MainPageController {
                         Card targetCard = (Card) target.getUserData();
                         // Apply the item to the target card
                         if (ladangku) {
-                            if (newCard.getName().equals("Acclerate") || newCard.getName().equals("Instant_Harvest") || newCard.getName().equals("Protect") || newCard.getName().equals("Trap")) {
+                            if (newCard.getName().equals("Accelerate") || newCard.getName().equals("Instant_Harvest") || newCard.getName().equals("Protect") || newCard.getName().equals("Trap")) {
                                 if (targetCard instanceof Animal) {
                                     ((Animal) targetCard).applyItem((Item) newCard);
                                 } else if (targetCard instanceof Plant) {
@@ -805,6 +805,7 @@ public class MainPageController {
                 } else {
                     player2Label.setText("Player 2: " + Player.getPlayerByIdx(1).getGulden());
                 }
+                setDeckAktifPlayer();
             });
 
             Stage stage = new Stage();

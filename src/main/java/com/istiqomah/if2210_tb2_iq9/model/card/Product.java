@@ -1,6 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9.model.card;
 
 import java.util.List;
+import java.util.Objects;
 
 // Kelas Product yang mengextends Card
 public class Product extends Card {
@@ -75,5 +76,18 @@ public class Product extends Card {
     @Override
     public void setBerat_Umur(Integer berat_umur) {
         ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

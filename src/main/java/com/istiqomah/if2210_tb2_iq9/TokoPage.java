@@ -27,11 +27,11 @@ public class TokoPage extends Application {
             Toko toko = new Toko();
             Card card1 = CardManager.getCard("product","Stroberi");
             Card card2 = CardManager.getCard("product","Susu");
-            Card card3 = CardManager.getCard("product", "Daging Domba");
+            Card card3 = CardManager.getCard("product", "Daging_Domba");
             Card card4 = CardManager.getCard("product", "Telur");
-            Card card5 = CardManager.getCard("product","Sirip Hiu");
+            Card card5 = CardManager.getCard("product","Sirip_Hiu");
             Card card6 = CardManager.getCard("product","Jagung");
-            Card card7 = CardManager.getCard("product","Daging Kuda");
+            Card card7 = CardManager.getCard("product","Daging_Kuda");
 
             player1.getDeck().addCardToHand(card1);
             player1.getDeck().addCardToHand(card2);
