@@ -70,26 +70,30 @@ public class Animal extends Card implements Harvestable {
 
     // Metode untuk memberikan makan kepada hewan dengan tipe makanan yang
     // berbeda-beda
-    public void feed(Product product) {
+    public boolean feed(Product product) {
         System.out.println("Makanan yang dimakan: " + product.getName());
         System.out.println("Tipe hewan: " + tipe);
         if (Objects.equals(tipe, "Karnivora")) {
             System.out.println("Hewan: " + this.getName() + " Tipe: " + tipe);
             if (CarnivoreFood.contains(product.getName())) {
                 this.weight += product.getWeight();
+                return true;
             } else {
                 System.out.println("Karnivora tidak bisa makan " + product.getName());
+                return false;
             }
         } else if (Objects.equals(tipe, "Herbivora")) {
             if (HerbivoreFood.contains(product.getName())) {
                 this.weight += product.getWeight();
+                return true;
             } else {
                 System.out.println("Herbivora tidak bisa makan " + product.getName());
+                return false;
             }
         }
-
         else {
             this.weight += product.getWeight();
+            return true;
         }
     }
 

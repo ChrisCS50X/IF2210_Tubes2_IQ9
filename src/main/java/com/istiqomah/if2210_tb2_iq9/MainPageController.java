@@ -228,12 +228,13 @@ public class MainPageController {
                         Card targetCard = (Card) target.getUserData();
 
                         if (targetCard instanceof Animal) {
-                            ((Animal) targetCard).feed((Product) newCard);
+                            boolean isFeedValid = ((Animal) targetCard).feed((Product) newCard);
+                            if (isFeedValid) {
+                                ((Pane) source.getParent()).getChildren().remove(source);
+                                Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
+                                event.setDropCompleted(true);
+                            }
                         }
-
-                        // Remove the card from the source pane and the player's hand
-                        ((Pane) source.getParent()).getChildren().remove(source);
-                        Player.getPlayerNow().getDeck().removeFromHand(sourceCol);
                         event.setDropCompleted(true);
                     }
                 } else if (newCard instanceof Animal || newCard instanceof Plant) {
