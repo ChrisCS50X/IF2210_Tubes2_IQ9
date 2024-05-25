@@ -80,6 +80,8 @@ public class MainPageController {
     private Label timerLabel;
     @FXML
     private Label ladangTitle;
+    @FXML
+    private Label bearWarning;
 
     @FXML
     private SaveController saveController;
@@ -441,9 +443,9 @@ public class MainPageController {
                     setDeckAktifPlayer();
                     ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
                     ladangku = true;
-                    //                if (Math.random() < 0.3) {
-                    //                    initializeSerangan();
-                    //                }
+                    if (Math.random() < 0.3) {
+                        initializeSerangan();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -473,7 +475,8 @@ public class MainPageController {
         ladang.initiateBearAttack();
 
         List<int[]> attackPositions = ladang.getCurrentBearAttack().getAttackPositions();
-        bearAttackLabel.setText("Bear is attacking at\nmultiple positions!");
+        bearAttackLabel.setText("Attacking\n multiple\npositions!");
+        bearWarning.setText("! BEAR ATTACK !");
         timeRemaining = ladang.getCurrentBearAttack().getDuration() * 10; // Convert to tenths of a second
         updateTimerLabel();
 
@@ -502,7 +505,7 @@ public class MainPageController {
 
     private void updateTimerLabel() {
         int seconds = timeRemaining / 10;
-        timerLabel.setText("Time remaining: " + seconds + "s");
+        timerLabel.setText(seconds + "s");
     }
 
     private void handleBearAttackEnd() {
@@ -543,6 +546,7 @@ public class MainPageController {
 
         updateGridUI();
         bearAttackLabel.setText("");
+        bearWarning.setText("");
         timerLabel.setText("");
         clearHighlight();
 

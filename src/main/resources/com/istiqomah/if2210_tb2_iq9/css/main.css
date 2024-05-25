@@ -102,3 +102,13 @@
     -fx-background-color: linear-gradient(to top right, #f5dc7c, #fff2c0);
     -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 15, 0.5, 0, 2);
 }
+
+.bear-label {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+    -fx-font-size: 100px;
+}
+
+.bear-container {
+    -fx-pref-width: 100px;
+}
