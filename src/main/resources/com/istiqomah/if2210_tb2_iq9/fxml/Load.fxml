@@ -14,7 +14,7 @@
     <padding>
         <Insets top="100"/>
     </padding>
-    <Button fx:id="backButton" text="BACK" layoutX="20" layoutY="20" style="-fx-background-radius: 36; -fx-background-color: white"/>
+    <Button fx:id="backButton" text="BACK" layoutX="20" layoutY="20" styleClass="back-button"/>
     <Label text="LOAD" layoutX="350" layoutY="50" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white" />
 
     <Label text="Format" layoutX="200" layoutY="150" style="-fx-font-weight: bold; -fx-text-fill: white"/>

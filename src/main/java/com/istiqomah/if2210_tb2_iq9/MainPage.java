@@ -19,6 +19,7 @@ import java.util.Random;
 
 public class MainPage extends Application {
     public static Toko toko;
+    private static Stage primaryStage;
     public static void inisialisasi()
     {
         new CardManager();
@@ -38,6 +39,8 @@ public class MainPage extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        MainPage.primaryStage = primaryStage;
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/newMain.fxml"));
         Parent root = loader.load();
         root.getStylesheets().add(getClass().getResource("css/main.css").toExternalForm());
@@ -69,5 +72,9 @@ public class MainPage extends Application {
     {
         inisialisasi();
         launch(args);
+    }
+
+    public static void closeApplication() {
+        primaryStage.close();
     }
 }

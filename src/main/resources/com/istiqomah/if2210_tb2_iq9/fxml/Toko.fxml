@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="Toko" prefHeight="830.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.TokoController" stylesheets="@../css/toko.css" styleClass="window">
    <children>
-       <VBox alignment="CENTER" layoutX="25" prefHeight="100.0" prefWidth="800.0" styleClass="toko-title">
+       <VBox alignment="CENTER" layoutX="30" layoutY="40" prefHeight="90.0" prefWidth="780.0" styleClass="toko-title">
            <children>
                <Label text="KERANJANG ORANGE" styleClass="toko-text"/>
            </children>
@@ -47,6 +47,6 @@
             </GridPane>
          </children>
       </Pane>
-       <Button fx:id="backButton" layoutX="20.0" layoutY="137.0" mnemonicParsing="false" text="BACK" style="-fx-background-radius: 36; -fx-background-color: white" />
+       <Button fx:id="backButton" layoutX="25.0" layoutY="160.0" mnemonicParsing="false" text="BACK" styleClass="back-button"/>
    </children>
 </AnchorPane>

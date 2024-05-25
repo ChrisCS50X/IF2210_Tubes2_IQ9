@@ -5,9 +5,9 @@
 
 .toko-title {
     -fx-padding: 10;
-    -fx-background-radius: 20;
+    -fx-background-radius: 100;
     -fx-background-color: #ea7e16;
-    -fx-border-radius: 20;
+    -fx-border-radius: 100;
     -fx-border-color: #f5dc7c;
     -fx-border-width: 3px;
 }
@@ -24,4 +24,16 @@
     -fx-border-radius: 20;
     -fx-border-color: #f5dc7c;
     -fx-border-width: 3px;
+}
+
+.back-button {
+    -fx-padding: 2;
+    -fx-background-radius: 36;
+    -fx-background-color: linear-gradient(to top, #ffd146, #f0d944, #dbd766, #fbf7bb);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-font-size: 12;
+    -fx-pref-width: 50;
+    -fx-pref-height: 25;
 }

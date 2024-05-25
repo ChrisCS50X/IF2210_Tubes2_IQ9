@@ -60,14 +60,18 @@ public class ShuffleController {
         if (playerDeck.getMainDeckSize() != 0) {
             for (int i = 0; i < 4; i++) {
                 try {
-                    Random random = new Random();
-                    Boolean cek = true;
-                    while (cek) {
-                        Card randomCard = playerDeck.getMainDeck().get(random.nextInt(playerDeck.getMainDeckSize()));
-                        if (!displayedCards.stream().anyMatch(card -> card.getName().equals(randomCard.getName())) && !randomCard.getName().equals("Beruang")) {
-                            displayedCards.add(randomCard);
-                            cek = false;
+                    if (playerDeck.getMainDeckSize() > 4) {
+                        Random random = new Random();
+                        Boolean cek = true;
+                        while (cek) {
+                            Card randomCard = playerDeck.getMainDeck().get(random.nextInt(playerDeck.getMainDeckSize()));
+                            if (!displayedCards.stream().anyMatch(card -> card.getName().equals(randomCard.getName())) && !randomCard.getName().equals("Beruang")) {
+                                displayedCards.add(randomCard);
+                                cek = false;
+                            }
                         }
+                    } else {
+                        displayedCards.addAll(playerDeck.getMainDeck());
                     }
 
 //                    System.out.println("Random card: " + randomCard.getName());

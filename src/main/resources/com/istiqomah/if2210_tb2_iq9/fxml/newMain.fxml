@@ -17,15 +17,15 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.HBox?>
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.MainPageController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.istiqomah.if2210_tb2_iq9.MainPageController" >
     <content>
         <AnchorPane prefHeight="830.0" prefWidth="850.0" styleClass="root">
             <VBox>
                 <HBox alignment="CENTER" spacing="350" prefWidth="850">
                     <HBox spacing="10">
                         <VBox spacing="10" alignment="CENTER">
-                            <HBox spacing="30" alignment="CENTER" styleClass="player-label">
-                                <Label fx:id="player1Label" text="Player 1" styleClass="player-text"/>
+                            <HBox spacing="40" alignment="CENTER" styleClass="player-label">
+                                <Label fx:id="player1Label" text="PLAYER 1" styleClass="player-text"/>
                                 <HBox>
                                     <ImageView fx:id="gold1" fitHeight="25.0" fitWidth="35.0">
                                         <image>
@@ -35,8 +35,8 @@
                                     <Label fx:id="player1Score" text="100" styleClass="player-text"/>
                                 </HBox>
                             </HBox>
-                            <HBox spacing="30" alignment="CENTER" styleClass="player-label">
-                                <Label fx:id="player2Label" text="Player 2" styleClass="player-text"/>
+                            <HBox spacing="40" alignment="CENTER" styleClass="player-label">
+                                <Label fx:id="player2Label" text="PLAYER 2" styleClass="player-text"/>
                                 <HBox>
                                     <ImageView fx:id="gold2" fitHeight="25.0" fitWidth="35.0" >
                                         <image>
@@ -50,7 +50,7 @@
                         <padding>
                             <Insets left="10" right="10" top="10" bottom="10"/>
                         </padding>
-                        <StackPane fx:id="circlePanel" layoutX="407.0" layoutY="7.0">
+                        <StackPane fx:id="circlePanel" layoutX="407.0" layoutY="7.0" >
                             <children>
                                 <Circle fx:id="turnNumber" radius="36.0" styleClass="circle" />
                                 <Text fx:id="turnText" styleClass="turn-text" textAlignment="CENTER" wrappingWidth="60.196900367736816" />
@@ -66,12 +66,6 @@
                         <Button fx:id="loadPluginButton" mnemonicParsing="false" styleClass="menu-button" text=" 🔗 " onAction="#pluginState" />
                     </HBox>
                 </HBox>
-                <AnchorPane fx:id="topPane" prefHeight="30.0" prefWidth="850" >
-                    <HBox spacing="20">
-                        <Label fx:id="bearAttackLabel" prefHeight="27.0" prefWidth="271.0" textFill="#ed0808" />
-                        <Label fx:id="timerLabel" prefHeight="27.0" prefWidth="271.0" textFill="#ed0808" />
-                    </HBox>
-                </AnchorPane>
                 <Label fx:id="ladangTitle" text="LADANGKU" styleClass="ladang-title"/>
                 <HBox spacing="32" alignment="CENTER" prefWidth="850">
                     <GridPane fx:id="ladangGrid" hgap="10.0" styleClass="ladang-grid" vgap="10.0">
@@ -118,8 +112,14 @@
                         <padding>
                             <Insets top="10"/>
                         </padding>
-                        <Button fx:id="nextButton" mnemonicParsing="false" styleClass="main-button" text="Next"/>
-                        <Button fx:id="tokoButton" mnemonicParsing="false" styleClass="main-button" text="Toko" />
+                        <Button fx:id="nextButton" mnemonicParsing="false" styleClass="main-button" text="NEXT"/>
+                        <Button fx:id="tokoButton" mnemonicParsing="false" styleClass="main-button" text="TOKO" />
+                        <AnchorPane fx:id="topPane">
+                            <VBox spacing="20" alignment="CENTER">
+                                <Label fx:id="bearAttackLabel" textFill="#ed0808" style="-fx-font-size: 10px"/>
+                                <Label fx:id="timerLabel" textFill="#ed0808" style="-fx-font-size: 10px;"/>
+                            </VBox>
+                        </AnchorPane>
                     </VBox>
                 </HBox>
                 <Label fx:id="deckLabel" prefWidth="850" styleClass="deck-label" >
@@ -133,9 +133,10 @@
                     </padding>
                     <Button fx:id="ladangkuButton" mnemonicParsing="false" styleClass="ladang-button">
                         <shape>
-                            <javafx.scene.shape.SVGPath content="M0 1350 L1800 675 L1800 2025 Z" />
+                            <javafx.scene.shape.SVGPath content="M0 2700 L3600 1350 L3600 4050 Z" />
                         </shape>
                     </Button>
+
                     <GridPane fx:id="deckAktifBox" hgap="10.0" layoutX="28.0" layoutY="620.0" styleClass="deck-container" vgap="10.0">
                         <columnConstraints>
                             <ColumnConstraints prefWidth="100.0" />

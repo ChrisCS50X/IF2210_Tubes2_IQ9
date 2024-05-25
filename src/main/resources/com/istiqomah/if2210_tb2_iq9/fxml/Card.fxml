@@ -19,13 +19,13 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Button fx:id="kembaliButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="BACK" style="-fx-background-radius: 36; -fx-background-color: white; -fx-font-family: -apple-system, system-ui, Helvetica, Arial, sans-serif;"/>
+            <Button fx:id="kembaliButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="BACK" styleClass="back-button"/>
             <Label fx:id="umurLabel" layoutX="23.0" layoutY="110.0" prefHeight="30.0" prefWidth="275.0" text="Umur :" style="-fx-font-weight: bold; -fx-text-fill: white">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="panenButton" layoutX="267.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Panen" style="-fx-background-radius: 36; -fx-background-color: white;  -fx-font-family: -apple-system, system-ui, Helvetica, Arial, sans-serif;">
+            <Button fx:id="panenButton" layoutX="267.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Panen" styleClass="panen-button">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>

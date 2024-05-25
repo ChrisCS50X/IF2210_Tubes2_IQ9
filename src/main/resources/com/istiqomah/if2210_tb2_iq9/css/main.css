@@ -4,10 +4,6 @@
     font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 
-.main-button {
-    -fx-pref-width: 100px;
-}
-
 .player-label {
     -fx-pref-width: 260px;
     -fx-pref-height: 6px;
@@ -22,8 +18,8 @@
 
 .player-text {
     -fx-text-fill: white;
-    -fx-text-weight: bold;
-    -fx-font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
 }
 
 .menu-button {
@@ -39,12 +35,14 @@
 }
 
 .main-button {
-    -fx-font-family: CircularStd, sans-serif;
+    -fx-background-color: linear-gradient(to top, #5988f6, #70a5ff, #76cae0, #92e6fd);
+    -fx-pref-width: 100px;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
     -fx-alignment: center;
-    -fx-background-color: #f2feff;
     -fx-border-radius: 100px;
     -fx-background-radius: 100px;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
     -fx-font-size: 15px;
     -fx-wrap-text: true;
@@ -52,30 +50,31 @@
 }
 
 .circle {
-    -fx-border-color: black;
-    -fx-border-width: 1px;
-    -fx-fill: white;
+    -fx-fill: linear-gradient(to top, #e04f84, #f28b9a, #ff94bb, #f4abba);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
 }
 
 .turn-text {
-    -fx-fill: black;
+    -fx-fill: white;
+    -fx-font-weight: bold;
     -fx-font-size: 14px;
 }
 
 .ladang-title {
     -fx-padding: 0 0 0 90;
-    -fx-font-size: 25px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
 .grid-pane {
-    -fx-background-color: radial-gradient(focus-angle 45deg, focus-distance 50%, center 50% 50%, radius 50%, #f5dc7c, #d4bb5e);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 50%, #fff0b5, #ffeb9d);
     -fx-pref-height: 27px;
     -fx-pref-width: 110px;
-    -fx-font-family: 'Roboto';
     -fx-font-size: 14px;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 15, 0.5, 0, 2);
 }
 
 .deck-label {
@@ -84,7 +83,8 @@
 }
 
 .ladang-button {
-    -fx-background-color: pink;
+    -fx-background-color: #e04f84;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
 }
 
 .deck-container {
@@ -96,9 +96,9 @@
 .deck-pane {
     -fx-pref-height: 27px;
     -fx-pref-width: 110px;
-    -fx-font-family: 'Roboto';
     -fx-font-size: 14px;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
-    -fx-background-color: #f5dc7c;
+    -fx-background-color: linear-gradient(to top right, #f5dc7c, #fff2c0);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 15, 0.5, 0, 2);
 }

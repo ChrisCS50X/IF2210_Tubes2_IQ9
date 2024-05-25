@@ -3,3 +3,27 @@
     -fx-background-size: cover;
     font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
+
+.back-button {
+    -fx-padding: 2;
+    -fx-background-radius: 36;
+    -fx-background-color: linear-gradient(to top, #ffd146, #f0d944, #dbd766, #fbf7bb);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-font-size: 12;
+    -fx-pref-width: 55;
+    -fx-pref-height: 25;
+}
+
+.panen-button {
+    -fx-padding: 2;
+    -fx-background-radius: 36;
+    -fx-background-color: lightgreen;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-text-fill: black;
+    -fx-font-size: 12;
+    -fx-pref-width: 120;
+    -fx-pref-height: 25;
+}

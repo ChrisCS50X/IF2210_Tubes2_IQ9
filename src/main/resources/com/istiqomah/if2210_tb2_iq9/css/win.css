@@ -1,0 +1,27 @@
+.win-page {
+    -fx-background-color: #230535;
+}
+
+.close-button {
+    -fx-padding: 5;
+    -fx-background-radius: 36;
+    -fx-background-color: linear-gradient(to top, #ff94bb, #f4abba, #efc3cc);
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 2);
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-pref-width: 120;
+    -fx-pref-height: 30;
+}
+
+.winner-text {
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 25px;
+}
+
+.player-detail {
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+}

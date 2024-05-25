@@ -31,6 +31,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
@@ -91,7 +92,6 @@ public class MainPageController {
     private Timeline timeline;
     private Ladang ladang;
     private MainPage mainpage;
-
     private int timeRemaining; // in tenths of a second
     private List<int[]> bearAttackPositions;
     private Image gold = new Image("file:src/main/resources/com/istiqomah/if2210_tb2_iq9/card/image/Icon/gold.png");
@@ -101,7 +101,7 @@ public class MainPageController {
         deckLabel.setText("Deck: " + newDeckSize + "/40");
     }
 
-    public void initialize() {
+    public void initialize() throws IOException {
         setDeckAktifPlayer();
         ladangku = true;
         setLadangPlayer(Player.getPlayerNow());
@@ -367,11 +367,11 @@ public class MainPageController {
 
     private void updateButtonColors(Player currentPlayer) {
         if (currentPlayer.equals(Player.getPlayerNow())) {
-            ladangkuButton.setStyle("-fx-background-color: green;");
+            ladangkuButton.setStyle("-fx-background-color: linear-gradient(to top, #ff94bb, #f4abba, #efc3cc);");
             ladangLawanButton.setStyle("");
         } else {
             ladangkuButton.setStyle("");
-            ladangLawanButton.setStyle("-fx-background-color: green;");
+            ladangLawanButton.setStyle("-fx-background-color: linear-gradient(to top, #ff94bb, #f4abba, #efc3cc);");
         }
     }
 
@@ -420,29 +420,30 @@ public class MainPageController {
                     calculateWinner();
                     return;
                 }
+                else {
+                    TurnNow++;
+                    turnText.setText("Turn " + TurnNow);
+                    Player.nextTurn();
+                    Player.updateAgePlant();
+                    setDeckAktifPlayer();
+                    setLadangPlayer(Player.getPlayerNow());
 
-                TurnNow++;
-                turnText.setText("Turn " + TurnNow);
-                Player.nextTurn();
-                Player.updateAgePlant();
-                setDeckAktifPlayer();
-                setLadangPlayer(Player.getPlayerNow());
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/shuffle-view.fxml"));
+                    StackPane view = loader.load();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/shuffle-view.fxml"));
-                StackPane view = loader.load();
+                    Stage stage = new Stage();
+                    stage.setTitle("Shuffle View");
+                    stage.setScene(new Scene(view, 450, 430));
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.showAndWait();
 
-                Stage stage = new Stage();
-                stage.setTitle("Shuffle View");
-                stage.setScene(new Scene(view, 450, 430));
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.showAndWait();
-
-                setDeckAktifPlayer();
-                ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
-                ladangku = true;
-                if (Math.random() < 0.3) {
-                    initializeSerangan();
+                    setDeckAktifPlayer();
+                    ladangTitle.setText("LADANGKU (" + Player.getPlayerNow().getName() + ")");
+                    ladangku = true;
+                    //                if (Math.random() < 0.3) {
+                    //                    initializeSerangan();
+                    //                }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -472,7 +473,7 @@ public class MainPageController {
         ladang.initiateBearAttack();
 
         List<int[]> attackPositions = ladang.getCurrentBearAttack().getAttackPositions();
-        bearAttackLabel.setText("Bear is attacking at multiple positions!");
+        bearAttackLabel.setText("Bear is attacking at\nmultiple positions!");
         timeRemaining = ladang.getCurrentBearAttack().getDuration() * 10; // Convert to tenths of a second
         updateTimerLabel();
 
@@ -614,6 +615,7 @@ public class MainPageController {
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Load State");
             stage.setScene(new Scene(root));
             stage.showAndWait();
@@ -629,10 +631,11 @@ public class MainPageController {
             AnchorPane root = loader.load();
 
             SaveController saveController = loader.getController();
-            saveController.setMainPageController(this); // Set the reference to MainPageController
+            saveController.setMainPageController(this);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Load State");
             stage.setScene(new Scene(root));
             stage.showAndWait();
@@ -911,16 +914,21 @@ public class MainPageController {
         }
     }
 
-    private void calculateWinner() {
-        int gulden1 = Player.getPlayerByIdx(0).getGulden();
-        int gulden2 = Player.getPlayerByIdx(1).getGulden();
-        if (gulden1 > gulden2) {
-            System.out.println("Player 1 wins!");
-        } else if (gulden2 > gulden1) {
-            System.out.println("Player 2 wins!");
-        } else {
-            System.out.println("It's a draw!");
-        }
+    private void calculateWinner() throws IOException {
+        System.out.println("Loading FXML...");
+        FXMLLoader p = new FXMLLoader(getClass().getResource("fxml/winning-pane.fxml"));
+        StackPane winpane = p.load();
+
+        System.out.println("Getting controller...");
+        WinController winController = p.getController();
+        winController.setWinner();
+
+        System.out.println("Show window...");
+        Stage stage = new Stage();
+        stage.setScene(new Scene(winpane, 550, 530));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
     }
 
     public void loadData(String folderPath, String format) {
