@@ -3,10 +3,13 @@ Aplikasi ini merupakan permainan simulasi ladang interaktif di mana pemain dapat
 
 
 # Cara compile sekaligus run
-1. Melakukan ```mvn clean package``` pada terminal  
+1. Melakukan command ```mvn clean package``` pada terminal  
 2. Lalu navigasi menuju folder target dengan ```cd target```
 3. Lalu jalankan program dengan memasukkan command ```java --module-path "C:\Program Files\JetBrains\javafx-sdk-22.0.1\lib" --add-modules javafx.controls,javafx.fxml -jar IF2210_TB2_IQ9-1.0-SNAPSHOT.jar```
 4. NOTE PENTING : Diharuskan untuk mendownload javafx dan memasukkannya pada folder JetBrains
+
+# Versi Java yang dipakai
+Java 22
 
 
 # Screenshot aplikasi
