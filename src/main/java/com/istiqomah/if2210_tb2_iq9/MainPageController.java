@@ -579,7 +579,7 @@ public class MainPageController {
     private void clearHighlight() {
         for (Node node : ladangGrid.getChildren()) {
             if (node instanceof Pane pane) {
-                pane.setStyle("-fx-border-color: grey;");
+                pane.setStyle("-fx-border-color: none;");
             }
         }
     }

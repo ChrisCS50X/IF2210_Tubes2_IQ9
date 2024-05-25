@@ -133,29 +133,41 @@ public class CardManager {
         }
     }
 
-    // Method untuk mendapatkan kartu animal atau produk secara acak
-    public static Card getRandomAnimal() {
-        Random rand = new Random();
-        return getCard("animal", AnimalName.get(rand.nextInt(AnimalName.size())));
-    }
+    public static List<Card> getComposition() {
+        List<Card> cards = new ArrayList<>();
 
-    // Method untuk mendapatkan kartu tanaman secara acak
-    public static Card getRandomPlant() {
-        Random rand = new Random();
-        return getCard("plant", PlantName.get(rand.nextInt(PlantName.size())));
-    }
+        for (String animal : AnimalName) {
+            if (!animal.equals("Beruang")) {
+                cards.add(getCard("animal", animal));
+                cards.add(getCard("animal", animal));
+            }
+        }
 
-    // Method untuk mendapatkan kartu item secara acak
-    public static Card getRandomItem() {
-        Random rand = new Random();
-        System.out.println("test: " + ItemName.size());
-        return getCard("item", ItemName.get(rand.nextInt(ItemName.size())));
-    }
+        cards.add(getCard("animal", "Ayam"));
+        cards.add(getCard("animal", "Kuda"));
 
-    // Method untuk mendapatkan kartu produk secara acak
-    public static Card getRandomProduct() {
-        Random rand = new Random();
-        return getCard("product", ProductName.get(rand.nextInt(ProductName.size())));
+        for (String plant : PlantName) {
+            for (int i = 0; i < 4; i++) {
+                cards.add(getCard("plant", plant));
+            }
+        }
+
+        for (String item : ItemName) {
+            cards.add(getCard("item", item));
+        }
+
+        List<Card> productCards = new ArrayList<>();
+        for (String product : ProductName) {
+            productCards.add(getCard("product", product));
+            productCards.add(getCard("product", product));
+        }
+        Collections.shuffle(productCards);
+        while (productCards.size() > 10) {
+            productCards.remove(productCards.size() - 1);
+        }
+        cards.addAll(productCards);
+
+        return cards;
     }
 
     // Method untuk mendapatkan nama hewan

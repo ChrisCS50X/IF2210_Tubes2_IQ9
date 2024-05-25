@@ -20,18 +20,7 @@ public class Deck {
 
     // Metode untuk menginisialisasi deck utama
     public void initMainDeck() {
-        for (int i = 0; i < 5; i++) {
-            mainDeck.add(getRandomItem());
-        }
-        for (int i = 0; i < 12; i++) {
-            mainDeck.add(getRandomAnimal());
-        }
-        for (int i = 0; i < 12; i++) {
-            mainDeck.add(getRandomPlant());
-        }
-        for (int i = 0; i < 11; i++) {
-            mainDeck.add(getRandomProduct());
-        }
+        mainDeck.addAll(getComposition());
     }
 
     // Metode untuk mengacak deck utama atau kocok kartu main deck
