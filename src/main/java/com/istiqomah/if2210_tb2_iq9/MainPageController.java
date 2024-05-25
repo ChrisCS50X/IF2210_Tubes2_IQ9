@@ -10,6 +10,9 @@ import com.istiqomah.if2210_tb2_iq9.model.player.Player;
 import com.istiqomah.if2210_tb2_iq9.model.save_load.Readconfig;
 import com.istiqomah.if2210_tb2_iq9.model.save_load.Triple;
 import com.istiqomah.if2210_tb2_iq9.model.toko.Toko;
+import com.istiqomah.if2210_tb2_iq9.plugin.SaveLoadPlugin;
+import com.istiqomah.if2210_tb2_iq9.plugin.PluginRegistry;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -32,13 +35,15 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class MainPageController {
     public int TurnNow = 1;
@@ -74,6 +79,12 @@ public class MainPageController {
     private Label timerLabel;
     @FXML
     private Label ladangTitle;
+
+    @FXML
+    private SaveController saveController;
+
+    @FXML
+    private LoadController loadController;
 
     public boolean ladangku;
 
@@ -124,6 +135,15 @@ public class MainPageController {
         // Initialize bear attack UI elements
         bearAttackLabel.setText("");
         timerLabel.setText("");
+        updateAvailableFormats();
+    }
+    public void updateAvailableFormats() {
+        if (saveController != null) {
+            saveController.updateAvailableFormats();
+        }
+        if (loadController != null) {
+            loadController.updateAvailableFormats();
+        }
     }
 
     // Metode untuk mengatur sumber drag untuk kartu
@@ -622,6 +642,26 @@ public class MainPageController {
         System.out.println("State saved!");
     }
 
+    public void pluginState() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/istiqomah/if2210_tb2_iq9/fxml/plugin.fxml"));
+            Parent root = loader.load();
+
+            PluginController loadPluginController = loader.getController();
+            loadPluginController.setMainPageController(this);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Load Plugin");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("State loaded!");
+
+    }
+
     public void loadData(String folderPath) {
         try {
             String config1Path = folderPath + "/config1.txt";
@@ -880,6 +920,398 @@ public class MainPageController {
             System.out.println("Player 2 wins!");
         } else {
             System.out.println("It's a draw!");
+        }
+    }
+
+    public void loadData(String folderPath, String format) {
+        SaveLoadPlugin plugin = PluginRegistry.getPluginForFormat(format);
+        if (plugin != null) {
+            Map<String, Object> player1Data = plugin.load(folderPath + "/config1." + format.toLowerCase());
+            Map<String, Object> player2Data = plugin.load(folderPath + "/config2." + format.toLowerCase());
+            Map<String, Object> gameStateData = plugin.load(folderPath + "/gamestate." + format.toLowerCase());
+
+            setPlayerData(Player.getPlayerByIdx(0), player1Data);
+            setPlayerData(Player.getPlayerByIdx(1), player2Data);
+            setGameStateData(gameStateData);
+
+            setLadangPlayer(Player.getPlayerNow());
+            setDeckAktifPlayer();
+        } else {
+            String config1Path = folderPath + "/config1.txt";
+            String config2Path = folderPath + "/config2.txt";
+            String gameStatePath = folderPath + "/gamestate.txt";
+
+            System.out.println("Loading config1 from: " + config1Path);
+            System.out.println("Loading config2 from: " + config2Path);
+            System.out.println("Loading game state from: " + gameStatePath);
+
+            try (BufferedReader config1Reader = new BufferedReader(new FileReader(config1Path));
+                 BufferedReader config2Reader = new BufferedReader(new FileReader(config2Path));
+                 BufferedReader gameStateReader = new BufferedReader(new FileReader(gameStatePath))) {
+
+                // Load data for player 1
+                loadPlayerData(config1Reader, Player.getPlayerByIdx(0));
+
+                // Load data for player 2
+                loadPlayerData(config2Reader, Player.getPlayerByIdx(1));
+
+                // Read gamestate.txt
+                loadGameState(gameStateReader);
+
+                setLadangPlayer(Player.getPlayerNow());
+                setDeckAktifPlayer();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void saveData(String folderPath, String format) {
+        SaveLoadPlugin plugin = PluginRegistry.getPluginForFormat(format);
+        if (plugin != null) {
+            Map<String, Object> player1Data = getPlayerData(Player.getPlayerByIdx(0));
+            Map<String, Object> player2Data = getPlayerData(Player.getPlayerByIdx(1));
+            Map<String, Object> gameStateData = getGameStateData();
+
+            plugin.save(folderPath + "/config1." + format.toLowerCase(), player1Data);
+            plugin.save(folderPath + "/config2." + format.toLowerCase(), player2Data);
+            plugin.save(folderPath + "/gamestate." + format.toLowerCase(), gameStateData);
+        } else {
+            saveDataAsTxt(folderPath);
+        }
+    }
+
+    private void saveDataAsTxt(String folderPath) {
+        try {
+            // Ensure the folder exists
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                folder.mkdirs();  // Create the folder if it doesn't exist
+            }
+
+            // Write to config1.txt
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config1.txt"))) {
+                int gulden = Player.getPlayerByIdx(0).getGulden();
+                int jumlahKartu = Player.getPlayerByIdx(0).getDeck().getMainDeckSize();
+                int n_hand = 0;
+                List<Card> handc = Player.getPlayerByIdx(0).getDeck().getHand();
+                for (int i = 0; i < 6; i++) {
+                    if (handc.get(i) != null) {
+                        n_hand++;
+                    }
+                }
+
+                writer.write(gulden + "\n");
+                writer.write(jumlahKartu + "\n");
+                writer.write(n_hand + "\n");
+
+                // Write hand cards
+                for (int i = 0; i < 6; i++) {
+                    Card card = Player.getPlayerByIdx(0).getDeck().getHand().get(i);
+                    if (card != null) {
+                        String name = card.getName();
+                        String lokasi = "A0" + i;
+                        writer.write(lokasi + " " + name + "\n");
+                    }
+                }
+
+                // Write ladang cards
+                Ladang ladang = Player.getPlayerByIdx(0).getLadang();
+                int count = 0;
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if (komponen != null) {
+                            count++;
+                        }
+                    }
+                }
+                writer.write(count + "\n");
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if (komponen instanceof Card) {
+                            Card card = (Card) komponen;
+                            if (card != null) {
+                                String name = card.getName();
+                                String lokasi = convertRowToLetter(i) + "0" + String.valueOf(j);
+                                int beratUmur = card.getBerat_Umur();
+                                List<Item> items = card.getActiveItems();
+                                int jumlahItem = items.size();
+
+                                writer.write(lokasi + " " + name + " " + beratUmur + " " + jumlahItem);
+                                for (Item item : items) {
+                                    writer.write(" " + item.getName());
+                                }
+                                writer.write("\n");
+                            }
+                        }
+                    }
+                }
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/config2.txt"))) {
+                int gulden = Player.getPlayerByIdx(1).getGulden();
+                int jumlahKartu = Player.getPlayerByIdx(1).getDeck().getMainDeckSize();
+                int n_hand = 0;
+                List<Card> handc = Player.getPlayerByIdx(1).getDeck().getHand();
+                for (int i = 0; i < 6; i++) {
+                    if (handc.get(i) != null) {
+                        n_hand++;
+                    }
+                }
+
+                writer.write(gulden + "\n");
+                writer.write(jumlahKartu + "\n");
+                writer.write(n_hand + "\n");
+
+                // Write hand cards
+                for (int i = 0; i < 6; i++) {
+                    Card card = Player.getPlayerByIdx(1).getDeck().getHand().get(i);
+                    if (card != null) {
+                        String name = card.getName();
+                        String lokasi = "A0" + i;
+                        writer.write(lokasi + " " + name + "\n");
+                    }
+                }
+
+                // Write ladang cards
+                Ladang ladang = Player.getPlayerByIdx(1).getLadang();
+                int count = 0;
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if (komponen != null) {
+                            count++;
+                        }
+                    }
+                }
+                writer.write(count + "\n");
+
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        KomponenPetak komponen = ladang.getCardAtPosition(i, j);
+                        if (komponen instanceof Card) {
+                            Card card = (Card) komponen;
+                            if (card != null) {
+                                String name = card.getName();
+                                String lokasi = convertRowToLetter(i) + "0" + String.valueOf(j);
+                                int beratUmur = card.getBerat_Umur();
+                                List<Item> items = card.getActiveItems();
+                                int jumlahItem = items.size();
+
+                                writer.write(lokasi + " " + name + " " + beratUmur + " " + jumlahItem);
+                                for (Item item : items) {
+                                    writer.write(" " + item.getName());
+                                }
+                                writer.write("\n");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Write to gamestate.txt
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(folderPath + "/gamestate.txt"))) {
+                int turn = TurnNow;
+                Map<Card, Integer> shopItems = mainpage.toko.getAvailableProducts();
+                int jumlahItemShop = shopItems.size();
+
+                writer.write(turn + "\n");
+                writer.write(jumlahItemShop + "\n");
+
+                for (Map.Entry<Card, Integer> item : shopItems.entrySet()) {
+                    Card card = item.getKey();
+                    if (card != null) {
+                        writer.write(card.getName() + " " + item.getValue() + "\n");
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String convertRowToLetter(int row) {
+        return Character.toString((char) ('A' + row));
+    }
+
+    private Map<String, Object> getPlayerData(Player player) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("gulden", player.getGulden());
+        data.put("jumlahKartu", player.getDeck().getMainDeckSize());
+
+        List<Map<String, Object>> hand = new ArrayList<>();
+        for (Card card : player.getDeck().getHand()) {
+            if (card != null) {
+                Map<String, Object> cardData = new HashMap<>();
+                cardData.put("name", card.getName());
+                cardData.put("lokasi", "A0" + player.getDeck().getHand().indexOf(card));
+                hand.add(cardData);
+            }
+        }
+        data.put("hand", hand);
+
+        List<Map<String, Object>> ladang = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                KomponenPetak komponen = player.getLadang().getCardAtPosition(i, j);
+                if (komponen instanceof Card) {
+                    Card card = (Card) komponen;
+                    Map<String, Object> cardData = new HashMap<>();
+                    cardData.put("name", card.getName());
+                    cardData.put("lokasi", convertRowToLetter(i) + "0" + j);
+                    cardData.put("beratUmur", card.getBerat_Umur());
+                    List<String> items = new ArrayList<>();
+                    for (Item item : card.getActiveItems()) {
+                        items.add(item.getName());
+                    }
+                    cardData.put("items", items);
+                    ladang.add(cardData);
+                }
+            }
+        }
+        data.put("ladang", ladang);
+
+        return data;
+    }
+
+    private Map<String, Object> getGameStateData() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("turn", TurnNow);
+
+        List<Map<String, Object>> shopItems = new ArrayList<>();
+        for (Map.Entry<Card, Integer> entry : mainpage.toko.getAvailableProducts().entrySet()) {
+            Map<String, Object> itemData = new HashMap<>();
+            itemData.put("name", entry.getKey().getName());
+            itemData.put("quantity", entry.getValue());
+            shopItems.add(itemData);
+        }
+        data.put("shopItems", shopItems);
+
+        return data;
+    }
+
+    public Map<String, Object> getGameData() {
+        Map<String, Object> data = new HashMap<>();
+
+        // Extract player 1 data
+        data.put("player1", getPlayerData(Player.getPlayerByIdx(0)));
+
+        // Extract player 2 data
+        data.put("player2", getPlayerData(Player.getPlayerByIdx(1)));
+
+        // Extract game state data
+        data.put("gameState", getGameStateData());
+
+        return data;
+    }
+
+    private void setPlayerData(Player player, Map<String, Object> data) {
+        player.setGulden(convertToInt(data.get("gulden")));
+        player.getDeck().clearHand();
+
+        // Handle hand data
+        Object handData = data.get("hand");
+        if (handData instanceof List) {
+            List<Map<String, Object>> hand = (List<Map<String, Object>>) handData;
+            for (Map<String, Object> cardData : hand) {
+                Card card = getCardByName((String) cardData.get("name"));
+                if (card != null) {
+                    int lok = Integer.parseInt(((String) cardData.get("lokasi")).substring(2));
+                    player.getDeck().addCardToHand(lok, card);
+                }
+            }
+        } else if (handData instanceof Map) {
+            Map<String, Object> hand = (Map<String, Object>) handData;
+            Card card = getCardByName((String) hand.get("name"));
+            if (card != null) {
+                int lok = Integer.parseInt(((String) hand.get("lokasi")).substring(2));
+                player.getDeck().addCardToHand(lok, card);
+            }
+        }
+
+        // Handle ladang data
+        player.clearLadang();
+        Object ladangData = data.get("ladang");
+        if (ladangData instanceof List) {
+            List<Map<String, Object>> ladang = (List<Map<String, Object>>) ladangData;
+            for (Map<String, Object> cardData : ladang) {
+                Card card = getCardByName((String) cardData.get("name"));
+                if (card != null) {
+                    int rowIndex = convertLetterToRow(((String) cardData.get("lokasi")).substring(0, 1));
+                    int colIndex = Integer.parseInt(((String) cardData.get("lokasi")).substring(2));
+                    card.setBerat_Umur(convertToInt(cardData.get("beratUmur")));
+                    player.addCardToLadang(card, rowIndex, colIndex);
+
+                    if (cardData.containsKey("items")) {
+                        List<String> items = (List<String>) cardData.get("items");
+                        for (String itemName : items) {
+                            Item item = (Item) CardManager.getCard("item", itemName);
+                            if (item != null) {
+                                card.applyItem(item);
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (ladangData instanceof Map) {
+            Map<String, Object> cardData = (Map<String, Object>) ladangData;
+            Card card = getCardByName((String) cardData.get("name"));
+            if (card != null) {
+                int rowIndex = convertLetterToRow(((String) cardData.get("lokasi")).substring(0, 1));
+                int colIndex = Integer.parseInt(((String) cardData.get("lokasi")).substring(2));
+                card.setBerat_Umur(convertToInt(cardData.get("beratUmur")));
+                player.addCardToLadang(card, rowIndex, colIndex);
+
+                if (cardData.containsKey("items")) {
+                    List<String> items = (List<String>) cardData.get("items");
+                    for (String itemName : items) {
+                        Item item = (Item) CardManager.getCard("item", itemName);
+                        if (item != null) {
+                            card.applyItem(item);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private int convertToInt(Object value) {
+        if (value instanceof Integer) {
+            return (Integer) value;
+        } else if (value instanceof String) {
+            return Integer.parseInt((String) value);
+        } else {
+            throw new IllegalArgumentException("Cannot convert to int: " + value);
+        }
+    }
+
+    private void setGameStateData(Map<String, Object> gameStateData) {
+        TurnNow = convertToInt(gameStateData.get("turn"));
+
+        // Ensure shopItems is initialized and not null
+        Object shopItemsData = gameStateData.get("shopItems");
+        if (shopItemsData == null) {
+            System.err.println("Warning: 'shopItems' is null, initializing to an empty list.");
+            shopItemsData = new ArrayList<Map<String, Object>>();
+        }
+
+        List<Map<String, Object>> shopItems = (List<Map<String, Object>>) shopItemsData;
+        mainpage.toko.clearProducts();
+
+        for (Map<String, Object> itemData : shopItems) {
+            Card card = getCardByName((String) itemData.get("name"));
+            if (card != null) {
+                int quantity = convertToInt(itemData.get("quantity"));
+                for (int i = 0; i < quantity; i++) {
+                    mainpage.toko.addProduct(card);
+                }
+            }
         }
     }
 }

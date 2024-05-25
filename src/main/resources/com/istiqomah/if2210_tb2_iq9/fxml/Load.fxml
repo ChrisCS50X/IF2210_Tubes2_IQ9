@@ -18,7 +18,7 @@
     <Label text="LOAD" layoutX="350" layoutY="50" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white" />
 
     <Label text="Format" layoutX="200" layoutY="150" style="-fx-font-weight: bold; -fx-text-fill: white"/>
-    <ComboBox fx:id="formatComboBox" layoutX="300" layoutY="150" prefWidth="200">
+    <ComboBox fx:id="formatComboBoxplug" layoutX="300" layoutY="150" prefWidth="200">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value=".txt"/>

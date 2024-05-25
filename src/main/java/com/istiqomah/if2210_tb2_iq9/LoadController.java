@@ -1,5 +1,7 @@
 package com.istiqomah.if2210_tb2_iq9;
 
+import com.istiqomah.if2210_tb2_iq9.plugin.PluginRegistry;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -7,54 +9,67 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class LoadController {
-    private MainPageController mainPageController; // Controller untuk halaman utama
+    private MainPageController mainPageController;
 
     @FXML
-    private Button backButton; // Tombol kembali
+    private Button backButton;
 
     @FXML
-    private ComboBox<String> formatComboBox; // ComboBox untuk memilih format
+    private ComboBox<String> formatComboBoxplug;
 
     @FXML
-    private TextField folderTextField; // TextField untuk memasukkan path folder
+    private TextField folderTextField;
 
     @FXML
-    private Button loadButton; // Tombol load
+    private Button loadButton;
 
     @FXML
-    private Label statusLabel; // Label untuk menampilkan status
+    private Label statusLabel;
 
     @FXML
     private void initialize() {
-        backButton.setOnAction(event -> handleBackButton()); // Mengatur aksi untuk tombol kembali
-        loadButton.setOnAction(event -> handleLoadButton()); // Mengatur aksi untuk tombol load
+        updateAvailableFormats();
+        backButton.setOnAction(event -> handleBackButton());
+        loadButton.setOnAction(event -> handleLoadButton());
     }
 
-    // Mengatur controller untuk halaman utama
+    public void updateAvailableFormats() {
+        if (formatComboBoxplug != null) {
+            formatComboBoxplug.getItems().clear();
+            formatComboBoxplug.getItems().add("TXT");
+
+            // Add formats supported by plugins
+            List<String> pluginFormats = PluginRegistry.getSupportedFormats();
+            formatComboBoxplug.getItems().addAll(pluginFormats);
+
+            // Set default selection
+            formatComboBoxplug.setValue("TXT");
+        }
+    }
+
     public void setMainPageController(MainPageController mainPageController) {
         this.mainPageController = mainPageController;
     }
 
-    // Menangani aksi tombol kembali
     private void handleBackButton() {
-        Stage stage = (Stage) backButton.getScene().getWindow(); // Mendapatkan stage dari tombol kembali
-        stage.close(); // Menutup stage
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.close();
     }
 
-    // Menangani aksi tombol load
+    @FXML
     private void handleLoadButton() {
-        String folderPath = folderTextField.getText(); // Mendapatkan path folder dari TextField
+        String format = formatComboBoxplug.getValue();
+        String folderPath = folderTextField.getText();
 
-        // Cek apakah path folder kosong
         if (folderPath == null || folderPath.isEmpty()) {
-            statusLabel.setText("Folder path is empty"); // Menampilkan pesan bahwa path folder kosong
+            statusLabel.setText("Folder path is empty");
             return;
         }
 
-        // Memanggil metode loadData pada controller halaman utama
-        mainPageController.loadData("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath);
-        Stage stage = (Stage) loadButton.getScene().getWindow(); // Mendapatkan stage dari tombol load
-        stage.close(); // Menutup stage
+        mainPageController.loadData("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath, format);
+        statusLabel.setText("State Loaded Successfully");
     }
 }

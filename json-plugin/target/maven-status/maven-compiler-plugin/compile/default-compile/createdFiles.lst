@@ -1,0 +1,4 @@
+com\example\jsonplugin\HelloController.class
+com\example\jsonplugin\HelloApplication.class
+module-info.class
+com\example\jsonplugin\JsonSaveLoadPlugin.class

@@ -63,7 +63,7 @@
                     <HBox spacing="5">
                         <Button fx:id="saveStateButton" mnemonicParsing="false" onAction="#saveState" styleClass="menu-button" text=" 💾 " />
                         <Button fx:id="loadStateButton" mnemonicParsing="false" onAction="#loadState" styleClass="menu-button" text=" 🔄 " />
-                        <Button fx:id="loadPluginButton" mnemonicParsing="false" styleClass="menu-button" text=" 🔗 " />
+                        <Button fx:id="loadPluginButton" mnemonicParsing="false" styleClass="menu-button" text=" 🔗 " onAction="#pluginState" />
                     </HBox>
                 </HBox>
                 <AnchorPane fx:id="topPane" prefHeight="30.0" prefWidth="850" >

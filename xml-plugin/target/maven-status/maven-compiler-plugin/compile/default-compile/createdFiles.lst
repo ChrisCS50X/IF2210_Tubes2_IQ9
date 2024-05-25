@@ -1,0 +1,5 @@
+com\example\xmlplugin\XmlSaveLoadPlugin.class
+com\example\xmlplugin\HelloController.class
+com\example\xmlplugin\XmlSaveLoadPlugin$1.class
+module-info.class
+com\example\xmlplugin\HelloApplication.class

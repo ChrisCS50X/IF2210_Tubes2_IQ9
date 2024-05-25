@@ -46,6 +46,13 @@ public class MainPage extends Application {
         primaryStage.show();
         MainPageController mainPageController = loader.getController();
 
+        // Load plugins
+        String pluginDir = "plugins"; // Update with the correct path
+        PluginLoader.loadPlugins(pluginDir);
+
+        // Set the available formats in the controller
+        mainPageController.updateAvailableFormats();
+
         FXMLLoader shuffleLoader = new FXMLLoader(getClass().getResource("fxml/shuffle-view.fxml"));
         StackPane view = shuffleLoader.load();
         Stage stage = new Stage();
