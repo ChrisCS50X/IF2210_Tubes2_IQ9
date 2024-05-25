@@ -69,7 +69,7 @@ public class LoadController {
             return;
         }
 
-        mainPageController.loadData("src/main/java/com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath, format);
+        mainPageController.loadData("classes/com/istiqomah/if2210_tb2_iq9/model/save_load/"+folderPath, format);
         statusLabel.setText("State Loaded Successfully");
     }
 }
